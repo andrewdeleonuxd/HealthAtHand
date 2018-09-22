@@ -1,5 +1,7 @@
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
+import _ from 'lodash';
+
 
 import {
         EMAIL_CHANGED, 
@@ -11,7 +13,7 @@ import {
 
 export const emailChanged = (text) => {
     return {
-        type: EMAIL_CHANGED,
+        type: EMAIL_CHANGED, 
         payload:text
     };
 };
@@ -25,8 +27,31 @@ export const passwordChanged = (text) => {
 
 export const loginUser = ({email, password}) => {
    return (dispatch) => { 
+    let success =false;
    dispatch({ type: LOGIN_USER });
+    
+        let array = require('../../util/users.json');
+        for(var i=0; i<array.length ;i++){           
+            if(array[i].username == email && array[i].password == password){
+                
+                success =true;
+            } 
+        }
+    
+    
+        if(success==true){
+        loginUserSuccess(dispatch,{"email":email,"password":password})
+        } else{
+        loginUserFail(dispatch)  
+        }
+  
+     
+    
+    
+   
+   
 
+   /*
    firebase.auth().signInWithEmailAndPassword(email.trim(), password)
     .then(user => loginUserSuccess(dispatch,user))
     .catch(() => {
@@ -34,8 +59,11 @@ export const loginUser = ({email, password}) => {
           .then(user => loginUserSuccess(dispatch,user))
           .catch(() => loginUserFail(dispatch));
      });
+     */
  };
 };
+
+
 
 const loginUserFail = (dispatch) => {
     dispatch({
@@ -48,6 +76,5 @@ const loginUserSuccess = (dispatch,user) => {
         type: LOGIN_USER_SUCCESS, 
         payload:user
     });
-
     Actions.main();
 };

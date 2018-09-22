@@ -9,6 +9,7 @@ import Router from './Router';
 
 class App extends Component {
     componentWillMount(){
+
         const config = {
             apiKey: 'AIzaSyDaYMK4m66Mls5oJyY2nr2Q-T05QeQ4Pd8',
             authDomain: 'manager-6d662.firebaseapp.com',

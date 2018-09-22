@@ -4,6 +4,8 @@ import LoginForm from './components/LoginForm';
 import EmployeeList from './components/EmployeeList';
 import EmployeeCreate from './components/EmployeeCreate';
 import EmployeeEdit from './components/EmployeeEdit';
+import Home from './components/Home';
+
 
 const RouterComponent = () => {
     return(
@@ -14,12 +16,20 @@ const RouterComponent = () => {
 
             <Scene key="main">
                 <Scene 
+                    key="Home" 
+                    component={Home} 
+                    title="Home"
+                  
+                    initial 
+                />
+
+                <Scene 
                     key="employeeList" 
                     component={EmployeeList} 
                     title="Employees"
                     rightTitle="Add"
                     onRight={() => Actions.employeeCreate()}
-                    initial 
+                     
                 /> 
                  <Scene 
                     key="employeeCreate" 
