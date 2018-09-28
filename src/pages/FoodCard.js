@@ -17,9 +17,7 @@ class FoodCard extends Component {
     }
 
     componentDidMount = () => {
-
-            this.setState({news:this.props.item,showLoader:false})
-        
+        this.setState({news:this.props.item,showLoader:false})
     }
 
     goBack = () => {
@@ -37,6 +35,8 @@ class FoodCard extends Component {
                 underlayColor={"transparent"}
             />
         )
+
+        console.log(this.state.servingSize);
 
         return (
             <View>
@@ -56,7 +56,7 @@ class FoodCard extends Component {
                                          marginBottom: 5
                                      }}>Name</Text>
                                  </Card>
-                                 <Card style={{flexDirection:'column'}}>
+                                 <Card flexDirection='column'>
                                         <Text style={{
                                             color: "maroon",
                                             fontSize: 15,
@@ -74,8 +74,34 @@ class FoodCard extends Component {
                                             <Picker.Item label="9" value="9" />
                                             <Picker.Item label="10" value="10" />
                                         </Picker>    
-
                                  </Card>
+                                 <Card flexDirection='row'>
+                                        <Text style={{
+                                            color: "maroon",
+                                            fontSize: 15,
+                                            marginBottom: 5,
+                                        }}>Calories</Text>
+                                       <Text style={{
+                                            color: "maroon",
+                                            fontSize: 15,
+                                            marginBottom: 5,
+                                            marginLeft:"73%"
+                                        }}>10</Text> 
+                                 </Card>
+                                 <Card flexDirection='row'>
+                                        <Text style={{
+                                            color: "maroon",
+                                            fontSize: 15,
+                                            marginBottom: 5,
+                                        }}>Total Calories</Text>
+                                       <Text style={{
+                                            color: "maroon",
+                                            fontSize: 15,
+                                            marginBottom: 5,
+                                            marginLeft:"60%"
+                                        }}>{10*this.state.servingSize}</Text> 
+                                 </Card>
+                                 
 
                     </View>
 
