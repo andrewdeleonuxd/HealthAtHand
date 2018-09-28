@@ -4,8 +4,6 @@ import {employeeCreate} from '../actions';
 import {Card, CardSection, Input} from './common';
 
 class Home extends Component {
-
-
     render(){
         return(
             <Card> 
@@ -14,7 +12,7 @@ class Home extends Component {
                 <Input
                         label="Name"
                         placeholder="Jane"
-                        value="hello"
+                        value="whoathischanged"
                        
                     /> 
                 </CardSection>
