@@ -1,24 +1,24 @@
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
+import styles from './styles/Button.js'
 
 
 
 
 // create a new component
-const Button = ({ children, onButtonPress }) => { 
-    
-    const {buttonStyle, textStyle} = styles;
+const Button = ({ children, onButtonPress }) => {
     console.log("abjsdkjaskldklsadknl");
     
   return(
-    <TouchableOpacity  style={buttonStyle} onPress={onButtonPress}>
-        <Text  style={textStyle}> 
+    <TouchableOpacity  style={styles.button} onPress={onButtonPress}>
+        <Text  style={styles.textStyle}> 
             {children}
         </Text>     
     </TouchableOpacity>
   )    
 }; 
 
+/*
 const styles={ 
     buttonStyle:{
         flex: 1,
@@ -40,6 +40,7 @@ const styles={
 
     }
   };
+*/
 
 //render that component to our device
 export { Button };
