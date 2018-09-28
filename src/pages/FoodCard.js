@@ -26,6 +26,16 @@ class FoodCard extends Component {
 
     render = () => {
 
+        let check = (
+            <Icon
+                name='check'
+                underlayColor={"transparent"}
+                color="white"
+                marginTop={50}
+                onPress = {this.goBack}
+            />
+        )
+
         let backButton = (
             <Icon
                 name='ios-arrow-back'
@@ -44,6 +54,7 @@ class FoodCard extends Component {
                     outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
                     leftComponent={backButton}
                     centerComponent={{ text: "Add Food", style: { color: '#fff',fontSize:15 }}}
+                    rightComponent={check}
                 />
                 {
                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff" /> : 

@@ -9,19 +9,22 @@ import AddFood from './pages/AddFood';
 import SearchFood from './pages/SearchFood';
 import FoodCard from './pages/FoodCard';
 import Home from './pages/Home';
+import FoodNotes from './pages/FoodNotes';
+import ExerciseNotes from './pages/ExerciseNotes';
 
 
 const RouterComponent = () => {
     return(
         <Router >
             <Scene key="root" >
-                <Scene key="login" component={LoginForm} title="Please Login" hideNavBar={true} />
-                <Scene key="home" component={Home}  title="Home"  hideNavBar={true} initial/>
+                <Scene key="login" component={LoginForm} hideNavBar={true} initial />
+                <Scene key="home" component={Home} hideNavBar={true} />
                 <Scene key="articleinfo" component = {ArticleInfo} hideNavBar={true} />
                 <Scene key="addfood" component = {AddFood} hideNavBar={true} />
                 <Scene key="searchfood" component = {SearchFood} hideNavBar={true} />
                 <Scene key="foodcard" component = {FoodCard} hideNavBar={true} />
-
+                <Scene key="foodnotes" component = {FoodNotes} hideNavBar={true} />
+                <Scene key="exercisenotes" component = {ExerciseNotes} hideNavBar={true} />
 
 
 

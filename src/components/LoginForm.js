@@ -1,6 +1,7 @@
 import React , {Component } from 'react';
 import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
+import {  Header  } from 'react-native-elements';
 import {Card, CardSection, Input, Button, Spinner} from './common';
 import {emailChanged, passwordChanged, loginUser } from '../actions';
 
@@ -46,6 +47,13 @@ class LoginForm extends Component {
 
     render(){
         return(
+            <View>
+                  <Header
+                    outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
+                    
+                    centerComponent={{ text: "HAH Login", style: { color: '#fff',fontSize:15 }}}
+                    
+                />
             <Card>
                 <CardSection>
                     <Input
@@ -73,7 +81,8 @@ class LoginForm extends Component {
                  {this.renderButton()}    
                        
                 </CardSection>  
-            </Card>    
+            </Card> 
+            </View>   
         );
     }
 }

@@ -89,6 +89,18 @@ class Home extends Component {
         */
     }
 
+    showAddFoodNotes = () => {
+        
+        Actions.push("foodnotes");
+        
+    }
+
+    showAddExerciseNotes = () => {
+        
+        Actions.push("exercisenotes");
+        
+    }
+
     tabChanged = (tab) => {
         this.state = {
             categorySelected:tab.i,
@@ -199,6 +211,26 @@ class Home extends Component {
                 <View style={{borderColor:"lightgray", borderWidth:1}}></View>
             </View>
             </TouchableHighlight>
+
+             <TouchableHighlight
+                onPress = {this.showAddFoodNotes}
+                underlayColor = "transparent"
+            >
+            <View style={{"marginBottom":20}}>
+                <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Food Notes</Text>
+                <View style={{borderColor:"lightgray", borderWidth:1}}></View>
+            </View>
+            </TouchableHighlight>
+
+             <TouchableHighlight
+                onPress = {this.showAddExerciseNotes}
+                underlayColor = "transparent"
+            >
+            <View style={{"marginBottom":20}}>
+                <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Exercise Notes</Text>
+                <View style={{borderColor:"lightgray", borderWidth:1}}></View>
+            </View>
+            </TouchableHighlight>
         </View>
     )
         return(
@@ -229,8 +261,7 @@ class Home extends Component {
                                 tabBarUnderlineStyle={{height:2}}
                                 onChangeTab={this.tabChanged}
                             >
-                                <View tabLabel='Business'>
-                                   
+                                <View tabLabel='Business'>    
                                     {
                                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
                                 }</View>
