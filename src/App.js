@@ -1,3 +1,4 @@
+import Expo from 'expo';
 import React, {Component} from 'react';
 import {Provider} from 'react-redux';
 import { createStore , applyMiddleware } from 'redux';
@@ -30,4 +31,5 @@ class App extends Component {
 } 
 };
 
+Expo.registerRootComponent(App);
 export default App;
