@@ -1,27 +1,25 @@
 import {StyleSheet} from 'react-native';
 import {colors, fonts, padding, dimensions} from '../../../styles/base.js'
 
-
-const styles = StyleSheet.create({
-    button:{
+const styles = {
+    obj:{
         flex: 1,
         alignSelf: 'stretch',
-        backgroundColor: '#fff',
+        backgroundColor: colors.brandblue,
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: '#007aff',
+        borderColor: colors.brandblue,
         marginLeft: 5,
         marginRight: 5
     },
-    textStyle:{
+    text:{
         alignSelf:'center',
-        color: '#007aff',
+        color: '#fff',
         fontSize: 16,
         fontWeight: '600',
         paddingTop: 10,
         paddingBottom: 10
-
     }
-})
+}
 
 export default (styles);

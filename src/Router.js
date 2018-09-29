@@ -9,10 +9,14 @@ import Home from './components/Home';
 
 const RouterComponent = () => {
     return(
-        <Router sceneStyle={{ paddingTop:65}}>
-            <Scene>
+        <Router sceneStyle={{paddingTop:50}}>
+            <Scene
+                headerMode="none">
                 <Scene key="auth">
-                    <Scene key="login" component={LoginForm} />
+                    <Scene 
+                        key="login"
+                        component={LoginForm}
+                        headerMode = "screen"/>
                 </Scene>
 
                 <Scene key="main">

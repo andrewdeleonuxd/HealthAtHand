@@ -6,9 +6,9 @@ export const dimensions = {
 }
   
 export const colors  = {
-  primary: '#226B74',
-  secondary: '#254B5A',
-  tertiary: '#5DA6A7'
+  brandgrey: '#D3D3D3',
+  brandblue: '#00008B',
+  brandgold: '#F0E68C'
 }
 
 export const padding = {
