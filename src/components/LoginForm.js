@@ -1,8 +1,10 @@
 import React , {Component } from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {Card, CardSection, Input, Button, Spinner} from './common';
 import {emailChanged, passwordChanged, loginUser } from '../actions';
+
+import {colors, fonts, padding, dimensions} from '../styles/base.js'
 
 class LoginForm extends Component {
     onEmailChange(text){
@@ -36,8 +38,9 @@ class LoginForm extends Component {
            return<Spinner size="large"/> 
         } else {
             return(
-                <Button 
-                    style={[styles.signIn, this.props.style]}
+                <Button
+                    objStyle = {styles.signInButton}
+                    textStyle = {styles.signInText}
                     onButtonPress={this.onButtonPress.bind(this)}
                     title='Sign in'>
                     Sign in
@@ -86,17 +89,18 @@ class LoginForm extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = {
     errorTextStyle:{
         fontSize:20,
         alignSelf:'center',
         color:'red'
     },
     header:{
-        flex: 1,
+        flex: 2,
         backgroundColor: '#D3D3D3',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        //headerText: "Health on Hand"
     },
     loginInput:{
         flex: 2,
@@ -105,14 +109,26 @@ const styles = StyleSheet.create({
     loginContainers:{
         backgroundColor: '#D3D3D3'
     },
-    signIn:{
-        borderRadius: 0,
-        marginLeft: 0,
-        marginRight: 0,
-        marginBottom: 0,
-        backgroundColor: '#000'
+    signInButton:{
+        //borderRadius: 0,
+        //marginLeft: 100,
+        //marginRight: 0,
+        //marginBottom: 0,
+        //backgroundColor: '#000',
+        
+        marginLeft: 5,
+        marginRight: 5,
+        borderRadius: 5,
+        borderWidth: 1,
+        backgroundColor: colors.brandblue,
+        borderColor: colors.brandblue,
+    },
+    signInText:{
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#fff',
     }
-});
+};
 
 const mapStateToProps = state => {
     return {

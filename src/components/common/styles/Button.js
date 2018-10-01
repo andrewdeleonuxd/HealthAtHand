@@ -5,18 +5,11 @@ const styles = {
     obj:{
         flex: 1,
         alignSelf: 'stretch',
-        backgroundColor: colors.brandblue,
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: colors.brandblue,
-        marginLeft: 5,
-        marginRight: 5
     },
     text:{
         alignSelf:'center',
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: '600',
+        //fontSize: 200,
+        
         paddingTop: 10,
         paddingBottom: 10
     }
