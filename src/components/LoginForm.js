@@ -59,9 +59,7 @@ class LoginForm extends Component {
                 />
                 <View style = {styles.header}>
                 </View>
-                <View
-                    style = {styles.loginInput}
-                >
+                <View style = {styles.loginInput}>
                     <Card>
                         <CardSection>
                             <Input
@@ -83,15 +81,14 @@ class LoginForm extends Component {
                                 value={this.props.password}
                             />
                         </CardSection> 
-
-                        {this.renderError()}
-
-                        <CardSection>
-
-                        {this.renderButton()}    
-                            
-                        </CardSection>  
+                            {this.renderError()}
+                         
                     </Card>
+                    <View style = {styles.signInCard}>
+                        {this.renderButton()}
+                    </View>
+                    <View style = {styles.header2}>
+                    </View>
                 </View>
             </View>   
         );
@@ -111,6 +108,13 @@ const styles = {
         justifyContent: 'center',
         //headerText: "Health on Hand"
     },
+    header2:{
+        flex: 3,
+        backgroundColor: '#D3D3D3',
+        alignItems: 'center',
+        justifyContent: 'center',
+        //headerText: "Health on Hand"
+    },
     loginInput:{
         flex: 4,
         backgroundColor: '#D3D3D3'
@@ -124,13 +128,18 @@ const styles = {
         //marginRight: 0,
         //marginBottom: 0,
         //backgroundColor: '#000',
-        
-        marginLeft: 5,
-        marginRight: 5,
+        flex: 2,
+        marginTop: 15,
+        marginLeft: 15,
+        marginRight: 15,
         borderRadius: 5,
         borderWidth: 1,
         backgroundColor: colors.brandblue,
         borderColor: colors.brandblue,
+    },
+    signInView:{
+        flex: 1,
+        borderWidth: 0
     },
     signInText:{
         fontSize: 16,

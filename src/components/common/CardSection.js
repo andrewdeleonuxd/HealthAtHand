@@ -20,7 +20,6 @@ const styles={
         backgroundColor:'#D3D3D3',
         justifyContent:'flex-start',
         flexDirection:'row',
-        borderColor:'#000',
         position:'relative'
     }
 };
