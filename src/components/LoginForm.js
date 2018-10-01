@@ -1,6 +1,7 @@
 import React , {Component } from 'react';
 import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
+import {  Header  } from 'react-native-elements';
 import {Card, CardSection, Input, Button, Spinner} from './common';
 import {emailChanged, passwordChanged, loginUser } from '../actions';
 
@@ -51,40 +52,42 @@ class LoginForm extends Component {
 
     render(){
         return(
-            <View style = {{flex:1}}>
-                <View
-                    style = {styles.header}>
-                </View>
-                <View
-                    style = {styles.loginInput}>
-                    <Card>
-                        <CardSection>
-                            <Input     
-                                //label="Email"
-                                placeholder="Email"
-                                placeholderTextColor='#000'
-                                onChangeText={this.onEmailChange.bind(this)}
-                                value={this.props.email}
-                            />
-                        </CardSection>  
-                            
-                        <CardSection>
-                            <Input
-                                secureTextEntry
-                                //label="Password"
-                                placeholder="Password"
-                                placeholderTextColor='#000'
-                                onChangeText={this.onPasswordChange.bind(this)}
-                                value={this.props.password}
-                            />
-                        </CardSection> 
-                        {this.renderError()}
-                        <CardSection>
-                            {this.renderButton()}    
-                        </CardSection>  
-                    </Card>
-                </View>
-            </View>
+            <View>
+                  <Header
+                    outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
+                    
+                    centerComponent={{ text: "HAH Login", style: { color: '#fff',fontSize:15 }}}
+                    
+                />
+            <Card>
+                <CardSection>
+                    <Input
+                        label="Email"
+                        placeholder="email@gmail.com" 
+                        onChangeText={this.onEmailChange.bind(this)}
+                        value={this.props.email}
+                    />
+                </CardSection>  
+                    
+                <CardSection>
+                    <Input
+                        secureTextEntry
+                        label="Password"
+                        placeholder="password"
+                        onChangeText={this.onPasswordChange.bind(this)}
+                        value={this.props.password}
+                    />
+                </CardSection> 
+
+                {this.renderError()}
+
+                <CardSection>
+
+                 {this.renderButton()}    
+                       
+                </CardSection>  
+            </Card> 
+            </View>   
         );
     }
 }
