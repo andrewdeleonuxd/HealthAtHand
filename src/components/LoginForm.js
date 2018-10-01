@@ -52,41 +52,47 @@ class LoginForm extends Component {
 
     render(){
         return(
-            <View>
-                  <Header
-                    outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
-                    
+            <View style = {{flex: 1}}>
+                <Header
+                    outerContainerStyles={{ height:60,backgroundColor: colors.brandblue }}
                     centerComponent={{ text: "HAH Login", style: { color: '#fff',fontSize:15 }}}
-                    
                 />
-            <Card>
-                <CardSection>
-                    <Input
-                        label="Email"
-                        placeholder="email@gmail.com" 
-                        onChangeText={this.onEmailChange.bind(this)}
-                        value={this.props.email}
-                    />
-                </CardSection>  
-                    
-                <CardSection>
-                    <Input
-                        secureTextEntry
-                        label="Password"
-                        placeholder="password"
-                        onChangeText={this.onPasswordChange.bind(this)}
-                        value={this.props.password}
-                    />
-                </CardSection> 
+                <View style = {styles.header}>
+                </View>
+                <View
+                    style = {styles.loginInput}
+                >
+                    <Card>
+                        <CardSection>
+                            <Input
+                                label="Email"
+                                placeholder="Email" 
+                                placeholderTextColor = '#000'
+                                onChangeText={this.onEmailChange.bind(this)}
+                                value={this.props.email}
+                            />
+                        </CardSection>  
+                            
+                        <CardSection>
+                            <Input
+                                secureTextEntry
+                                label="Password"
+                                placeholder="Password"
+                                placeholderTextColor = '#000'
+                                onChangeText={this.onPasswordChange.bind(this)}
+                                value={this.props.password}
+                            />
+                        </CardSection> 
 
-                {this.renderError()}
+                        {this.renderError()}
 
-                <CardSection>
+                        <CardSection>
 
-                 {this.renderButton()}    
-                       
-                </CardSection>  
-            </Card> 
+                        {this.renderButton()}    
+                            
+                        </CardSection>  
+                    </Card>
+                </View>
             </View>   
         );
     }
@@ -99,14 +105,14 @@ const styles = {
         color:'red'
     },
     header:{
-        flex: 2,
+        flex: 3,
         backgroundColor: '#D3D3D3',
         alignItems: 'center',
         justifyContent: 'center',
         //headerText: "Health on Hand"
     },
     loginInput:{
-        flex: 2,
+        flex: 4,
         backgroundColor: '#D3D3D3'
     },
     loginContainers:{
