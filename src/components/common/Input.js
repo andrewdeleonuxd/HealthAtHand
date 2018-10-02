@@ -15,6 +15,7 @@ const Input = ({label, value, onChangeText, placeholder, placeholderTextColor, s
             style={inputStyle}
             value={value}
             onChangeText={onChangeText}
+            underlineColorAndroid = "transparent"
         />
     </View>   
   );    
@@ -28,7 +29,7 @@ const styles = {
       fontSize:18,
       lineHeight:23,
       flex:2
-  },
+    },
   labelStyle:{
     fontSize:18,
     paddingLeft:20,

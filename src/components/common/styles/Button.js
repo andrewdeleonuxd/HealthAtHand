@@ -1,5 +1,4 @@
-import {StyleSheet} from 'react-native';
-import {colors, fonts, padding, dimensions} from '../../../styles/base.js'
+import {padding} from '../../../styles/base.js'
 
 const styles = {
     obj:{
@@ -10,8 +9,8 @@ const styles = {
         alignSelf:'center',
         //fontSize: 200,
         
-        paddingTop: 10,
-        paddingBottom: 10
+        paddingTop: padding.sm,
+        paddingBottom: padding.sm
     }
 }
 

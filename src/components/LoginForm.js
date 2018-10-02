@@ -62,7 +62,7 @@ class LoginForm extends Component {
                 <View style = {styles.header}>
                 </View>
                 <View style = {styles.loginInput}>
-                    <Card>
+                    <Card style = {styles.loginCards}>
                         <CardSection>
                             <Input
                                 label="Email"
@@ -70,8 +70,7 @@ class LoginForm extends Component {
                                 placeholderTextColor = '#000'
                                 onChangeText={this.onEmailChange.bind(this)}
                                 value={this.props.email}/>
-                        </CardSection>  
-                            
+                        </CardSection>   
                         <CardSection>
                             <Input
                                 secureTextEntry
@@ -114,7 +113,11 @@ const styles = {
     },
     loginInput:{
         flex: 3,
-        backgroundColor: colors.primary
+        backgroundColor: colors.primary,
+    },
+    loginCards:{
+        marginLeft: margin.md,
+        marginRight: margin.md,
     },
     loginContainers:{
         backgroundColor: colors.tertiary
