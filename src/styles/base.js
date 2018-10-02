@@ -6,9 +6,9 @@ export const dimensions = {
 }
   
 export const colors  = {
-  brandgrey: '#D3D3D3',
-  brandblue: '#00008B',
-  brandgold: '#F0E68C'
+  primary: '#121350',
+  secondary: '#c8ba7f',
+  tertiary: '#D3D3D3',
 }
 
 export const padding = {
@@ -20,7 +20,13 @@ export const padding = {
 
 export const fonts = {
   sm: 12,
-  md: 18,
+  md: 16,
   lg: 28,
   primary: 'Cochin'
+}
+
+export const margin = {
+  sm: 12,
+  md: 15,
+  lg: 18
 }

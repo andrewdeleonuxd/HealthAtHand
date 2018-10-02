@@ -5,7 +5,7 @@ import {  Header  } from 'react-native-elements';
 import {Card, CardSection, Input, Button, Spinner} from './common';
 import {emailChanged, passwordChanged, loginUser } from '../actions';
 
-import {colors, fonts, padding, dimensions} from '../styles/base.js'
+import {colors, fonts, padding, dimensions, margin} from '../styles/base.js'
 
 class LoginForm extends Component {
     onEmailChange(text){
@@ -25,7 +25,7 @@ class LoginForm extends Component {
     renderError(){
         if(this.props.error){
             return(
-                <View style={{backgroundColor:'white'}}>
+                <View style={styles.signInError}>
                     <Text style={styles.errorTextStyle}>
                        {this.props.error}
                     </Text>
@@ -39,13 +39,15 @@ class LoginForm extends Component {
            return<Spinner size="large"/> 
         } else {
             return(
-                <Button
-                    objStyle = {styles.signInButton}
-                    textStyle = {styles.signInText}
-                    onButtonPress={this.onButtonPress.bind(this)}
-                    title='Sign in'>
-                    Sign in
-                </Button>
+                <View style = {styles.signInView}>
+                    <Button
+                        objStyle = {styles.signInButton}
+                        textStyle = {styles.signInText}
+                        onButtonPress={this.onButtonPress.bind(this)}
+                        title='Sign in'>
+                        Sign in
+                    </Button>
+                </View>
             );
         }
     }
@@ -54,8 +56,8 @@ class LoginForm extends Component {
         return(
             <View style = {{flex: 1}}>
                 <Header
-                    outerContainerStyles={{ height:60,backgroundColor: colors.brandblue }}
-                    centerComponent={{ text: "HAH Login", style: { color: '#fff',fontSize:15 }}}
+                    outerContainerStyles={{ height:60,backgroundColor: colors.secondary }}
+                    centerComponent={{ text: "HAH Login", style: { color: '#fff', fontSize: fonts.md}}}
                 />
                 <View style = {styles.header}>
                 </View>
@@ -67,8 +69,7 @@ class LoginForm extends Component {
                                 placeholder="Email" 
                                 placeholderTextColor = '#000'
                                 onChangeText={this.onEmailChange.bind(this)}
-                                value={this.props.email}
-                            />
+                                value={this.props.email}/>
                         </CardSection>  
                             
                         <CardSection>
@@ -78,17 +79,13 @@ class LoginForm extends Component {
                                 placeholder="Password"
                                 placeholderTextColor = '#000'
                                 onChangeText={this.onPasswordChange.bind(this)}
-                                value={this.props.password}
-                            />
-                        </CardSection> 
-                            {this.renderError()}
-                         
+                                value={this.props.password}/>
+                        </CardSection>                
                     </Card>
-                    <View style = {styles.signInCard}>
-                        {this.renderButton()}
-                    </View>
-                    <View style = {styles.header2}>
-                    </View>
+                    {this.renderError()}
+                    {this.renderButton()}
+                </View>
+                <View style = {styles.header2}>
                 </View>
             </View>   
         );
@@ -102,49 +99,50 @@ const styles = {
         color:'red'
     },
     header:{
-        flex: 3,
-        backgroundColor: '#D3D3D3',
+        flex: 4,
+        backgroundColor: colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
         //headerText: "Health on Hand"
     },
     header2:{
-        flex: 3,
-        backgroundColor: '#D3D3D3',
+        flex: 2,
+        backgroundColor: colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
         //headerText: "Health on Hand"
     },
     loginInput:{
-        flex: 4,
-        backgroundColor: '#D3D3D3'
+        flex: 3,
+        backgroundColor: colors.primary
     },
     loginContainers:{
-        backgroundColor: '#D3D3D3'
+        backgroundColor: colors.tertiary
     },
     signInButton:{
-        //borderRadius: 0,
-        //marginLeft: 100,
-        //marginRight: 0,
-        //marginBottom: 0,
-        //backgroundColor: '#000',
-        flex: 2,
-        marginTop: 15,
-        marginLeft: 15,
-        marginRight: 15,
+        marginTop: margin.md,
+        marginLeft: margin.md,
+        marginRight: margin.md,
+        marginBottom: margin.md,
         borderRadius: 5,
         borderWidth: 1,
-        backgroundColor: colors.brandblue,
-        borderColor: colors.brandblue,
-    },
-    signInView:{
-        flex: 1,
-        borderWidth: 0
+        backgroundColor: colors.secondary,
+        borderColor: colors.secondary,
     },
     signInText:{
-        fontSize: 16,
+        fontSize: fonts.md,
         fontWeight: '600',
-        color: '#fff',
+        color: '#000',
+    },
+    signInView:{
+        //flex: 1,
+        justifyContent:'flex-start',
+        flexDirection:'row',
+        borderWidth: 0
+    },
+    signInError:{
+        borderWidth: 0,
+        backgroundColor: colors.tertiary
     }
 };
 
