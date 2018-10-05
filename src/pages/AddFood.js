@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import _ from 'lodash';
 import {View, Text, FlatList, Image, TouchableHighlight} from 'react-native'
-import { Card, Header, Icon , SearchBar } from 'react-native-elements';
+import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {initializefood } from '../actions';
@@ -22,8 +22,8 @@ class AddFood extends Component {
     componentWillMount = () => {
 
         let obj={
-            id:"apple",
-            itemName:"apple",
+            id:"mango",
+            itemName:"mango",
             totalCalories:25
         }
 
@@ -75,6 +75,10 @@ class AddFood extends Component {
             </TouchableHighlight>
         )
     })
+
+     
+
+    
            
     } 
 
@@ -98,6 +102,10 @@ class AddFood extends Component {
 
     submitEditing = () => {
         Actions.push("searchfood",{text:this.state.searchText});
+    }
+
+    Complete = () => {
+        console.log("complete is pressed");
     }
 
     render = () => {
@@ -140,15 +148,25 @@ class AddFood extends Component {
 
                     {
                     (this.props.foodArray.length == 0) ? <View></View> : 
-                    <View style={{backgroundColor:"white", height:"100%"}}>
+                    <View style={{backgroundColor:"white", height:"75%"}}>
 
                               {data}
                                  
+                    </View>   
+                    } 
 
-                    </View>
-
-                     
-                }    
+                    {
+                    (this.props.foodArray.length == 0) ? <View></View> : 
+                      <View style={{backgroundColor:"white"}}>  
+                      <Card>
+                                    <Button
+                                    title='Complete Diary' 
+                                    backgroundColor="blue"
+                                    onPress={this.Complete}
+                                    />
+                            </Card>
+                       </View>  
+                    }   
 
             </View>
         )
