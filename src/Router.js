@@ -17,8 +17,8 @@ const RouterComponent = () => {
     return(
         <Router >
             <Scene key="root" >
-                <Scene key="login" component={LoginForm} hideNavBar={true} initial />
-                <Scene key="home" component={Home} hideNavBar={true} />
+                <Scene key="login" component={LoginForm} hideNavBar={true}  />
+                <Scene key="home" component={Home} hideNavBar={true} initial/>
                 <Scene key="articleinfo" component = {ArticleInfo} hideNavBar={true} />
                 <Scene key="addfood" component = {AddFood} hideNavBar={true} />
                 <Scene key="searchfood" component = {SearchFood} hideNavBar={true} />
@@ -33,7 +33,7 @@ const RouterComponent = () => {
                     component={EmployeeList} 
                     title="Employees"
                     rightTitle="Add"
-                    onRight={() => Actions.employeeCreate()}
+                    onRight={() => Actions.employeeCreate()} 
                      
                 /> 
                  <Scene 

@@ -17,7 +17,7 @@ export default (state = INITIAL_STATE, action) => {
           return { ...state, 
                     user:action.payload,
                     error: '',
-                    password:'',
+                    password:'', 
                     email:'',
                     loading: false};
 

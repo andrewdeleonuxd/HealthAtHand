@@ -56,7 +56,7 @@ class SearchFood extends Component {
     }
 
     onPress = (item) => {
-        Actions.push("foodcard",{item:item});
+        Actions.push("foodcard",{item:item,firstTime:true});
     }
 
     submitEditing = () => {
@@ -68,7 +68,7 @@ class SearchFood extends Component {
 
     searchTextChanged = (text) => {
         this.setState({searchText:text})
-    }
+    } 
 
     render() {
         return (
