@@ -15,3 +15,7 @@ export const EMPLOYEE_CREATE = 'employee_create';
 export const EMPLOYEES_FETCH_SUCCESS = 'employees_fetch_success';
 
 export const EMPLOYEES_SAVE_SUCCESS = 'employees_save_success';
+
+export const FOOD_ADDED = 'food_added';
+
+export const FOOD_INITIALIZE = 'food_initialize';

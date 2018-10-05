@@ -1,7 +1,11 @@
 import React,{Component} from 'react'
-import {View, Text, Picker, ActivityIndicator} from 'react-native'
+import {View, Text, Picker, ActivityIndicator} from 'react-native';
+import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux'
-import { Card, Header, Icon } from 'react-native-elements'
+import { Card, Header, Icon, Button } from 'react-native-elements';
+import {addfood,removefood} from '../actions';
+
+
 //import NumberInput from 'rn-number-input';
 
 class FoodCard extends Component {
@@ -9,7 +13,8 @@ class FoodCard extends Component {
     state ={
         showLoader:false,
         servingSize:1,
-        news:[]
+        itemName:"",
+        Calories:""
     }
 
     componentWillMount = () => {
@@ -17,12 +22,46 @@ class FoodCard extends Component {
     }
 
     componentDidMount = () => {
-        this.setState({news:this.props.item,showLoader:false})
+        console.log("inside componentDidMount :",this.props);
+        if(this.props.firstTime){
+            this.setState({
+                showLoader:false,
+                itemName:this.props.item.author ,
+                Calories:5
+            })
+        } else{
+            this.setState({
+                showLoader:false,
+                itemName: this.props.item.itemName,
+                Calories:5
+            })
+        }
+      
     }
 
     goBack = () => {
         Actions.addfood();
     } 
+
+    Add = () => {
+        let obj={
+            id:this.state.itemName,
+            itemName:this.state.itemName,
+            totalCalories:this.state.Calories*this.state.servingSize
+        }
+        
+
+        this.props.addfood(obj,this.props.foodArray,this.props.firstTime);
+    }
+
+    onRemove = () => {
+        let obj={
+            id:this.state.itemName,
+            itemName:this.state.itemName,
+            totalCalories:this.state.Calories*this.state.servingSize
+        }
+        this.props.removefood(obj,this.props.foodArray);
+    }
 
     render = () => {
 
@@ -32,7 +71,7 @@ class FoodCard extends Component {
                 underlayColor={"transparent"}
                 color="white"
                 marginTop={50}
-                onPress = {this.goBack}
+                onPress = {this.Add}
             />
         )
 
@@ -41,12 +80,11 @@ class FoodCard extends Component {
                 name='ios-arrow-back'
                 type='ionicon'
                 color={"white"}
-                onPress = {this.goBack}
+                onPress = {this.Add}
                 underlayColor={"transparent"}
             />
         )
 
-        console.log(this.state.servingSize);
 
         return (
             <View>
@@ -65,7 +103,7 @@ class FoodCard extends Component {
                                          color: "maroon",
                                          fontSize: 15,
                                          marginBottom: 5
-                                     }}>Name</Text>
+                                     }}>{this.state.itemName}</Text>
                                  </Card>
                                  <Card flexDirection='column'>
                                         <Text style={{
@@ -97,7 +135,7 @@ class FoodCard extends Component {
                                             fontSize: 15,
                                             marginBottom: 5,
                                             marginLeft:"73%"
-                                        }}>10</Text> 
+                                        }}>{this.state.Calories}</Text> 
                                  </Card>
                                  <Card flexDirection='row'>
                                         <Text style={{
@@ -110,9 +148,19 @@ class FoodCard extends Component {
                                             fontSize: 15,
                                             marginBottom: 5,
                                             marginLeft:"60%"
-                                        }}>{10*this.state.servingSize}</Text> 
+                                        }}>{this.state.Calories*this.state.servingSize}</Text> 
                                  </Card>
                                  
+                                 <Card>
+                                    <Button
+                                    title='Remove' 
+                                    disabled={this.props.firstTime}
+                                    backgroundColor="blue"
+                                    onPress={this.onRemove}
+                                    />
+                                 </Card>
+                               
+
 
                     </View>
 
@@ -125,4 +173,12 @@ class FoodCard extends Component {
 
 
 
-export default FoodCard;
+//export default FoodCard;
+
+const mapStateToProps = state => {
+    return {
+        foodArray: state.food.foodArray
+    };
+};
+
+export default connect(mapStateToProps, {addfood,removefood}) (FoodCard);
