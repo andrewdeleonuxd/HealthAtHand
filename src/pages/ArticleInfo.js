@@ -36,7 +36,7 @@ class ArticleInfo extends Component {
                 <Header
                     outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
                     leftComponent={backButton}
-                    centerComponent={{ text: this.state.news.title, style: { color: '#fff',fontSize:15 }}}
+                    centerComponent={{ text: "Article", style: { color: '#fff',fontSize:15 }}}
                 />
                 {
                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff" /> : <View style={{backgroundColor:"white", height:"100%"}}>

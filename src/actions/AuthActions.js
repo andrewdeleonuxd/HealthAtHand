@@ -26,7 +26,7 @@ export const passwordChanged = (text) => {
 };
 
 export const loginUser = ({email, password}) => {
-   return (dispatch) => { 
+   return (dispatch) => {  
     let success =false;
    dispatch({ type: LOGIN_USER });
     
