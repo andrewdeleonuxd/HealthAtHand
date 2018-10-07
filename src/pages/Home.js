@@ -21,13 +21,10 @@ const headers = { method: 'GET',
     }};
 
 const categories = {
-        0:"business",
-        1:"entertainment",
-        2:"general",
-        3:"health",
-        4:"science",
-        5:"sports",
-        6:"technology"
+        0:"add food",
+        1:"add exercise",
+        2:"food notes",
+        3:"exercise notes"
     }
 
 class Home extends Component {
@@ -261,31 +258,19 @@ class Home extends Component {
                                 tabBarUnderlineStyle={{height:2}}
                                 onChangeTab={this.tabChanged}
                             >
-                                <View tabLabel='Business'>    
+                                <View tabLabel='Add Food'>    
                                     {
                                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
                                 }</View>
-                                <View tabLabel='Entertainment'>
+                                <View tabLabel='Add Exercise'>
                                     {
                                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
                                 }</View>
-                                <View tabLabel='General'>
+                                <View tabLabel='Food Notes'>
                                     {
                                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
                                 }</View>
-                                <View tabLabel='Health'>
-                                    {
-                                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                                }</View>
-                                <View tabLabel='Science'>
-                                    {
-                                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                                }</View>
-                                <View tabLabel='Sports'>
-                                    {
-                                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                                }</View>
-                                <View tabLabel='Technology'>
+                                <View tabLabel='Exercise Notes'>
                                     {
                                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
                                 }</View>
