@@ -185,13 +185,13 @@ class Home extends Component {
     */
 
     render(){
-        let search = (
+        let add = (
             <Icon
-                name='search'
+                name='add'
                 underlayColor={"transparent"}
-                color="white"
+                color={colors.secondary}
                 marginTop={50}
-                onPress = {this.showSearchbar}
+                onPress = {this.showAddFood}
             />
         )
 
@@ -199,7 +199,7 @@ class Home extends Component {
             <Icon
                 name='menu'
                 underlayColor={"transparent"}
-                color="white"
+                color={colors.secondary}
                 onPress = {this.openControlPanel}
             />
         )
@@ -262,8 +262,8 @@ class Home extends Component {
                     <Header
                         outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
                         leftComponent={hamburger}
-                        centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:17 }}}
-                        rightComponent={search}/>
+                        centerComponent={{ text: 'Home', style: { color: colors.secondary,fontSize:17 }}}
+                        rightComponent={add}/>
                     <View style={{flex:3}}>
                             
 
@@ -305,34 +305,25 @@ class Home extends Component {
                     </View>
                     <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-evenly"}}>
                         <Icon
-                            name='home'
+                            name='tachometer'
                             type='font-awesome'
                             color={colors.secondary}
-                            onPress={this.showHome}>
+                            onPress={this.showHome}
+                            size={30}>
                         </Icon>
                         <Icon
-                            name='search'
-                            type='font-awesome'
+                            name='food'
+                            type='material-community'
                             color={colors.secondary}
-                            onPress={this.showAddFood}>
+                            onPress={this.showAddFood}
+                            size={30}>
                         </Icon>
                         <Icon
-                            name='search'
-                            type='font-awesome'
+                            name='run'
+                            type='material-community'
                             color={colors.secondary}
-                            onPress={this.showAddFoodNotes}>
-                        </Icon>
-                        <Icon
-                            name='search'
-                            type='font-awesome'
-                            color={colors.secondary}
-                            onPress={this.showAddExercise}>
-                        </Icon>
-                        <Icon
-                            name='search'
-                            type='font-awesome'
-                            color={colors.secondary}
-                            onPress={this.showAddExerciseNotes}>
+                            onPress={this.showAddExercise}
+                            size={30}>
                         </Icon>
                     </View>
                 </View>
