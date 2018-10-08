@@ -9,6 +9,7 @@ import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import Drawer from 'react-native-drawer'
 import Tabs from 'react-native-tabs';
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
+import { CircularProgress, AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import {colors} from '../styles/base.js'
 
@@ -16,6 +17,7 @@ const drawerStyles = {
     drawer: { backgroundColor:"#0F084B"}
 }
 
+const MAX_POINTS = 500;
 
 const categories = {
         0:"home",
@@ -26,6 +28,12 @@ const categories = {
     }
 
 class Home extends Component {
+
+    state = {
+        isMoving: false,
+        pointsDelta: 0,
+        points: 325
+    };
 /*
     state = {
         
@@ -81,7 +89,6 @@ class Home extends Component {
     showAddFood = () => {
         
         Actions.push("addfood",{type:"addfood"});
-        
     }
 
     showAddExercise = () => {
@@ -247,6 +254,7 @@ class Home extends Component {
                 </TouchableHighlight>
             </View>
         )
+        const fill = this.state.points / MAX_POINTS * 100;
         return(
             <Drawer
                 ref={(ref) => this._drawer = ref}
@@ -264,8 +272,32 @@ class Home extends Component {
                         leftComponent={hamburger}
                         centerComponent={{ text: 'Home', style: { color: colors.secondary,fontSize:17 }}}
                         rightComponent={add}/>
-                    <View style={{flex:3}}>
-                            
+                    <View style={{flex:3, alignItems: 'center'}}>
+                        <View
+                            style = {{flex: 1, justifyContent: "center"}}>
+                            <Text style={styles.pointsHeader}>
+                                Total Calories: { Math.round(MAX_POINTS * fill / 100) } / {MAX_POINTS}
+                            </Text>
+                        </View>
+                        
+                        <View style = {{flex:1, justifyContent: "center"}}>
+                            <AnimatedCircularProgress
+                                size={250}
+                                width={30}
+                                fill={fill}
+                                tintColor={colors.secondary}
+                                backgroundColor={colors.primary}
+                                >
+                                {(fill) => (
+                                    <Text style={styles.points}>
+                                    { Math.round(MAX_POINTS * fill / 100) }
+                                    </Text>
+                                )}
+                            </AnimatedCircularProgress>
+                        </View>
+                        <View style = {{flex:2}}>
+                        </View>
+                        
 
 
 
@@ -337,6 +369,45 @@ class Home extends Component {
     }
 }
 
+const styles = StyleSheet.create({
+    pointsHeader: {
+      backgroundColor: 'transparent',
+      //position: 'absolute',
+      //top: 72,
+      //left: 56,
+      //width: 90,
+      textAlign: 'center',
+      color: colors.secondary.color,
+      fontSize: 20,
+      fontWeight: "100",
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    points:{
+        backgroundColor: 'transparent',
+        textAlign: 'center',
+        color: '#7591af',
+        fontSize: 50,
+        fontWeight: "100",
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    container: {
+      flex: 1,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: '#152d44',
+      padding: 50
+    },
+    pointsDelta: {
+      color: '#4c6479',
+      fontSize: 50,
+      fontWeight: "100"
+    },
+    pointsDeltaActive: {
+      color: '#fff',
+    }
+});
 
 
 const mapStateToProps = (state) => {
