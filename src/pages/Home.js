@@ -10,15 +10,12 @@ import Drawer from 'react-native-drawer'
 import Tabs from 'react-native-tabs';
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
 
+import {colors} from '../styles/base.js'
+
 const drawerStyles = {
     drawer: { backgroundColor:"#0F084B"}
 }
 
-
-const headers = { method: 'GET',
-    headers: {
-        "X-Api-Key":"739a6ea619ae414c90def5a2a384b4ef"
-    }};
 
 const categories = {
         0:"home",
@@ -29,8 +26,9 @@ const categories = {
     }
 
 class Home extends Component {
-
+/*
     state = {
+        
         newsData:[],
         language:'en',
         totalResults:0,
@@ -45,25 +43,23 @@ class Home extends Component {
         q:[],
         height:Dimensions.get('window').height
     }
-
+/*
     componentWillMount = () => {
-
-        /*
         let category = categories[this.state.categorySelected];
         const request = new Request('https://newsapi.org/v2/everything?pageSize=5&sortBy=publishedAt&page=' + this.state.page++ + '&q=' + category,headers)
         this.formData(request)
-        */
+        
     }
 
     showSearchbar = () => {
-        /*
+        
         if(this.state.showSearch == true)
             this.setState({showSearch:false})
         else
             this.setState({showSearch:true})
-           */ 
+           
     }
-
+*/
     closeControlPanel = () => {
         this._drawer.close()
     };
@@ -76,6 +72,10 @@ class Home extends Component {
         
         Actions.push("articleinfo", {item:item});
         
+    }
+
+    showHome = () => {
+        Actions.home();
     }
 
     showAddFood = () => {
@@ -168,7 +168,6 @@ class Home extends Component {
          })
 
  }
- */
 
     tabChanged = (tab) => {
         this.state = {
@@ -183,6 +182,7 @@ class Home extends Component {
             this.showAddFoodNotes();
         }
     }
+    */
 
     render(){
         let search = (
@@ -249,12 +249,12 @@ class Home extends Component {
         )
         return(
             <Drawer
-            ref={(ref) => this._drawer = ref}
-            content={drawerMenu}
-            type="overlay"
-            tapToClose={true}
-            styles={drawerStyles}
-            openDrawerOffset={0.5}>
+                ref={(ref) => this._drawer = ref}
+                content={drawerMenu}
+                type="overlay"
+                tapToClose={true}
+                styles={drawerStyles}
+                openDrawerOffset={0.5}>
                 <StatusBar
                     backgroundColor="#0F084B"
                     barStyle="light-content"/>
@@ -265,6 +265,13 @@ class Home extends Component {
                         centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:17 }}}
                         rightComponent={search}/>
                     <View style={{flex:3}}>
+                            
+
+
+
+
+
+                        {/*
                         <ScrollableTabView
                             initialPage={0}
                             renderTabBar={() => <ScrollableTabBar />}
@@ -294,11 +301,46 @@ class Home extends Component {
                                 (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
                             }</View>
                         </ScrollableTabView>
+                        */}
+                    </View>
+                    <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-evenly"}}>
+                        <Icon
+                            name='home'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.showHome}>
+                        </Icon>
+                        <Icon
+                            name='search'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.showAddFood}>
+                        </Icon>
+                        <Icon
+                            name='search'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.showAddFoodNotes}>
+                        </Icon>
+                        <Icon
+                            name='search'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.showAddExercise}>
+                        </Icon>
+                        <Icon
+                            name='search'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.showAddExerciseNotes}>
+                        </Icon>
                     </View>
                 </View>
-                <View>
-                    <Text style={{alignSelf:'center',fontSize:15}}>Powered by HAH.org</Text>
-                </View>
+                {/*
+                    <View>
+                        <Text style={{alignSelf:'center',fontSize:15}}>Powered by HAH.org</Text>
+                    </View>
+                */}
         </Drawer>
         );
     }
