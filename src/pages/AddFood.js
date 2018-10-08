@@ -105,7 +105,7 @@ class AddFood extends Component {
     }
 
     Complete = () => {
-        console.log("complete is pressed");
+        Actions.home();
     }
 
     render = () => {
