@@ -17,7 +17,7 @@ const drawerStyles = {
     drawer: { backgroundColor:"#0F084B"}
 }
 
-const MAX_POINTS = 500;
+const MAX_CALS = 2000;
 
 const categories = {
         0:"home",
@@ -32,8 +32,22 @@ class Home extends Component {
     state = {
         isMoving: false,
         pointsDelta: 0,
-        points: 325
+        dailyCal: 325
     };
+
+    componentWillMount= () => {
+        /*
+        fetch('placeholder', {
+            method: 'GET'
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.setState({
+                dailyCal: responseJson
+            })
+        })
+        */
+    }
 /*
     state = {
         
@@ -87,7 +101,6 @@ class Home extends Component {
     }
 
     showAddFood = () => {
-        
         Actions.push("addfood",{type:"addfood"});
     }
 
@@ -254,7 +267,7 @@ class Home extends Component {
                 </TouchableHighlight>
             </View>
         )
-        const fill = this.state.points / MAX_POINTS * 100;
+        const fill = this.state.dailyCal / MAX_CALS * 100;
         return(
             <Drawer
                 ref={(ref) => this._drawer = ref}
@@ -273,14 +286,9 @@ class Home extends Component {
                         centerComponent={{ text: 'Home', style: { color: colors.secondary,fontSize:17 }}}
                         rightComponent={add}/>
                     <View style={{flex:3, alignItems: 'center'}}>
-                        <View
-                            style = {{flex: 1, justifyContent: "center"}}>
-                            <Text style={styles.pointsHeader}>
-                                Total Calories: { Math.round(MAX_POINTS * fill / 100) } / {MAX_POINTS}
-                            </Text>
-                        </View>
                         
-                        <View style = {{flex:1, justifyContent: "center"}}>
+                        
+                        <View style = {{flex:3, justifyContent: "center"}}>
                             <AnimatedCircularProgress
                                 size={250}
                                 width={30}
@@ -289,12 +297,25 @@ class Home extends Component {
                                 backgroundColor={colors.primary}
                                 >
                                 {(fill) => (
-                                    <Text style={styles.points}>
-                                    { Math.round(MAX_POINTS * fill / 100) }
-                                    </Text>
+                                    <View>
+                                        <Text style={styles.points}>
+                                            { Math.round(MAX_CALS * fill / 100) }
+                                        </Text>
+                                        <Text style = {styles.pointsLabel}>
+                                            /{ MAX_CALS } Calories
+                                        </Text>
+                                    </View>
                                 )}
                             </AnimatedCircularProgress>
                         </View>
+                        {/*
+                        <View
+                            style = {{flex: 1, justifyContent: "center"}}>
+                            <Text style={styles.pointsHeader}>
+                                Total Calories: { Math.round(MAX_POINTS * fill / 100) } / {MAX_POINTS}
+                            </Text>
+                        </View>
+                        */}
                         <View style = {{flex:2}}>
                         </View>
                         
@@ -388,6 +409,19 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#7591af',
         fontSize: 50,
+        fontWeight: "100",
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    pointsLabel:{
+        backgroundColor: 'transparent',
+        //position: 'absolute',
+        //top: 72,
+        //left: 56,
+        //width: 90,
+        textAlign: 'center',
+        color: '#7591af',
+        fontSize: 16,
         fontWeight: "100",
         justifyContent: 'center',
         alignItems: 'center'
