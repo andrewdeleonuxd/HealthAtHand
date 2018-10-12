@@ -1,7 +1,8 @@
 import React,{Component} from 'react'
 import {View, TextInput,ToastAndroid, FlatList, Image, TouchableHighlight, ScrollView} from 'react-native'
-import { Header, Icon , SearchBar } from 'react-native-elements'
-import {Actions} from 'react-native-router-flux'
+import { Header, Icon , SearchBar, Card, Button } from 'react-native-elements'
+import {Actions} from 'react-native-router-flux';
+import Communications from 'react-native-communications';
 
 class FoodNotes extends Component {
     state = {
@@ -15,6 +16,10 @@ class FoodNotes extends Component {
     done = () => {
         ToastAndroid.show('done',3000,"TOP")
         Actions.home();
+    }
+
+    onTextPress() {
+        Communications.text("4123205413",this.state.text);
     }
 
 
@@ -50,17 +55,27 @@ class FoodNotes extends Component {
              
                 <ScrollView >
                     <TextInput
-                    style={{height: "100%"}}
+                    style={{height: "50%"}}
                     placeholder="Type here to translate!"
                     onChangeText={(text) => this.setState({text})}
                     multiline = {true}
                     textAlignVertical= 'top'
-                    maxLength = {400000}
-                    numberOfLines = {20000}
+                    maxLength = {400}
+                    numberOfLines = {20}
                     disableFullscreenUI ={true}
                     />
                     
                 </ScrollView>
+
+                       <View style={{backgroundColor:"white"}}>  
+                      <Card>
+                                    <Button
+                                    title='Complete Diary' 
+                                    backgroundColor="blue"
+                                    onPress={this.onTextPress.bind(this)}
+                                    />
+                            </Card> 
+                       </View>  
                    
             </View>
         )

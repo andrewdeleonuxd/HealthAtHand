@@ -16,7 +16,7 @@ import ExerciseNotes from './pages/ExerciseNotes';
 const RouterComponent = () => {
     return(
         <Router >
-            <Scene key="root" >
+            <Scene key="root" > 
                 <Scene key="login" component={LoginForm} hideNavBar={true}  />
                 <Scene key="home" component={Home} hideNavBar={true} initial/>
                 <Scene key="articleinfo" component = {ArticleInfo} hideNavBar={true} />

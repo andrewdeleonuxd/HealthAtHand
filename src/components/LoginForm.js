@@ -11,7 +11,7 @@ class LoginForm extends Component {
     }
 
     onPasswordChange(text){
-        this.props.passwordChanged(text);
+        this.props.passwordChanged(text); 
     }
 
     onButtonPress(){
