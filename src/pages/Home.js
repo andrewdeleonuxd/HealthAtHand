@@ -10,29 +10,25 @@ import Drawer from 'react-native-drawer'
 import Tabs from 'react-native-tabs';
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
 
+import {colors} from '../styles/base.js'
+
 const drawerStyles = {
     drawer: { backgroundColor:"#0F084B"}
 }
 
 
-const headers = { method: 'GET',
-    headers: {
-        "X-Api-Key":"739a6ea619ae414c90def5a2a384b4ef"
-    }};
-
 const categories = {
-        0:"business",
-        1:"entertainment",
-        2:"general",
-        3:"health",
-        4:"science",
-        5:"sports",
-        6:"technology"
+        0:"home",
+        1:"add food",
+        2:"add exercise",
+        3:"food notes",
+        4:"exercise notes"
     }
 
 class Home extends Component {
-
+/*
     state = {
+        
         newsData:[],
         language:'en',
         totalResults:0,
@@ -47,22 +43,23 @@ class Home extends Component {
         q:[],
         height:Dimensions.get('window').height
     }
-
+/*
     componentWillMount = () => {
         let category = categories[this.state.categorySelected];
         const request = new Request('https://newsapi.org/v2/everything?pageSize=5&sortBy=publishedAt&page=' + this.state.page++ + '&q=' + category,headers)
         this.formData(request)
+        
     }
 
     showSearchbar = () => {
-        /*
+        
         if(this.state.showSearch == true)
             this.setState({showSearch:false})
         else
             this.setState({showSearch:true})
-           */ 
+           
     }
-
+*/
     closeControlPanel = () => {
         this._drawer.close()
     };
@@ -75,6 +72,10 @@ class Home extends Component {
         
         Actions.push("articleinfo", {item:item});
         
+    }
+
+    showHome = () => {
+        Actions.home();
     }
 
     showAddFood = () => {
@@ -100,7 +101,7 @@ class Home extends Component {
         Actions.push("exercisenotes");
         
     }
-
+/*
     tabChanged = (tab) => {
         this.state = {
             categorySelected:tab.i,
@@ -168,7 +169,20 @@ class Home extends Component {
 
  }
 
-
+    tabChanged = (tab) => {
+        this.state = {
+            categorySelected: tab.i,
+            page:1
+        }
+        if(tab == "Add Food")
+        {
+            this.showAddFood();
+        }
+        else{
+            this.showAddFoodNotes();
+        }
+    }
+    */
 
     render(){
         let search = (
@@ -179,126 +193,155 @@ class Home extends Component {
                 marginTop={50}
                 onPress = {this.showSearchbar}
             />
-    )
+        )
 
-    let hamburger = (
-        <Icon
-            name='menu'
-            underlayColor={"transparent"}
-            color="white"
-            onPress = {this.openControlPanel}
-        />
-    )
+        let hamburger = (
+            <Icon
+                name='menu'
+                underlayColor={"transparent"}
+                color="white"
+                onPress = {this.openControlPanel}
+            />
+        )
 
-    let drawerMenu = (
-        <View style={{padding:10, marginTop:20}}>
-            <TouchableHighlight
-                onPress = {this.showAddFood}
-                underlayColor = "transparent"
-            >
-            <View style={{"marginBottom":20}}>
-                <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Add Food</Text>
-                <View style={{borderColor:"lightgray", borderWidth:1}}></View>
+        let drawerMenu = (
+            <View style={{padding:10, marginTop:20}}>
+                <TouchableHighlight
+                    onPress = {this.showAddFood}
+                    underlayColor = "transparent"
+                >
+                <View style={{"marginBottom":20}}>
+                    <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Add Food</Text>
+                    <View style={{borderColor:"lightgray", borderWidth:1}}></View>
+                </View>
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                    onPress = {this.showAddExercise}
+                    underlayColor = "transparent"
+                >
+                <View style={{"marginBottom":20}}>
+                    <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Add Exercise</Text>
+                    <View style={{borderColor:"lightgray", borderWidth:1}}></View>
+                </View>
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                    onPress = {this.showAddFoodNotes}
+                    underlayColor = "transparent"
+                >
+                <View style={{"marginBottom":20}}>
+                    <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Food Notes</Text>
+                    <View style={{borderColor:"lightgray", borderWidth:1}}></View>
+                </View>
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                    onPress = {this.showAddExerciseNotes}
+                    underlayColor = "transparent"
+                >
+                <View style={{"marginBottom":20}}>
+                    <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Exercise Notes</Text>
+                    <View style={{borderColor:"lightgray", borderWidth:1}}></View>
+                </View>
+                </TouchableHighlight>
             </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-                onPress = {this.showAddExercise}
-                underlayColor = "transparent"
-            >
-            <View style={{"marginBottom":20}}>
-                <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Add Exercise</Text>
-                <View style={{borderColor:"lightgray", borderWidth:1}}></View>
-            </View>
-            </TouchableHighlight>
-
-             <TouchableHighlight
-                onPress = {this.showAddFoodNotes}
-                underlayColor = "transparent"
-            >
-            <View style={{"marginBottom":20}}>
-                <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Food Notes</Text>
-                <View style={{borderColor:"lightgray", borderWidth:1}}></View>
-            </View>
-            </TouchableHighlight>
-
-             <TouchableHighlight
-                onPress = {this.showAddExerciseNotes}
-                underlayColor = "transparent"
-            >
-            <View style={{"marginBottom":20}}>
-                <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Exercise Notes</Text>
-                <View style={{borderColor:"lightgray", borderWidth:1}}></View>
-            </View>
-            </TouchableHighlight>
-        </View>
-    )
+        )
         return(
             <Drawer
-            ref={(ref) => this._drawer = ref}
-            content={drawerMenu}
-            type="overlay"
-            tapToClose={true}
-            styles={drawerStyles}
-            openDrawerOffset={0.5}
-        >
-            <StatusBar
-                backgroundColor="#0F084B"
-                barStyle="light-content"
-            />
-            <View style={{flex:1}}>
-                <Header
-                    outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
-                    leftComponent={hamburger}
-                    centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:17 }}}
-                    rightComponent={search}
-                />
-                <View style={{flex:3}}>
-                            <ScrollableTabView
-                                initialPage={0}
-                                renderTabBar={() => <ScrollableTabBar />}
-                                tabBarActiveTextColor={"red"}
-                                tabBarUnderlineStyle={{height:2}}
-                                onChangeTab={this.tabChanged}
-                            >
-                                <View tabLabel='Business'>    
-                                    {
-                                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                                }</View>
-                                <View tabLabel='Entertainment'>
-                                    {
-                                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                                }</View>
-                                <View tabLabel='General'>
-                                    {
-                                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                                }</View>
-                                <View tabLabel='Health'>
-                                    {
-                                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                                }</View>
-                                <View tabLabel='Science'>
-                                    {
-                                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                                }</View>
-                                <View tabLabel='Sports'>
-                                    {
-                                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                                }</View>
-                                <View tabLabel='Technology'>
-                                    {
-                                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                                }</View>
-                            </ScrollableTabView>
-                        </View>
+                ref={(ref) => this._drawer = ref}
+                content={drawerMenu}
+                type="overlay"
+                tapToClose={true}
+                styles={drawerStyles}
+                openDrawerOffset={0.5}>
+                <StatusBar
+                    backgroundColor="#0F084B"
+                    barStyle="light-content"/>
+                <View style={{flex:1}}>
+                    <Header
+                        outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
+                        leftComponent={hamburger}
+                        centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:17 }}}
+                        rightComponent={search}/>
+                    <View style={{flex:3}}>
+                            
 
-              
-            </View>
-            <View>
-                <Text style={{alignSelf:'center',fontSize:15}}>Powered by HAH.org</Text>
-            </View>
+
+
+
+
+                        {/*
+                        <ScrollableTabView
+                            initialPage={0}
+                            renderTabBar={() => <ScrollableTabBar />}
+                            tabBarActiveTextColor={"red"}
+                            tabBarUnderlineStyle={{height:2}}
+                            onChangeTab={this.tabChanged}>
+                            <View tabLabel='Home'>
+                            {
+                                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
+                            }
+                            </View>
+                            <View tabLabel='Add Food'>
+                            {
+                                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
+                            }
+                            </View>
+                            <View tabLabel='Add Exercise'>
+                            {
+                                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
+                            }</View>
+                            <View tabLabel='Food Notes'>
+                            {
+                                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
+                            }</View>
+                            <View tabLabel='Exercise Notes'>
+                            {
+                                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
+                            }</View>
+                        </ScrollableTabView>
+                        */}
+                    </View>
+                    <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-evenly"}}>
+                        <Icon
+                            name='home'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.showHome}>
+                        </Icon>
+                        <Icon
+                            name='search'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.showAddFood}>
+                        </Icon>
+                        <Icon
+                            name='search'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.showAddFoodNotes}>
+                        </Icon>
+                        <Icon
+                            name='search'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.showAddExercise}>
+                        </Icon>
+                        <Icon
+                            name='search'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.showAddExerciseNotes}>
+                        </Icon>
+                    </View>
+                </View>
+                {/*
+                    <View>
+                        <Text style={{alignSelf:'center',fontSize:15}}>Powered by HAH.org</Text>
+                    </View>
+                */}
         </Drawer>
-
         );
     }
 }
