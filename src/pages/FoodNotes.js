@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import {View, TextInput,ToastAndroid, FlatList, Image, TouchableHighlight, ScrollView} from 'react-native'
-import { Header, Icon , SearchBar } from 'react-native-elements'
+import { Header, Icon , SearchBar, Card, Button} from 'react-native-elements';
+import Communications from 'react-native-communications';
 import {Actions} from 'react-native-router-flux'
 
 class FoodNotes extends Component {

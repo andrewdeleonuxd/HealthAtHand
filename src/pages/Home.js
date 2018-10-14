@@ -303,7 +303,7 @@ class Home extends Component {
                         </ScrollableTabView>
                         */}
                     </View>
-                    <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-evenly"}}>
+                    <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around"}}>
                         <Icon
                             name='home'
                             type='font-awesome'
