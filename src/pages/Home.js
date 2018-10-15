@@ -17,7 +17,7 @@ const drawerStyles = {
     drawer: { backgroundColor:"#0F084B"}
 }
 
-const MAX_CALS = 2000;
+maxCal = 2000;
 
 const categories = {
         0:"home",
@@ -32,7 +32,8 @@ class Home extends Component {
     state = {
         isMoving: false,
         pointsDelta: 0,
-        dailyCal: 325
+        dailyCal: 325, 
+        maxCal: 2000
     };
 
     componentWillMount= () => {
@@ -211,7 +212,7 @@ class Home extends Component {
                 type='MaterialIcons'
                 underlayColor={"transparent"}
                 color={colors.secondary}
-                marginTop={50}
+                //marginTop={50}
                 //onPress = {this.showAddFood}
             />
         )
@@ -268,7 +269,7 @@ class Home extends Component {
                 </TouchableHighlight>
             </View>
         )
-        const fill = this.state.dailyCal / MAX_CALS * 100;
+        const fill = this.state.dailyCal / maxCal * 100;
         return(
             <Drawer
                 ref={(ref) => this._drawer = ref}
@@ -280,12 +281,13 @@ class Home extends Component {
                 <StatusBar
                     backgroundColor={colors.primary}
                     barStyle="light-content"/>
-                <View style={{flex:1}}>
+                <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                     <Header
                         outerContainerStyles={{height:60,backgroundColor:colors.primary, opacity:0.8}}
-                        leftComponent={hamburger}
-                        centerComponent={{ text: 'Dashboard', style: { color: colors.secondary,fontSize:17 }}}
-                        rightComponent={add}/>
+                        //leftComponent={hamburger}
+                        centerComponent={{ text: 'Dashboard', style: styles.headerCenter}}
+                        //rightComponent={add}
+                        />
                     <View style={{flex:3, alignItems: 'center'}}>
 
 
@@ -300,10 +302,10 @@ class Home extends Component {
                                 {(fill) => (
                                     <View>
                                         <Text style={styles.points}>
-                                            { Math.round(MAX_CALS * fill / 100) }
+                                            { Math.round(maxCal * fill / 100) }
                                         </Text>
                                         <Text style = {styles.pointsLabel}>
-                                            /{ MAX_CALS } Calories
+                                            /{ maxCal } Calories
                                         </Text>
                                     </View>
                                 )}
@@ -363,28 +365,40 @@ class Home extends Component {
                             type='font-awesome'
                             color={colors.secondary}
                             onPress={this.showHome}
-                            size={30}>
+                            size={30}
+                            underlayColor='transparent'>
                         </Icon>
                         <Icon
                             name='food'
                             type='material-community'
-                            color={colors.secondary}
+                            color={colors.brandwhite}
                             onPress={this.showAddFood}
-                            size={30}>
+                            size={30}
+                            underlayColor='transparent'>
                         </Icon>
                         <Icon
                             name='run'
                             type='material-community'
-                            color={colors.secondary}
+                            color={colors.brandwhite}
                             onPress={this.showAddExercise}
-                            size={30}>
+                            size={30}
+                            underlayColor='transparent'>
                         </Icon>
                         <Icon
                             name='message'
                             type='Entypo'
-                            color={colors.secondary}
+                            color={colors.brandwhite}
                             onPress={this.showAddExercise}
-                            size={30}>
+                            size={30}
+                            underlayColor='transparent'>
+                        </Icon>
+                        <Icon
+                            name='settings'
+                            type='Feather'
+                            color={colors.brandwhite}
+                            onPress={this.showAddExercise}
+                            size={30}
+                            underlayColor='transparent'>
                         </Icon>
                     </View>
                 </View>
@@ -406,7 +420,7 @@ const styles = StyleSheet.create({
       //left: 56,
       //width: 90,
       textAlign: 'center',
-      color: colors.secondary.color,
+      color: colors.secondary,
       fontSize: 20,
       fontWeight: "100",
       justifyContent: 'center',
@@ -415,8 +429,9 @@ const styles = StyleSheet.create({
     points:{
         backgroundColor: 'transparent',
         textAlign: 'center',
-        color: '#7591af',
-        fontSize: 50,
+        color: colors.primary,
+        opacity: 0.8,
+        fontSize: 70,
         fontWeight: "100",
         justifyContent: 'center',
         alignItems: 'center'
@@ -429,7 +444,7 @@ const styles = StyleSheet.create({
         //width: 90,
         textAlign: 'center',
         color: '#7591af',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: "100",
         justifyContent: 'center',
         alignItems: 'center'
@@ -448,6 +463,12 @@ const styles = StyleSheet.create({
     },
     pointsDeltaActive: {
       color: '#fff',
+    },
+    headerCenter: {
+        color: colors.brandwhite,
+        fontSize:30, 
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed'
     }
 });
 

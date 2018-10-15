@@ -9,6 +9,10 @@ export const colors  = {
   primary: '#121350',
   secondary: '#EBBE4B',
   tertiary: '#D3D3D3',
+  brandwhite: '#fff',
+  brandblue: '#121350',
+  brandgold: '#EBBE4B',
+  brandgrey: '#D3D3D3'
 }
 
 export const padding = {
