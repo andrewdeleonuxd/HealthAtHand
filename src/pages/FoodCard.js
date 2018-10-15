@@ -18,8 +18,15 @@ class FoodCard extends Component {
     }
 
     componentWillMount = () => {
-        this.setState({showLoader:true})
+        if(this.props.firstTime){
+            this.setState({showLoader:true});
+        } else{
+            this.setState({showLoader:true,servingSize:this.props.item.servingSize,Calories:this.props.item.Calories});
+        }
     }
+
+
+    
 
     componentDidMount = () => {
         console.log("inside componentDidMount :",this.props);
@@ -33,7 +40,8 @@ class FoodCard extends Component {
             this.setState({
                 showLoader:false,
                 itemName: this.props.item.itemName,
-                Calories:5
+                Calories:this.props.item.Calories,
+                servingSize:this.props.item.servingSize
             })
         }
       
@@ -47,7 +55,9 @@ class FoodCard extends Component {
         let obj={
             id:this.state.itemName,
             itemName:this.state.itemName,
-            totalCalories:this.state.Calories*this.state.servingSize
+            totalCalories:this.state.Calories*this.state.servingSize,
+            Calories:this.state.Calories,
+            servingSize:this.state.servingSize
         }
         
 

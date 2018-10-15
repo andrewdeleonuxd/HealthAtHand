@@ -55,8 +55,8 @@ class ExerciseNotes extends Component {
                     onChangeText={(text) => this.setState({text})}
                     multiline = {true}
                     textAlignVertical= 'top'
-                    maxLength = {400000}
-                    numberOfLines = {20000}
+                    maxLength = {400}
+                    numberOfLines = {200}
                     disableFullscreenUI ={true}
                     />
                     

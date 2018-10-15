@@ -8,6 +8,8 @@ import { Header, SearchBar } from 'react-native-elements'
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import Drawer from 'react-native-drawer'
 import Tabs from 'react-native-tabs';
+import Communications from 'react-native-communications';
+
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
 
 import {colors} from '../styles/base.js'
@@ -26,40 +28,16 @@ const categories = {
     }
 
 class Home extends Component {
-/*
+
     state = {
-        
-        newsData:[],
-        language:'en',
-        totalResults:0,
-        render:[],
-        page:1,
-        categorySelected:0,
-        count:0,
-        headlines:(<ActivityIndicator size="large" color="#0000ff" />),
-        showLoader:true,
-        searchText:"",
-        showSearch:false,
-        q:[],
-        height:Dimensions.get('window').height
-    }
-/*
-    componentWillMount = () => {
-        let category = categories[this.state.categorySelected];
-        const request = new Request('https://newsapi.org/v2/everything?pageSize=5&sortBy=publishedAt&page=' + this.state.page++ + '&q=' + category,headers)
-        this.formData(request)
-        
+
     }
 
-    showSearchbar = () => {
-        
-        if(this.state.showSearch == true)
-            this.setState({showSearch:false})
-        else
-            this.setState({showSearch:true})
-           
+    componentWillMount = () => {
+       
     }
-*/
+
+
     closeControlPanel = () => {
         this._drawer.close()
     };
@@ -101,97 +79,27 @@ class Home extends Component {
         Actions.push("exercisenotes");
         
     }
-/*
-    tabChanged = (tab) => {
-        this.state = {
-            categorySelected:tab.i,
-            page:1
-        }
-        this.setState({showLoader:true,newsData:[],q:[]})
-        let category = categories[tab.i];
-        const request = new Request('https://newsapi.org/v2/everything?pageSize=10&sortBy=publishedAt&page=' + this.state.page++ + '&q=' + category,headers)
-        this.formData(request);
+
+    textMessage = () => {
+        Communications.text("4123205413");
+        Actions.home();
     }
 
-    formData = (request)  => {
-        fetch(request)
-            .then((response) => response.json())
-            .then((responseJson)=>{
-                if(responseJson.status == 'ok') {
-                    responseJson.articles.map((item) => {
-                        this.state.q.push(item.title);
-                        this.state.newsData.push(item);
-                    })
-                   
-                       
-                        this.setState({newsData:this.state.newsData, showLoader:false})
-                        this.tabview(this.state.newsData);
-                    
-                } else {
-                    console.log("no data");
-                }
-            })
-            .catch((error) => {
-                console.log("error", error);
-            })
+    showChart = () => {
+       
     }
 
-    tabview = (data) => {
-        this.setState({
-             render:(
-                 <View>
-                 <FlatList
-                     data={data}
-                     renderItem={({item}) => (
-                         <TouchableHighlight
-                             onPress={() => this.onPress(item)}
-                             underLayColor="transparent"
-                         >
-                             <View>
-                                 <Card
-                                     title={item.title}
-                                     image={{uri: item.urlToImage || 'http://www.blackbell.com.ng/ui/images/img_not_found.jpg'}}
-                                     imageProps={{resizeMode: "contain"}}
-                                     titleNumberOfLines={2}
-                                 >
-                                     <Text style={{
-                                         color: "maroon",
-                                         fontSize: 15,
-                                         marginBottom: 5
-                                     }}>{item.author}({item.source.name})</Text>
-                                 </Card>
-                             </View>
-                         </TouchableHighlight>
-                     )}
-                 />
-                 </View>)
-         })
-
- }
-
-    tabChanged = (tab) => {
-        this.state = {
-            categorySelected: tab.i,
-            page:1
-        }
-        if(tab == "Add Food")
-        {
-            this.showAddFood();
-        }
-        else{
-            this.showAddFoodNotes();
-        }
+    showNotification = () => {
+       
     }
-    */
 
     render(){
         let search = (
             <Icon
-                name='search'
+                name='notifications-active'
                 underlayColor={"transparent"}
                 color="white"
-                marginTop={50}
-                onPress = {this.showSearchbar}
+                onPress = {this.showNotification}
             />
         )
 
@@ -266,42 +174,6 @@ class Home extends Component {
                         rightComponent={search}/>
                     <View style={{flex:3}}>
                             
-
-
-
-
-
-                        {/*
-                        <ScrollableTabView
-                            initialPage={0}
-                            renderTabBar={() => <ScrollableTabBar />}
-                            tabBarActiveTextColor={"red"}
-                            tabBarUnderlineStyle={{height:2}}
-                            onChangeTab={this.tabChanged}>
-                            <View tabLabel='Home'>
-                            {
-                                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                            }
-                            </View>
-                            <View tabLabel='Add Food'>
-                            {
-                                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                            }
-                            </View>
-                            <View tabLabel='Add Exercise'>
-                            {
-                                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                            }</View>
-                            <View tabLabel='Food Notes'>
-                            {
-                                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                            }</View>
-                            <View tabLabel='Exercise Notes'>
-                            {
-                                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> : this.state.render
-                            }</View>
-                        </ScrollableTabView>
-                        */}
                     </View>
                     <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around"}}>
                         <Icon
@@ -311,36 +183,31 @@ class Home extends Component {
                             onPress={this.showHome}>
                         </Icon>
                         <Icon
-                            name='search'
+                            name='cutlery' 
                             type='font-awesome'
                             color={colors.secondary}
                             onPress={this.showAddFood}>
                         </Icon>
                         <Icon
-                            name='search'
-                            type='font-awesome'
-                            color={colors.secondary}
-                            onPress={this.showAddFoodNotes}>
-                        </Icon>
-                        <Icon
-                            name='search'
+                            name='chain' 
                             type='font-awesome'
                             color={colors.secondary}
                             onPress={this.showAddExercise}>
                         </Icon>
                         <Icon
-                            name='search'
+                            name='bar-chart-o'
                             type='font-awesome'
                             color={colors.secondary}
-                            onPress={this.showAddExerciseNotes}>
+                            onPress={this.showChart}>
+                        </Icon>
+                        <Icon
+                            name='phone-square'
+                            type='font-awesome'
+                            color={colors.secondary}
+                            onPress={this.textMessage}>
                         </Icon>
                     </View>
                 </View>
-                {/*
-                    <View>
-                        <Text style={{alignSelf:'center',fontSize:15}}>Powered by HAH.org</Text>
-                    </View>
-                */}
         </Drawer>
         );
     }

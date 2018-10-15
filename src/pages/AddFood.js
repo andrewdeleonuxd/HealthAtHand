@@ -164,7 +164,7 @@ class AddFood extends Component {
                                     backgroundColor="blue"
                                     onPress={this.Complete}
                                     />
-                            </Card>
+                            </Card> 
                        </View>  
                     }   
 
