@@ -96,7 +96,7 @@ class AddExercise extends Component {
     render = () => {
         let addExercise = (
             <Icon
-                name='dumbbell'
+                name='add-box'
                 underlayColor={"transparent"}
                 color="white"
                 marginTop={50}

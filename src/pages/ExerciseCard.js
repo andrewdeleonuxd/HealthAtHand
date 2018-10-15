@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View, TextInput, Picker, ActivityIndicator, Text, ScrollView} from 'react-native';
+import {View, TextInput, Picker, ActivityIndicator, Text, ScrollView,Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import { Card, Header, Icon, Button } from 'react-native-elements';
@@ -81,6 +81,23 @@ class ExerciseCard extends Component {
         this.setState({ itemName:text });   
       }
 
+    onDurationChange = (text) =>{
+        let newText = '';
+        let numbers = '0123456789';
+
+        for (var i=0; i < text.length; i++) {
+            if(numbers.indexOf(text[i]) > -1 ) {
+                newText = newText + text[i];
+            }
+            else {
+                // your call back function
+                Alert.alert("please enter numbers only");
+            }
+        }
+        this.setState({ duration:newText });   
+      }
+        
+
     render = () => {
 
         let check = (
@@ -153,32 +170,24 @@ class ExerciseCard extends Component {
                                             <Picker.Item label="5" value="5" />
                                         </Picker>    
                                  </Card>
-                                 <Card flexDirection='column'>
-                                        <Text style={{
+                              
+
+                                <Card style={{ flex:1,height:40,flexDirection: 'row',alignItems: 'center'}}>
+                                <Text style={{
                                             color: "maroon",
                                             fontSize: 15,
-                                            marginBottom: 5,
-                                        }}>duration</Text>
-                                        <Picker selectedValue={this.state.duration} onValueChange={value => this.setState({duration:value})} >
-                                            <Picker.Item label="1" value="1" />
-                                            <Picker.Item label="2" value="2" />
-                                            <Picker.Item label="3" value="3" />
-                                            <Picker.Item label="4" value="4" />
-                                            <Picker.Item label="5" value="5" />
-                                        </Picker>    
-                                 </Card>
-
-                                <Card>
-                                <TextInput style={{
-                                         color: "maroon",
-                                         fontSize: 15,
-                                         marginBottom: 5
-                                     }} 
+                                            flex:1
+                                        }}>Duration</Text>
+                                <TextInput  
                                      keyboardType = 'numeric'
-                                     placeholder="name"
-                                     label="Exercise"
-                                     onChangeText={this.onExerciseChange.bind(this)}
-                                     value={this.state.itemName}
+                                     style={{  color:'#000',
+                                     paddingRight:5,
+                                     paddingLeft:5,
+                                     fontSize:15,
+                                     lineHeight:23,
+                                     flex:2}}
+                                     onChangeText={this.onDurationChange.bind(this)}
+                                     value={this.state.duration}
                                      />
                 
                                 </Card>
