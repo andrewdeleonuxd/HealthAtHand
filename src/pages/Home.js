@@ -207,11 +207,12 @@ class Home extends Component {
     render(){
         let add = (
             <Icon
-                name='add'
+                name='notifications'
+                type='MaterialIcons'
                 underlayColor={"transparent"}
                 color={colors.secondary}
                 marginTop={50}
-                onPress = {this.showAddFood}
+                //onPress = {this.showAddFood}
             />
         )
 
@@ -277,24 +278,24 @@ class Home extends Component {
                 styles={drawerStyles}
                 openDrawerOffset={0.5}>
                 <StatusBar
-                    backgroundColor="#0F084B"
+                    backgroundColor={colors.primary}
                     barStyle="light-content"/>
                 <View style={{flex:1}}>
                     <Header
-                        outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
+                        outerContainerStyles={{height:60,backgroundColor:colors.primary, opacity:0.8}}
                         leftComponent={hamburger}
-                        centerComponent={{ text: 'Home', style: { color: colors.secondary,fontSize:17 }}}
+                        centerComponent={{ text: 'Dashboard', style: { color: colors.secondary,fontSize:17 }}}
                         rightComponent={add}/>
                     <View style={{flex:3, alignItems: 'center'}}>
-                        
-                        
+
+
                         <View style = {{flex:3, justifyContent: "center"}}>
                             <AnimatedCircularProgress
                                 size={250}
                                 width={30}
                                 fill={fill}
                                 tintColor={colors.secondary}
-                                backgroundColor={colors.primary}
+                                backgroundColor={colors.tertiary}
                                 >
                                 {(fill) => (
                                     <View>
@@ -356,7 +357,7 @@ class Home extends Component {
                         </ScrollableTabView>
                         */}
                     </View>
-                    <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-evenly"}}>
+                    <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-evenly", opacity: 0.8}}>
                         <Icon
                             name='tachometer'
                             type='font-awesome'
@@ -374,6 +375,13 @@ class Home extends Component {
                         <Icon
                             name='run'
                             type='material-community'
+                            color={colors.secondary}
+                            onPress={this.showAddExercise}
+                            size={30}>
+                        </Icon>
+                        <Icon
+                            name='message'
+                            type='Entypo'
                             color={colors.secondary}
                             onPress={this.showAddExercise}
                             size={30}>
