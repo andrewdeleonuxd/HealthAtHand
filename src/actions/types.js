@@ -19,3 +19,7 @@ export const EMPLOYEES_SAVE_SUCCESS = 'employees_save_success';
 export const FOOD_ADDED = 'food_added';
 
 export const FOOD_INITIALIZE = 'food_initialize';
+
+export const EXERCISE_ADDED = 'exercise_added';
+
+export const EXERCISE_INITIALIZE = 'exercise_initialize';

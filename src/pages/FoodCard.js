@@ -90,7 +90,7 @@ class FoodCard extends Component {
                 name='ios-arrow-back'
                 type='ionicon'
                 color={"white"}
-                onPress = {this.Add}
+                onPress = {this.goBack}
                 underlayColor={"transparent"}
             />
         )

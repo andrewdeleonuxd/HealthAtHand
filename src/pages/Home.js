@@ -5,8 +5,8 @@ import ScrollableTabView, {ScrollableTabBar, } from 'react-native-scrollable-tab
 
 import {employeeCreate} from '../actions';
 import { Header, SearchBar } from 'react-native-elements'
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
-import Drawer from 'react-native-drawer'
+import { Card, ListItem, Button, Icon } from 'react-native-elements';
+import Drawer from 'react-native-drawer';
 import Tabs from 'react-native-tabs';
 import Communications from 'react-native-communications';
 
@@ -23,8 +23,8 @@ const categories = {
         0:"home",
         1:"add food",
         2:"add exercise",
-        3:"food notes",
-        4:"exercise notes"
+        3:"calender",
+        4:"text message"
     }
 
 class Home extends Component {
@@ -63,9 +63,9 @@ class Home extends Component {
     }
 
     showAddExercise = () => {
-        /*
-        Actions.push("publications",{type:"publications"});
-        */
+        
+        Actions.push("addexercise",{type:"addexercise"});
+        
     }
 
     showAddFoodNotes = () => {
