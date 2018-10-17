@@ -11,7 +11,7 @@ import Tabs from 'react-native-tabs';
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
 import { CircularProgress, AnimatedCircularProgress } from 'react-native-circular-progress';
 
-import {colors} from '../styles/base.js'
+import {colors, margin, padding} from '../styles/base.js'
 
 const drawerStyles = {
     drawer: { backgroundColor:"#0F084B"}
@@ -34,7 +34,7 @@ class Home extends Component {
         pointsDelta: 0,
         dailyCal: 325, 
         maxCal: 2000
-    };
+    }
 
     componentWillMount= () => {
         /*
@@ -213,7 +213,7 @@ class Home extends Component {
                 underlayColor={"transparent"}
                 color={colors.secondary}
                 //marginTop={50}
-                //onPress = {this.showAddFood}
+                onPress = {this.showAddFood}
             />
         )
 
@@ -288,10 +288,17 @@ class Home extends Component {
                         centerComponent={{ text: 'Dashboard', style: styles.headerCenter}}
                         //rightComponent={add}
                         />
-                    <View style={{flex:3, alignItems: 'center'}}>
+                    <View style={{flex:1}}>
+                        <Card
+                            containerStyle = {{margin: margin.lg, elevation: 10}}
+                            wrapperStyle = {{alignItems: 'flex-start', marginLeft: 0}}>
+                            <Text
+                                style = {styles.calorieHeader}>
+                                Today's Calorie Intake
+                            </Text>
+                        </Card>
 
-
-                        <View style = {{flex:3, justifyContent: "center"}}>
+                        <View style = {{flex:5, alignItems: 'center', justifyContent: "center", marginTop: margin.lg}}>
                             <AnimatedCircularProgress
                                 size={250}
                                 width={30}
@@ -319,7 +326,17 @@ class Home extends Component {
                             </Text>
                         </View>
                         */}
-                        <View style = {{flex:2}}>
+                        <View style = {{flex:4}}>
+                            <Card
+                                containerStyle = {{flex: 1, margin: margin.lg, elevation: 10}}
+                                wrapperStyle = {{alignItems: 'flex-start', flexDirection: 'column', marginLeft: 0}}>
+                                <Text
+                                    style = {styles.calorieHeader}>
+                                    Today's Report
+                                </Text>
+                            </Card>
+                        </View>
+                        <View style = {{flex:.5}}>
                         </View>
                         
 
@@ -413,6 +430,13 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
+    calorieHeader: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.primary
+    },
     pointsHeader: {
       backgroundColor: 'transparent',
       //position: 'absolute',
