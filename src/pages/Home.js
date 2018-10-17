@@ -32,8 +32,7 @@ class Home extends Component {
     state = {
         isMoving: false,
         pointsDelta: 0,
-        dailyCal: 325, 
-        maxCal: 2000
+        dailyCal: 325
     }
 
     componentWillMount= () => {
