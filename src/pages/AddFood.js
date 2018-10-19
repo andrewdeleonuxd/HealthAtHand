@@ -54,11 +54,12 @@ class AddFood extends Component {
    
         data.push(
             <TouchableHighlight
+            key={i}
             onPress = {() => this.onPress(item)}
             underLayColor="transparent"
             >
-            <View>   
-            <Card key={i} flexDirection='row'>
+            <View >   
+            <Card flexDirection='row'>
                 <Text style={{
                     color: "maroon",
                     fontSize: 15,
@@ -75,11 +76,7 @@ class AddFood extends Component {
             </TouchableHighlight>
         )
     })
-
-     
-
-    
-           
+       
     } 
 
 

@@ -14,7 +14,7 @@ class SearchFood extends Component {
     state = {
         newsData:[],
         totalResults:0,
-        page:1,
+        page:1, 
         count:0,
         showLoader:true,
         searchText:""
@@ -82,10 +82,11 @@ class SearchFood extends Component {
                 <View style={{flex:2}}>
                     {
                         (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
-                        <FlatList
+                        <FlatList       
                             data={this.state.newsData}
                             renderItem={({item}) => (
                                 <TouchableHighlight
+                                
                                     onPress = {() => this.onPress(item)}
                                     underLayColor="transparent"
                                 >

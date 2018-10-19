@@ -11,13 +11,15 @@ import Tabs from 'react-native-tabs';
 import Communications from 'react-native-communications';
 
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
+import { CircularProgress, AnimatedCircularProgress } from 'react-native-circular-progress';
 
-import {colors} from '../styles/base.js'
+import {colors, margin, padding} from '../styles/base.js'
 
 const drawerStyles = {
     drawer: { backgroundColor:"#0F084B"}
 }
 
+maxCal = 2000;
 
 const categories = {
         0:"home",
@@ -30,11 +32,24 @@ const categories = {
 class Home extends Component {
 
     state = {
-
+        isMoving: false,
+        pointsDelta: 0,
+        dailyCal: 325
+    
     }
 
     componentWillMount = () => {
-       
+         /*
+        fetch('placeholder', {
+            method: 'GET'
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.setState({
+                dailyCal: responseJson
+            })
+        })
+        */
     }
 
 
@@ -96,9 +111,10 @@ class Home extends Component {
     render(){
         let search = (
             <Icon
-                name='notifications-active'
+                name='notifications'
+                type='MaterialIcons'
                 underlayColor={"transparent"}
-                color="white"
+                color={colors.secondary}
                 onPress = {this.showNotification}
             />
         )
@@ -107,7 +123,7 @@ class Home extends Component {
             <Icon
                 name='menu'
                 underlayColor={"transparent"}
-                color="white"
+                color={colors.secondary}
                 onPress = {this.openControlPanel}
             />
         )
@@ -155,6 +171,7 @@ class Home extends Component {
                 </TouchableHighlight>
             </View>
         )
+        const fill = this.state.dailyCal / maxCal * 100;
         return(
             <Drawer
                 ref={(ref) => this._drawer = ref}
@@ -164,47 +181,109 @@ class Home extends Component {
                 styles={drawerStyles}
                 openDrawerOffset={0.5}>
                 <StatusBar
-                    backgroundColor="#0F084B"
+                    backgroundColor={colors.primary}
                     barStyle="light-content"/>
-                <View style={{flex:1}}>
+                <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                     <Header
-                        outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
-                        leftComponent={hamburger}
-                        centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:17 }}}
-                        rightComponent={search}/>
-                    <View style={{flex:3}}>
-                            
+                        outerContainerStyles={{height:60,backgroundColor:colors.primary, opacity:0.8}}
+                       // leftComponent={hamburger}
+                        centerComponent={{ text: 'Dashboard', style: styles.headerCenter}}
+                      //  rightComponent={search}
+                    />
+                   
+                      <View style={{flex:1}}>
+                        <Card
+                            containerStyle = {{margin: margin.lg, elevation: 10}}
+                            wrapperStyle = {{alignItems: 'flex-start', marginLeft: 0}}>
+                            <Text
+                                style = {styles.calorieHeader}>
+                                Today's Calorie Intake
+                            </Text>
+                        </Card>
+
+                        <View style = {{flex:5, alignItems: 'center', justifyContent: "center", marginTop: margin.lg}}>
+                            <AnimatedCircularProgress
+                                size={250}
+                                width={30}
+                                fill={fill}
+                                tintColor={colors.secondary}
+                                backgroundColor={colors.tertiary}
+                                >
+                                {(fill) => (
+                                    <View>
+                                        <Text style={styles.points}>
+                                            { Math.round(maxCal * fill / 100) }
+                                        </Text>
+                                        <Text style = {styles.pointsLabel}>
+                                            /{ maxCal } Calories
+                                        </Text>
+                                    </View>
+                                )}
+                            </AnimatedCircularProgress>
+                        </View>
+                        {/*
+                        <View
+                            style = {{flex: 1, justifyContent: "center"}}>
+                            <Text style={styles.pointsHeader}>
+                                Total Calories: { Math.round(MAX_POINTS * fill / 100) } / {MAX_POINTS}
+                            </Text>
+                        </View>
+                        */}
+                        <View style = {{flex:4}}>
+                            <Card
+                                containerStyle = {{flex: 1, margin: margin.lg, elevation: 10}}
+                                wrapperStyle = {{alignItems: 'flex-start', flexDirection: 'column', marginLeft: 0}}>
+                                <Text
+                                    style = {styles.calorieHeader}>
+                                    Today's Report
+                                </Text>
+                            </Card>
+                        </View>
+                        <View style = {{flex:.5}}>
+                        </View>
+                        
                     </View>
-                    <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around"}}>
+
+                    <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around", opacity: 0.8}}>
                         <Icon
-                            name='home'
+                            name='tachometer'
                             type='font-awesome'
                             color={colors.secondary}
-                            onPress={this.showHome}>
+                            onPress={this.showHome}
+                            size={30}
+                            underlayColor='transparent'>
                         </Icon>
                         <Icon
-                            name='cutlery' 
-                            type='font-awesome'
-                            color={colors.secondary}
-                            onPress={this.showAddFood}>
+                            name='food'
+                            type='material-community'
+                            color={colors.brandwhite}
+                            onPress={this.showAddFood}
+                            size={30}
+                            underlayColor='transparent'>
                         </Icon>
                         <Icon
-                            name='chain' 
-                            type='font-awesome'
-                            color={colors.secondary}
-                            onPress={this.showAddExercise}>
+                            name='run'
+                            type='material-community'
+                            color={colors.brandwhite}
+                            onPress={this.showAddExercise}
+                            size={30}
+                            underlayColor='transparent'>
                         </Icon>
                         <Icon
-                            name='bar-chart-o'
-                            type='font-awesome'
-                            color={colors.secondary}
-                            onPress={this.showChart}>
+                            name='message'
+                            type='Entypo'
+                            color={colors.brandwhite}
+                            onPress={this.textMessage}
+                            size={30}
+                            underlayColor='transparent'> 
                         </Icon>
                         <Icon
-                            name='phone-square'
-                            type='font-awesome'
-                            color={colors.secondary}
-                            onPress={this.textMessage}>
+                            name='settings'
+                            type='Feather'
+                            color={colors.brandwhite}
+                            onPress={this.showAddExercise}
+                            size={30}
+                            underlayColor='transparent'>
                         </Icon>
                     </View>
                 </View>
@@ -213,6 +292,72 @@ class Home extends Component {
     }
 }
 
+const styles = StyleSheet.create({
+    calorieHeader: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.primary
+    },
+    pointsHeader: {
+      backgroundColor: 'transparent',
+      //position: 'absolute',
+      //top: 72,
+      //left: 56,
+      //width: 90,
+      textAlign: 'center',
+      color: colors.secondary,
+      fontSize: 20,
+      fontWeight: "100",
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    points:{
+        backgroundColor: 'transparent',
+        textAlign: 'center',
+        color: colors.primary,
+        opacity: 0.8,
+        fontSize: 70,
+        fontWeight: "100",
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    pointsLabel:{
+        backgroundColor: 'transparent',
+        //position: 'absolute',
+        //top: 72,
+        //left: 56,
+        //width: 90,
+        textAlign: 'center',
+        color: '#7591af',
+        fontSize: 14,
+        fontWeight: "100",
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    container: {
+      flex: 1,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: '#152d44',
+      padding: 50
+    },
+    pointsDelta: {
+      color: '#4c6479',
+      fontSize: 50,
+      fontWeight: "100"
+    },
+    pointsDeltaActive: {
+      color: '#fff',
+    },
+    headerCenter: {
+        color: colors.brandwhite,
+        fontSize:30, 
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed'
+    }
+});
 
 
 const mapStateToProps = (state) => {

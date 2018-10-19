@@ -120,7 +120,7 @@ const styles = {
         flex: 2,
         backgroundColor: colors.primary,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
         //headerText: "Health on Hand"
     },
     loginInput:{

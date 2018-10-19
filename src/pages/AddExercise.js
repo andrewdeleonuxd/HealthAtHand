@@ -55,12 +55,13 @@ class AddExercise extends Component {
        array.map((item, i) => {
    
         data.push(
-            <TouchableHighlight
+            <TouchableHighlight 
+            key={i}
             onPress = {() => this.onPress(item)}
             underLayColor="transparent"
             >
-            <View>   
-            <Card key={i} flexDirection='row'>
+            <View >   
+            <Card  flexDirection='row'>
                 <Text style={{
                     color: "maroon",
                     fontSize: 15,
