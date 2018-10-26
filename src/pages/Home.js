@@ -1,17 +1,15 @@
 import React , {Component } from 'react';
 import {connect} from 'react-redux';
-import {Actions} from 'react-native-router-flux'
-import ScrollableTabView, {ScrollableTabBar, } from 'react-native-scrollable-tab-view';
+import {Actions} from 'react-native-router-flux';
 
 import {employeeCreate} from '../actions';
-import { Header, SearchBar } from 'react-native-elements'
+import { Header, SearchBar } from 'react-native-elements';
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
 import Drawer from 'react-native-drawer';
-import Tabs from 'react-native-tabs';
 import Communications from 'react-native-communications';
 
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
-import { CircularProgress, AnimatedCircularProgress } from 'react-native-circular-progress';
+//import { CircularProgress, AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import {colors, margin, padding} from '../styles/base.js'
 
@@ -93,6 +91,10 @@ class Home extends Component {
         
         Actions.push("exercisenotes");
         
+    }
+
+    showReport = () => {
+        Actions.push("report");
     }
 
     textMessage = () => {
@@ -200,7 +202,7 @@ class Home extends Component {
                                 Today's Calorie Intake
                             </Text>
                         </Card>
-
+                        {/*
                         <View style = {{flex:5, alignItems: 'center', justifyContent: "center", marginTop: margin.lg}}>
                             <AnimatedCircularProgress
                                 size={250}
@@ -221,7 +223,7 @@ class Home extends Component {
                                 )}
                             </AnimatedCircularProgress>
                         </View>
-                        {/*
+                        
                         <View
                             style = {{flex: 1, justifyContent: "center"}}>
                             <Text style={styles.pointsHeader}>
@@ -273,7 +275,7 @@ class Home extends Component {
                             name='message'
                             type='Entypo'
                             color={colors.brandwhite}
-                            onPress={this.textMessage}
+                            onPress={this.showReport}
                             size={30}
                             underlayColor='transparent'> 
                         </Icon>

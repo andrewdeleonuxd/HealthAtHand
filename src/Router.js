@@ -13,6 +13,7 @@ import ExerciseCard from './pages/ExerciseCard';
 import Home from './pages/Home';
 import FoodNotes from './pages/FoodNotes';
 import ExerciseNotes from './pages/ExerciseNotes';
+import Report from './pages/Report'
 
 
 const RouterComponent = () => {
@@ -29,7 +30,7 @@ const RouterComponent = () => {
                 <Scene key="exercisecard" component = {ExerciseCard} hideNavBar={true} />
                 <Scene key="foodnotes" component = {FoodNotes} hideNavBar={true} />
                 <Scene key="exercisenotes" component = {ExerciseNotes} hideNavBar={true} />
-
+                <Scene key="report" component = {Report} hideNavBar={true} />
             </Scene>
  
         </Router>    
