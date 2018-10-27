@@ -73,13 +73,13 @@ class Home extends Component {
 
     showAddFood = () => {
         
-        Actions.push("addfood",{type:"addfood"});
+        Actions.push("meallog",{type:"addfood"});
         
     }
 
     showAddExercise = () => {
         
-        Actions.push("addexercise",{type:"addexercise"});
+        Actions.push("exerciselog",{type:"addexercise"});
         
     }
 

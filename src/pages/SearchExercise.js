@@ -10,7 +10,7 @@ const headers = { method: 'GET',
         "X-Api-Key":"b7c0872a3fb042d9baa45eb7b6385faa"
     }};
 
-class SearchFood extends Component {
+class SearchExercise extends Component {
     state = {
         newsData:[],
         totalResults:0,
@@ -56,7 +56,7 @@ class SearchFood extends Component {
     }
 
     onPress = (item) => {
-        Actions.push("foodcard",{item:item,firstTime:true,mealNo:this.props.mealNo,onBack:this.props.onBack});
+        Actions.push("exercisecard",{item:item,firstTime:true,exerciseNo:this.props.exerciseNo,onBack:this.props.onBack});
     }
 
     submitEditing = () => {
@@ -110,4 +110,4 @@ class SearchFood extends Component {
         )
     }
 }
-export default SearchFood;
+export default SearchExercise;

@@ -32,10 +32,10 @@ class ExerciseCard extends Component {
     
 
     componentDidMount = () => {
-        console.log("inside componentDidMount :",this.props);
         if(this.props.firstTime){
             this.setState({
                 showLoader:false,
+                itemName:this.props.item.author 
             })
         } else{
             this.setState({
@@ -49,8 +49,11 @@ class ExerciseCard extends Component {
       
     }
 
+
+
     goBack = () => {
-        Actions.addexercise();
+      //  Actions.addexercise();
+        Actions.push("addexercise", {item:this.props.onBack});
     } 
 
     Add = () => {
@@ -63,7 +66,8 @@ class ExerciseCard extends Component {
         }
         
 
-        this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime);
+        this.props.addexercise(obj,this.props.exerciseNo,this.props.exerciseArray,this.props.firstTime);
+
     }
 
     onRemove = () => {
@@ -74,12 +78,9 @@ class ExerciseCard extends Component {
             intensity:this.state.intensity,
             duration:this.state.duration
         }
-        this.props.removeexercise(obj,this.props.exerciseArray);
-    }
+        this.props.removeexercise(obj,this.props.exerciseNo,this.props.exerciseArray);
 
-    onExerciseChange = (text) =>{
-        this.setState({ itemName:text });   
-      }
+    }
 
     onDurationChange = (text) =>{
         let newText = '';
@@ -134,16 +135,11 @@ class ExerciseCard extends Component {
                     <ScrollView style={{backgroundColor:"white", height:"100%"}}>
 
                                 <Card>
-                                     <TextInput style={{
+                                       <Text style={{
                                          color: "maroon",
                                          fontSize: 15,
                                          marginBottom: 5
-                                     }} 
-                                     placeholder="name"
-                                     label="Exercise"
-                                     onChangeText={this.onExerciseChange.bind(this)}
-                                     value={this.state.itemName}
-                                     />
+                                     }}>{this.state.itemName}</Text>
                                  </Card>
                                  <Card flexDirection='column'>
                                         <Text style={{
@@ -220,3 +216,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {addexercise,removeexercise}) (ExerciseCard);
+
+

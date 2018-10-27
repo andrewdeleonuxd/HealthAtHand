@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux'
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addfood,removefood} from '../actions';
+import _ from 'lodash';
 
 
 //import NumberInput from 'rn-number-input';
@@ -18,6 +19,7 @@ class FoodCard extends Component {
     }
 
     componentWillMount = () => {
+        
         if(this.props.firstTime){
             this.setState({showLoader:true});
         } else{
@@ -29,7 +31,6 @@ class FoodCard extends Component {
     
 
     componentDidMount = () => {
-        console.log("inside componentDidMount :",this.props);
         if(this.props.firstTime){
             this.setState({
                 showLoader:false,
@@ -48,7 +49,8 @@ class FoodCard extends Component {
     }
 
     goBack = () => {
-        Actions.addfood();
+
+        Actions.push("addfood", {item:this.props.onBack});
     } 
 
     Add = () => {
@@ -61,7 +63,7 @@ class FoodCard extends Component {
         }
         
 
-        this.props.addfood(obj,this.props.foodArray,this.props.firstTime);
+        this.props.addfood(obj,this.props.mealNo,this.props.foodArray,this.props.firstTime);
     }
 
     onRemove = () => {
@@ -70,7 +72,7 @@ class FoodCard extends Component {
             itemName:this.state.itemName,
             totalCalories:this.state.Calories*this.state.servingSize
         }
-        this.props.removefood(obj,this.props.foodArray);
+        this.props.removefood(obj,this.props.mealNo,this.props.foodArray);
     }
 
     render = () => {

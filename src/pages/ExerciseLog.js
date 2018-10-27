@@ -4,31 +4,25 @@ import {View, Text, FlatList, Image, TouchableHighlight} from 'react-native'
 import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {initializeExercise } from '../actions';
+import {initializeExercise} from '../actions';
 
 var data=[];
 
-class AddExercise extends Component {
+class ExerciseLog extends Component {
 
     state = {
-        showLoader:true,
-        showSearch:false, 
-        searchText:""
+
     }
 
     componentWillMount = () => {
-       /*
-        if(this.props.item.exercise.length == 0){
+
+        if(this.props.exerciseArray.length == 0){
          //   this.props.initializeExercise(obj,this.props.exerciseArray);
             this.loadData(this.props); 
 
         } else{
             this.loadData(this.props);
         }
-
-        */
-        this.loadData(this.props); 
-
 
     }
 
@@ -38,13 +32,12 @@ class AddExercise extends Component {
     } 
 
     onPress = (item) => {
-        Actions.push("exercisecard",{item:item,firstTime:false,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
+        Actions.push("addexercise",{item:item});
     }
 
     loadData = (props) => {
        data=[]; 
-       let array=this.props.item.exercise;
-       if(array.length>0){
+       let array=props.exerciseArray;
        array.map((item, i) => {
    
         data.push(
@@ -57,55 +50,42 @@ class AddExercise extends Component {
             <Card flexDirection='row'>
                 <Text style={{
                     color: "maroon",
-                    fontSize: 15,
+                    fontSize: 15, 
                     marginBottom: 5,
-                }}>{item.itemName}</Text>
-                <Text style={{
-                    color: "maroon",
-                    fontSize: 15,
-                    marginBottom: 5,
-                    marginLeft:"60%"
-                }}>{item.duration}</Text> 
+                }}>Exercise {item.exerciseNo}</Text>
             </Card>
             </View>
             </TouchableHighlight>
         )
     })
-}
        
     } 
 
 
     goBack = () => {
-        Actions.exerciselog();
+        Actions.home();
     }
 
-    searchTextChanged = (text) => {
-        this.setState({searchText:text})
+
+    addExercisePg = () => {
+          let newObj={'exerciseNo':this.props.exerciseArray.length + 1,'exercise':[]};   
+        Actions.push("addexercise",{type:"addexercise",item:newObj});
+                       
     }
 
-    showSearchbar = () => {
-        
-        if(this.state.showSearch == true)
-            this.setState({showSearch:false})
-        else 
-            this.setState({showSearch:true})
-            
-    }
 
-    submitEditing = () => {
-        Actions.push("searchexercise",{text:this.state.searchText,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
+    Complete = () => {
+        Actions.home();
     }
-
 
     render = () => {
-        let search = (
+        let addExercise = (
             <Icon
                 name='add-box'
                 underlayColor={"transparent"}
                 color="white"
                 marginTop={50}
-                onPress = {this.showSearchbar}
+                onPress = {this.addExercisePg}
             />
     )
 
@@ -124,25 +104,30 @@ class AddExercise extends Component {
                 <Header
                     outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
                     leftComponent={backButton}
-                    centerComponent={{ text: 'Exercise '+this.props.item.exerciseNo, style: { color: '#fff',fontSize:17 }}}
-                    rightComponent={search}
+                    centerComponent={{ text: 'Exercise Log', style: { color: '#fff',fontSize:17 }}}
+                    rightComponent={addExercise}
                 />
+             
                     {
-                            (this.state.showSearch == true) ? <SearchBar
-                                lightTheme
-                                round
-                                onChangeText = {this.searchTextChanged}
-                                onSubmitEditing = {this.submitEditing}
-                                placeholder='Type Here...' /> : <View></View>
-                    }
-
-                    {
-                    (data.length == 0) ? <View></View> : 
+                    (this.props.exerciseArray.length == 0) ? <View></View> : 
                     <View style={{backgroundColor:"white", height:"75%"}}>
 
                               {data}
                                  
                     </View>   
+                    } 
+
+                    {
+                    (this.props.exerciseArray.length == 0) ? <View></View> : 
+                      <View style={{backgroundColor:"white"}}>  
+                      <Card>
+                                    <Button
+                                    title='Complete Diary' 
+                                    backgroundColor="blue"
+                                    onPress={this.Complete}
+                                    />
+                            </Card> 
+                       </View>  
                     }   
 
             </View>
@@ -150,7 +135,7 @@ class AddExercise extends Component {
     }
 }
 
-//export default AddFood;
+
 
 const mapStateToProps = state => {
     return {
@@ -158,5 +143,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, {initializeExercise}) (AddExercise);
-
+export default connect(mapStateToProps, {initializeExercise}) (ExerciseLog);
