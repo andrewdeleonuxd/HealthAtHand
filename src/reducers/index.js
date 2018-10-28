@@ -9,4 +9,8 @@ export default combineReducers({
  exercise: ExerciseReducer,   
  food: FoodReducer,   
  auth: AuthReducer
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> vishal

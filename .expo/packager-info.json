@@ -3,7 +3,13 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
+<<<<<<< HEAD
   "expoServerNgrokUrl": "https://yg-dhb.vishalkarande-9.hah.exp.direct",
   "packagerNgrokUrl": "https://packager.yg-dhb.vishalkarande-9.hah.exp.direct",
   "ngrokPid": 14324
+=======
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
+>>>>>>> vishal
 }

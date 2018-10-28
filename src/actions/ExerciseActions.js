@@ -134,4 +134,8 @@ export const addexercise = (exerciseobj,exerciseNo,ogExerciseObj,firstTime) => {
 
  };
 
+<<<<<<< HEAD
  
+=======
+ 
+>>>>>>> vishal

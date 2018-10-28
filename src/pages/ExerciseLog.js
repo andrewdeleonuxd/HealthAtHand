@@ -143,4 +143,8 @@ const mapStateToProps = state => {
     };
 };
 
+<<<<<<< HEAD
 export default connect(mapStateToProps, {initializeExercise}) (ExerciseLog);
+=======
+export default connect(mapStateToProps, {initializeExercise}) (ExerciseLog);
+>>>>>>> vishal

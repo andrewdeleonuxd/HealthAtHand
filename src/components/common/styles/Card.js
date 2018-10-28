@@ -16,4 +16,8 @@ const styles={
     }
 };
 
+<<<<<<< HEAD
 export default (styles);
+=======
+export default (styles);
+>>>>>>> vishal
