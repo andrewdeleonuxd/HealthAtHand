@@ -9,14 +9,14 @@ import { VictoryLine, VictoryLabel, VictoryChart, VictoryAxis, VictoryVoronoiCon
 
 import {colors, margin, padding, fonts} from '../styles/base.js'
 
-const sample = [
+const userWeights = [
 	{ date: "10/1", weight: 360 },
 	{ date: "10/2", weight: 355 },
 	{ date: "10/3", weight: 340 },
 	{ date: "10/4", weight: 320 },
 	{ date: "10/5", weight: 290 },
 	{ date: "10/6", weight: 274 },
-
+	{ date: "10/7", weight: 238 }
 ];
 
 
@@ -38,7 +38,7 @@ class ReportCard extends React.Component {
 	}
   
 	showAddExerciseNotes = () => {
-	Actions.push("exercisenotes");
+		Actions.push("exercisenotes");
 	}
   
 	showReport = () => {
@@ -54,13 +54,12 @@ class ReportCard extends React.Component {
 					centerComponent={{ text: 'Report Card', style: styles.headerCenter}}
 					//rightComponent={search}
 				/>
-				
 				<View style={styles.chartView}>
 					<VictoryChart
 						domainPadding={{x: 30, y: 30}}
-						containerComponent = {<VictoryVoronoiContainer 
+						containerComponent = {<VictoryVoronoiContainer
 							labels={(d) => (d.y)}/>}>
-						<VictoryAxis tickValues={[1, 2, 3, 4, 5, 6]} tickFormat={sample.date}/>
+						<VictoryAxis tickValues={[1, 2, 3, 4, 5, 6]} tickFormat={userWeights.date}/>
 						<VictoryLine
 							style={{
 								data:{
@@ -68,19 +67,25 @@ class ReportCard extends React.Component {
 								},
 								labels: {
 									fontSize: fonts.md,
-									fill: (sample) => sample.date === '10/6' ? colors.brandgold : colors.brandlbue
+									fill: (d) => d.date == userWeights[userWeights.length - 1].date ? colors.brandgold : colors.brandblue
 								}
 							}}
 							
 							labelComponent={<VictoryLabel renderInPortal dy={-10}/>}
 							interpolation="natural"
-							data={sample}
-							labels={(sample) => sample.weight}
+							data={userWeights}
+							labels={(d) => d.weight}
 							
 							x="date"
 							y="weight"
 						/>
 					</VictoryChart>
+					<Text style={styles.weightText}>
+							Weight (lbs)
+					</Text>
+				</View>
+				<View style={styles.weightInput}>
+					
 				</View>
 				<View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around", opacity: 0.8}}>
 					<Icon
@@ -131,9 +136,7 @@ class ReportCard extends React.Component {
 
 const styles = StyleSheet.create({
 	chartView: {
-		flex: 1,
-		flexDirection: 'row',
-		backgroundColor: '#fff',
+		backgroundColor: colors.brandwhite,
 		alignItems: 'center',
 	},
 	pointsHeader: {
@@ -185,6 +188,19 @@ const styles = StyleSheet.create({
 		fontSize:30, 
 		fontWeight: 'bold',
 		fontFamily: 'sans-serif-condensed'
+	},
+	weightInput: {
+		flex: 1,
+		backgroundColor: colors.brandwhite,
+		alignItems: 'center'
+	},
+	weightText: {
+		textAlign: 'center',
+        color: colors.primary,
+        opacity: 0.8,
+        fontSize: fonts.lg,
+        fontWeight: "100",
+        justifyContent: 'center'
 	}
 });
 
