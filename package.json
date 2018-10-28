@@ -1,47 +1,48 @@
 {
   "name": "hah",
-  "version": "0.0.1",
+  "main": "src/App.js",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject"
   },
   "dependencies": {
-    "firebase": "^4.6.2",
+    "async": "^2.6.1",
+    "expo": "^30.0.1",
+    "firebase": "^5.5.2",
     "fs": "0.0.1-security",
+    "google-translate-api": "^2.3.0",
     "lodash": "^4.17.11",
-    "react-addons-pure-render-mixin": "^15.5.0",
+    "native-base": "^2.8.0",
+    "react": "^16.3.1",
+    "react-addons-pure-render-mixin": "^15.6.2",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+    "react-native-circular-progress": "^1.0.1",
     "react-native-communications": "^2.2.1",
+    "react-native-drawer": "^2.5.0",
+    "react-native-elements": "^0.19.1",
+    "react-native-modal-dropdown": "^0.6.2",
+    "react-native-numberpicker": "0.0.5",
+    "react-native-numeric-input": "1.5.0",
+    "react-native-router-flux": "^4.0.5",
+    "react-native-scrollable-tab-view": "^0.8.0",
+    "react-native-searchbar": "^1.15.0",
+    "react-native-svg": "^7.0.3",
+    "react-native-tabs": "^1.0.9",
+    "react-native-vector-icons": "^5.0.0",
+    "react-navigation": "^2.17.0",
     "react-redux": "^5.0.7",
-    "react-static-container": "^1.0.1",
+    "react-static-container": "^1.0.2",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "react-navigation":"2.17.0",
-    "native-base":"^2.4.4",
-    "yarn": "^1.9.4",
-    "async": "^2.6.0",
-    "google-translate-api": "^2.3.0",
-    "react": "16.0.0",
-    "react-native": "0.51.0",
-    "react-native-drawer": "^2.5.0",
-    "react-native-elements": "^0.19.0",
-    "react-native-modal-dropdown": "^0.6.0",
-    "react-native-router-flux": "^4.0.0-beta.27",
-    "react-native-scrollable-tab-view": "^0.8.0",
-    "react-native-searchbar": "^1.14.0",
-    "react-native-tabs": "^1.0.9",
-    "react-native-vector-icons": "^4.5.0",
-    "react-native-numberpicker": "0.0.5"
+    "yarn": "^1.10.1"
   },
   "devDependencies": {
-    "babel-jest": "23.4.2",
-    "babel-preset-react-native": "2.1.0",
-    "jest": "23.5.0",
-    "react-test-renderer": "16.4.1"
-  },
-  "jest": {
-    "preset": "react-native"
+    "babel-jest": "^23.6.0",
+    "babel-preset-react-native": "^4.0.1",
+    "jest": "^23.6.0",
+    "react-test-renderer": "^16.5.2"
   }
 }
-
-

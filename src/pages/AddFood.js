@@ -11,54 +11,61 @@ var data=[];
 class AddFood extends Component {
 
     state = {
-        publicationsData:[],
-        count:0,
         showLoader:true,
-        showSearch:false,
+        showSearch:false, 
         searchText:"", 
-
+        mealNo:""
     }
 
     componentWillMount = () => {
 
+        /*
         let obj={
             id:"mango",
             itemName:"mango",
             totalCalories:25
         }
-
-        if(this.props.foodArray.length == 0){
-            this.props.initializefood(obj,this.props.foodArray);
+        
+       
+        if(this.props.item.food.length == 0){
+         //   this.props.initializefood(obj,this.props.foodArray);
             this.loadData(this.props); 
 
         } else{
             this.loadData(this.props);
         }
 
+        */
+        this.loadData(this.props); 
+
+
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
+      //  alert("inside componentWillReceiveProps")
         console.log("componentWillReceiveProps ");
         this.loadData(nextProps)
     } 
 
     onPress = (item) => {
-        Actions.push("foodcard",{item:item,firstTime:false});
+        Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.item.mealNo,onBack:this.props.item});
     }
 
     loadData = (props) => {
        data=[]; 
-       let array=props.foodArray;
+       let array=this.props.item.food;
+       if(array.length>0){
        array.map((item, i) => {
    
         data.push(
             <TouchableHighlight
+            key={i}
             onPress = {() => this.onPress(item)}
             underLayColor="transparent"
             >
-            <View>   
-            <Card key={i} flexDirection='row'>
+            <View >   
+            <Card flexDirection='row'>
                 <Text style={{
                     color: "maroon",
                     fontSize: 15,
@@ -75,16 +82,13 @@ class AddFood extends Component {
             </TouchableHighlight>
         )
     })
-
-     
-
-    
-           
+}
+       
     } 
 
 
     goBack = () => {
-        Actions.home();
+        Actions.meallog();
     }
 
     searchTextChanged = (text) => {
@@ -95,23 +99,20 @@ class AddFood extends Component {
         
         if(this.state.showSearch == true)
             this.setState({showSearch:false})
-        else
+        else 
             this.setState({showSearch:true})
             
     }
 
     submitEditing = () => {
-        Actions.push("searchfood",{text:this.state.searchText});
+        Actions.push("searchfood",{text:this.state.searchText,mealNo:this.props.item.mealNo,onBack:this.props.item});
     }
 
-    Complete = () => {
-        Actions.home();
-    }
 
     render = () => {
         let search = (
             <Icon
-                name='search'
+                name='add-box'
                 underlayColor={"transparent"}
                 color="white"
                 marginTop={50}
@@ -134,7 +135,7 @@ class AddFood extends Component {
                 <Header
                     outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
                     leftComponent={backButton}
-                    centerComponent={{ text: 'Add Food', style: { color: '#fff',fontSize:17 }}}
+                    centerComponent={{ text: 'Meal '+this.props.item.mealNo, style: { color: '#fff',fontSize:17 }}}
                     rightComponent={search}
                 />
                     {
@@ -147,25 +148,12 @@ class AddFood extends Component {
                     }
 
                     {
-                    (this.props.foodArray.length == 0) ? <View></View> : 
+                    (data.length == 0) ? <View></View> : 
                     <View style={{backgroundColor:"white", height:"75%"}}>
 
                               {data}
                                  
                     </View>   
-                    } 
-
-                    {
-                    (this.props.foodArray.length == 0) ? <View></View> : 
-                      <View style={{backgroundColor:"white"}}>  
-                      <Card>
-                                    <Button
-                                    title='Complete Diary' 
-                                    backgroundColor="blue"
-                                    onPress={this.Complete}
-                                    />
-                            </Card>
-                       </View>  
                     }   
 
             </View>

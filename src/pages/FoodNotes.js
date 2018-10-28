@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {View, TextInput,ToastAndroid, FlatList, Image, TouchableHighlight, ScrollView} from 'react-native'
-import { Header, Icon , SearchBar } from 'react-native-elements'
+import { Header, Icon , SearchBar, Card, Button} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux'
 
 class FoodNotes extends Component {
@@ -16,6 +16,8 @@ class FoodNotes extends Component {
         ToastAndroid.show('done',3000,"TOP")
         Actions.home();
     }
+
+
 
 
     render = () => {
@@ -55,12 +57,14 @@ class FoodNotes extends Component {
                     onChangeText={(text) => this.setState({text})}
                     multiline = {true}
                     textAlignVertical= 'top'
-                    maxLength = {400000}
-                    numberOfLines = {20000}
+                    maxLength = {400}
+                    numberOfLines = {200}
                     disableFullscreenUI ={true}
                     />
                     
                 </ScrollView>
+
+                
                    
             </View>
         )
