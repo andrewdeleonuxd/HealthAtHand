@@ -16,6 +16,7 @@ import FoodCard from './pages/FoodCard';
 import ExerciseCard from './pages/ExerciseCard';
 
 import Home from './pages/Home';
+import Email from './pages/Email';
 import FoodNotes from './pages/FoodNotes';
 import ExerciseNotes from './pages/ExerciseNotes';
 
@@ -35,6 +36,7 @@ const RouterComponent = () => {
                 <Scene key="searchexercise" component = {SearchExercise} hideNavBar={true} />
                 <Scene key="foodcard" component = {FoodCard} hideNavBar={true} />
                 <Scene key="exercisecard" component = {ExerciseCard} hideNavBar={true} />
+                <Scene key="email" component = {Email} hideNavBar={true} />
                 <Scene key="foodnotes" component = {FoodNotes} hideNavBar={true} />
                 <Scene key="exercisenotes" component = {ExerciseNotes} hideNavBar={true} />
 

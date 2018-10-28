@@ -95,9 +95,11 @@ class Home extends Component {
         
     }
 
-    textMessage = () => {
-        Communications.text("4123205413");
-        Actions.home();
+    email = () => {
+       // Communications.text("4123205413");
+       // Communications.email(to, cc, bcc, subject, body)
+    //   Communications.email(['abcd@gmail.com'],null,null,'update','Hello');
+         Actions.push("email");
     }
 
     showChart = () => {
@@ -270,10 +272,10 @@ class Home extends Component {
                             underlayColor='transparent'>
                         </Icon>
                         <Icon
-                            name='message'
+                            name='mail'
                             type='Entypo'
                             color={colors.brandwhite}
-                            onPress={this.textMessage}
+                            onPress={this.email}
                             size={30}
                             underlayColor='transparent'> 
                         </Icon>
