@@ -21,9 +21,11 @@ class AddExercise extends Component {
         if(this.props.item.exercise.length == 0){
          //   this.props.initializeExercise(obj,this.props.exerciseArray);
             this.loadData(this.props); 
+
         } else{
             this.loadData(this.props);
         }
+
         */
         this.loadData(this.props); 
 
@@ -157,3 +159,4 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {initializeExercise}) (AddExercise);
+

@@ -216,3 +216,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {addexercise,removeexercise}) (ExerciseCard);
+
+

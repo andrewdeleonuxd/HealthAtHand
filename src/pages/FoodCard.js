@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux'
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addfood,removefood} from '../actions';
+import _ from 'lodash';
 
 
 //import NumberInput from 'rn-number-input';
@@ -18,11 +19,18 @@ class FoodCard extends Component {
     }
 
     componentWillMount = () => {
-        this.setState({showLoader:true})
+        
+        if(this.props.firstTime){
+            this.setState({showLoader:true});
+        } else{
+            this.setState({showLoader:true,servingSize:this.props.item.servingSize,Calories:this.props.item.Calories});
+        }
     }
 
+
+    
+
     componentDidMount = () => {
-        console.log("inside componentDidMount :",this.props);
         if(this.props.firstTime){
             this.setState({
                 showLoader:false,
@@ -33,25 +41,29 @@ class FoodCard extends Component {
             this.setState({
                 showLoader:false,
                 itemName: this.props.item.itemName,
-                Calories:5
+                Calories:this.props.item.Calories,
+                servingSize:this.props.item.servingSize
             })
         }
       
     }
 
     goBack = () => {
-        Actions.addfood();
+
+        Actions.push("addfood", {item:this.props.onBack});
     } 
 
     Add = () => {
         let obj={
             id:this.state.itemName,
             itemName:this.state.itemName,
-            totalCalories:this.state.Calories*this.state.servingSize
+            totalCalories:this.state.Calories*this.state.servingSize,
+            Calories:this.state.Calories,
+            servingSize:this.state.servingSize
         }
         
 
-        this.props.addfood(obj,this.props.foodArray,this.props.firstTime);
+        this.props.addfood(obj,this.props.mealNo,this.props.foodArray,this.props.firstTime);
     }
 
     onRemove = () => {
@@ -60,7 +72,7 @@ class FoodCard extends Component {
             itemName:this.state.itemName,
             totalCalories:this.state.Calories*this.state.servingSize
         }
-        this.props.removefood(obj,this.props.foodArray);
+        this.props.removefood(obj,this.props.mealNo,this.props.foodArray);
     }
 
     render = () => {
@@ -80,7 +92,7 @@ class FoodCard extends Component {
                 name='ios-arrow-back'
                 type='ionicon'
                 color={"white"}
-                onPress = {this.Add}
+                onPress = {this.goBack}
                 underlayColor={"transparent"}
             />
         )
