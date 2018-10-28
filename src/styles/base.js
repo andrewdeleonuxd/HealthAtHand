@@ -33,8 +33,4 @@ export const margin = {
   sm: 12,
   md: 15,
   lg: 18
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> vishal

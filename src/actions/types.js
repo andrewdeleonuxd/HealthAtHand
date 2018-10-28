@@ -22,8 +22,4 @@ export const FOOD_INITIALIZE = 'food_initialize';
 
 export const EXERCISE_ADDED = 'exercise_added';
 
-<<<<<<< HEAD
 export const EXERCISE_INITIALIZE = 'exercise_initialize';
-=======
-export const EXERCISE_INITIALIZE = 'exercise_initialize';
->>>>>>> vishal

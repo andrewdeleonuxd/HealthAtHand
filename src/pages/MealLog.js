@@ -151,8 +151,4 @@ const mapStateToProps = state => {
     };
 };
 
-<<<<<<< HEAD
 export default connect(mapStateToProps, {initializefood}) (MealLog);
-=======
-export default connect(mapStateToProps, {initializefood}) (MealLog);
->>>>>>> vishal
