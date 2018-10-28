@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {View, Text, Picker, ActivityIndicator} from 'react-native';
+import {View, Text, Picker, ActivityIndicator,TextInput} from 'react-native';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux'
 import { Card, Header, Icon, Button } from 'react-native-elements';
@@ -8,12 +8,12 @@ import _ from 'lodash';
 
 
 //import NumberInput from 'rn-number-input';
-
+ 
 class FoodCard extends Component {
 
     state ={
         showLoader:false,
-        servingSize:1,
+        servingSize:"1",
         itemName:"",
         Calories:""
     }
@@ -75,6 +75,22 @@ class FoodCard extends Component {
         this.props.removefood(obj,this.props.mealNo,this.props.foodArray);
     }
 
+    onservingSizeChange = (text) =>{
+        let newText = '';
+        let numbers = '0123456789';
+
+        for (var i=0; i < text.length; i++) {
+            if(numbers.indexOf(text[i]) > -1 ) {
+                newText = newText + text[i];
+            }
+            else {
+                // your call back function
+                Alert.alert("please enter numbers only");
+            }
+        }
+        this.setState({ servingSize:newText });   
+      }
+
     render = () => {
 
         let check = (
@@ -117,25 +133,28 @@ class FoodCard extends Component {
                                          marginBottom: 5
                                      }}>{this.state.itemName}</Text>
                                  </Card>
-                                 <Card flexDirection='column'>
-                                        <Text style={{
+                   
+                                 <Card flexDirection='row'>
+                               
+                                 <Text style={{
                                             color: "maroon",
                                             fontSize: 15,
-                                            marginBottom: 5,
-                                        }}>ServingSize</Text>
-                                       <Picker selectedValue={this.state.servingSize} onValueChange={value => this.setState({servingSize:value})} >
-                                            <Picker.Item label="1" value="1" />
-                                            <Picker.Item label="2" value="2" />
-                                            <Picker.Item label="3" value="3" />
-                                            <Picker.Item label="4" value="4" />
-                                            <Picker.Item label="5" value="5" />
-                                            <Picker.Item label="6" value="6" />
-                                            <Picker.Item label="7" value="7" />
-                                            <Picker.Item label="8" value="8" />
-                                            <Picker.Item label="9" value="9" />
-                                            <Picker.Item label="10" value="10" />
-                                        </Picker>    
-                                 </Card>
+                                            marginBottom: 5
+                                        }}>ServingSize</Text>        
+                                <TextInput  
+                                     keyboardType = 'numeric'
+                                     style={{  color:'maroon',
+                                     paddingRight:5,
+                                     paddingLeft:15,
+                                     fontSize:15,
+                                     lineHeight:23,
+                                     marginLeft:"60%"
+                                     }}
+                                     onChangeText={this.onservingSizeChange.bind(this)}
+                                     value={this.state.servingSize}
+                                     />
+                
+                                </Card>
                                  <Card flexDirection='row'>
                                         <Text style={{
                                             color: "maroon",
@@ -146,7 +165,7 @@ class FoodCard extends Component {
                                             color: "maroon",
                                             fontSize: 15,
                                             marginBottom: 5,
-                                            marginLeft:"73%"
+                                            marginLeft:"72%"
                                         }}>{this.state.Calories}</Text> 
                                  </Card>
                                  <Card flexDirection='row'>
@@ -194,3 +213,25 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {addfood,removefood}) (FoodCard);
+
+/*
+              <Card flexDirection='column'>
+                                        <Text style={{
+                                            color: "maroon",
+                                            fontSize: 15,
+                                            marginBottom: 5,
+                                        }}>ServingSize</Text>
+                                       <Picker selectedValue={this.state.servingSize} onValueChange={value => this.setState({servingSize:value})} >
+                                            <Picker.Item label="1" value="1" />
+                                            <Picker.Item label="2" value="2" />
+                                            <Picker.Item label="3" value="3" />
+                                            <Picker.Item label="4" value="4" />
+                                            <Picker.Item label="5" value="5" />
+                                            <Picker.Item label="6" value="6" />
+                                            <Picker.Item label="7" value="7" />
+                                            <Picker.Item label="8" value="8" />
+                                            <Picker.Item label="9" value="9" />
+                                            <Picker.Item label="10" value="10" />
+                                        </Picker>    
+                                 </Card>
+*/
