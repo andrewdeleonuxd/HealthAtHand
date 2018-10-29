@@ -69,8 +69,8 @@ const HaH_NavBar = (props) => {
                 underlayColor='transparent'>
             </Icon>
             <Icon
-                name='message'
-                type='Entypo'
+                name='clipboard-check'
+                type='material-community'
                 color={colors.brandwhite}
                 onPress={this.showReport}
                 size={30}

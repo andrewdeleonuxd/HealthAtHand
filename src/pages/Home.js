@@ -125,6 +125,17 @@ class Home extends Component {
             />
         )
 
+        let envelope = (
+            <Icon
+                name='mail'
+                type='Entypo'
+                color={colors.brandwhite}
+                onPress={this.email}
+                size={30}
+                underlayColor='transparent'> 
+            </Icon>
+        )
+
         let drawerMenu = (
             <View style={{padding:10, marginTop:20}}>
                 <TouchableHighlight
@@ -181,8 +192,8 @@ class Home extends Component {
                     barStyle="light-content"/>
                 <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                     <HaH_Header 
-                        text = 'Dashboard'/>
-                   
+                        text = 'Dashboard'
+                        right = { envelope }/>
                     <View style={{flex:1, padding: padding.sm}}>
                         <Card
                             containerStyle = {styles.cardContainer}
