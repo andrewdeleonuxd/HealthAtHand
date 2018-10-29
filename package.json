@@ -25,6 +25,7 @@
     "react-native-modal-dropdown": "^0.6.2",
     "react-native-numberpicker": "0.0.5",
     "react-native-numeric-input": "1.5.0",
+    "react-native-progress-circle": "^2.0.1",
     "react-native-router-flux": "^4.0.5",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-searchbar": "^1.15.0",

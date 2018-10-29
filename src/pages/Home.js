@@ -9,7 +9,7 @@ import Drawer from 'react-native-drawer';
 import Communications from 'react-native-communications';
 
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
-//import { CircularProgress, AnimatedCircularProgress } from 'react-native-circular-progress';
+import ProgressCircle from 'react-native-progress-circle'
 
 import {colors, margin, padding} from '../styles/base.js'
 import {HaH_Header, HaH_NavBar} from '../components/common'
@@ -17,8 +17,6 @@ import {HaH_Header, HaH_NavBar} from '../components/common'
 const drawerStyles = {
     drawer: { backgroundColor:"#0F084B"}
 }
-
-maxCal = 2000;
 
 const categories = {
         0:"home",
@@ -33,8 +31,8 @@ class Home extends Component {
     state = {
         isMoving: false,
         pointsDelta: 0,
-        dailyCal: 325
-    
+        dailyCal: 325,
+        maxCal: 2000
     }
 
     componentWillMount = () => {
@@ -61,9 +59,7 @@ class Home extends Component {
     };
 
     onPress = (item) => {
-        
         Actions.push("articleinfo", {item:item});
-        
     }
 
     showHome = () => {
@@ -100,7 +96,7 @@ class Home extends Component {
      //   Communications.email(['abcd@gmail.com'],null,null,'update','Hello');
           Actions.push("email");
      }
-     
+
     showChart = () => {
        
     }
@@ -172,7 +168,6 @@ class Home extends Component {
                 </TouchableHighlight>
             </View>
         )
-        const fill = this.state.dailyCal / maxCal * 100;
         return(
             <Drawer
                 ref={(ref) => this._drawer = ref}
@@ -188,57 +183,40 @@ class Home extends Component {
                     <HaH_Header 
                         text = 'Dashboard'/>
                    
-                    <View style={{flex:1}}>
+                    <View style={{flex:1, padding: padding.sm}}>
                         <Card
-                            containerStyle = {{margin: margin.lg, elevation: 10}}
-                            wrapperStyle = {{alignItems: 'flex-start', marginLeft: 0}}>
+                            containerStyle = {styles.cardContainer}
+                            wrapperStyle = {styles.cardWrapper}>
                             <Text
-                                style = {styles.calorieHeader}>
+                                style = {styles.cardHeader}>
                                 Today's Calorie Intake
                             </Text>
                         </Card>
-                        {/*
-                        <View style = {{flex:5, alignItems: 'center', justifyContent: "center", marginTop: margin.lg}}>
-                            <AnimatedCircularProgress
-                                size={250}
-                                width={30}
-                                fill={fill}
-                                tintColor={colors.secondary}
-                                backgroundColor={colors.tertiary}
-                                >
-                                {(fill) => (
-                                    <View>
-                                        <Text style={styles.points}>
-                                            { Math.round(maxCal * fill / 100) }
-                                        </Text>
-                                        <Text style = {styles.pointsLabel}>
-                                            /{ maxCal } Calories
-                                        </Text>
-                                    </View>
-                                )}
-                            </AnimatedCircularProgress>
-                        </View>
-                        
-                        <View
-                            style = {{flex: 1, justifyContent: "center"}}>
-                            <Text style={styles.pointsHeader}>
-                                Total Calories: { Math.round(MAX_POINTS * fill / 100) } / {MAX_POINTS}
-                            </Text>
-                        </View>
-                        */}
-                        <View style = {{flex:4}}>
-                            <Card
-                                containerStyle = {{flex: 1, margin: margin.lg, elevation: 10}}
-                                wrapperStyle = {{alignItems: 'flex-start', flexDirection: 'column', marginLeft: 0}}>
-                                <Text
-                                    style = {styles.calorieHeader}>
-                                    Today's Report
+                        <View style = {styles.progressView}>
+                            <ProgressCircle
+                                percent={this.state.dailyCal/this.state.maxCal * 100}
+                                radius={125}
+                                borderWidth={30}
+                                color={colors.brandgold}
+                                shadowColor={colors.tertiary}
+                                bgColor='#e9e9ef' >
+                                <Text style={styles.points}>
+                                    { this.state.dailyCal }
                                 </Text>
-                            </Card>
+                                <Text style = {styles.pointsLabel}>
+                                    /{ this.state.maxCal } Calories
+                                </Text>
+                            </ProgressCircle>
                         </View>
-                        <View style = {{flex:.5}}>
-                        </View>
-                        
+
+                        <Card
+                            containerStyle = {styles.cardContainer}
+                            wrapperStyle = {styles.cardWrapper}>
+                            <Text
+                                style = {styles.cardHeader}>
+                                Today's Report
+                            </Text>
+                        </Card>
                     </View>
 
                     <HaH_NavBar/>
@@ -249,25 +227,20 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-    calorieHeader: {
+    cardHeader: {
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'left',
         fontFamily: 'sans-serif-condensed', 
         color: colors.primary
     },
-    pointsHeader: {
-      backgroundColor: 'transparent',
-      //position: 'absolute',
-      //top: 72,
-      //left: 56,
-      //width: 90,
-      textAlign: 'center',
-      color: colors.secondary,
-      fontSize: 20,
-      fontWeight: "100",
-      justifyContent: 'center',
-      alignItems: 'center'
+    cardContainer: {
+        elevation: 7,
+        borderRadius: 10
+    },
+    cardWrapper: {
+        alignItems: 'flex-start',
+        marginLeft: 0
     },
     points:{
         backgroundColor: 'transparent',
@@ -281,10 +254,6 @@ const styles = StyleSheet.create({
     },
     pointsLabel:{
         backgroundColor: 'transparent',
-        //position: 'absolute',
-        //top: 72,
-        //left: 56,
-        //width: 90,
         textAlign: 'center',
         color: '#7591af',
         fontSize: 14,
@@ -292,20 +261,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    container: {
-      flex: 1,
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      backgroundColor: '#152d44',
-      padding: 50
-    },
-    pointsDelta: {
-      color: '#4c6479',
-      fontSize: 50,
-      fontWeight: "100"
-    },
-    pointsDeltaActive: {
-      color: '#fff',
+    progressView :{
+        alignItems: 'center',
+        justifyContent: "center",
+        padding: padding.md
     }
 });
 
