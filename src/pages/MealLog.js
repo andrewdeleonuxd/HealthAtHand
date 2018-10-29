@@ -64,13 +64,7 @@ class MealLog extends Component {
                             containerStyle = {{margin: margin.lg, marginBottom: 0, elevation: 10}}
                             wrapperStyle = {{marginLeft: 0}}>
                             <Text style = {styles.foodName}>
-                                {item.itemName}
-                            </Text>
-                            <Text style = {styles.foodCals}>
-                                {item.totalCalories}
-                                <Text style = {{textAlign: 'left', fontSize: 14, marginRight: '10%', color: colors.tertiary}}>
-                                    {" "}cals
-                                </Text>
+                                Meal {item.mealNo}
                             </Text>
                         </Card>
                     </View>
@@ -131,7 +125,7 @@ class MealLog extends Component {
                 } 
                 {
                     (this.props.foodArray.length == 0) ? <View style={{backgroundColor:"white"}}></View> : 
-                    <View style={{backgroundColor:"white"}}>  
+                    <View style={{backgroundColor:"white", padding: padding.sm}}>  
                         <Button 
                             titleStyle = {{fontSize: 100}}//{styles.notesTitle}
                             title = 'Notes'
