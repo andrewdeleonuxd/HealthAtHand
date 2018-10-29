@@ -47,7 +47,7 @@ const HaH_NavBar = (props) => {
             <Icon
                 name='tachometer'
                 type='font-awesome'
-                color={colors.secondary}
+                color={props.selected == 1 ? colors.brandgold: colors.brandwhite}
                 onPress={this.showHome}
                 size={30}
                 underlayColor='transparent'>
@@ -55,7 +55,7 @@ const HaH_NavBar = (props) => {
             <Icon
                 name='food'
                 type='material-community'
-                color={colors.brandwhite}
+                color={props.selected == 2 ? colors.brandgold: colors.brandwhite}
                 onPress={this.showAddFood}
                 size={30}
                 underlayColor='transparent'>
@@ -64,14 +64,14 @@ const HaH_NavBar = (props) => {
                 name='run'
                 type='material-community'
                 color={colors.brandwhite}
-                onPress={this.showAddExercise}
+                color={props.selected == 3 ? colors.brandgold: colors.brandwhite}
                 size={30}
                 underlayColor='transparent'>
             </Icon>
             <Icon
                 name='clipboard-check'
                 type='material-community'
-                color={colors.brandwhite}
+                color={props.selected == 4 ? colors.brandgold: colors.brandwhite}
                 onPress={this.showReport}
                 size={30}
                 underlayColor='transparent'> 
@@ -79,7 +79,7 @@ const HaH_NavBar = (props) => {
             <Icon
                 name='settings'
                 type='Feather'
-                color={colors.brandwhite}
+                color={props.selected == 5 ? colors.brandgold: colors.brandwhite}
                 onPress={this.showAddExercise}
                 size={30}
                 underlayColor='transparent'>

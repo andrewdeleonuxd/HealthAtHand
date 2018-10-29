@@ -230,7 +230,7 @@ class Home extends Component {
                         </Card>
                     </View>
 
-                    <HaH_NavBar/>
+                    <HaH_NavBar selected = {1}/>
                 </View>
         </Drawer>
         );
