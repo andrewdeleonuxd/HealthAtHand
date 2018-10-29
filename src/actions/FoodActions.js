@@ -7,7 +7,7 @@ import {
         FOOD_ADDED
        } from './types';
 
-
+ 
 export const initializefood = (foodobj,foodArray) => {
         return (dispatch) => {  
         foodArray.push(foodobj); 
@@ -96,6 +96,20 @@ export const addfood = (foodobj,mealNo,ogFoodObj,firstTime) => {
     
 }
 };
+
+export const removeMeal = (ogFoodObj,mealNo) => {
+    ogFoodObj = _.reject(ogFoodObj, { 'mealNo': mealNo});
+    return (dispatch) => { 
+     
+        dispatch({
+            type: FOOD_ADDED,
+            payload:ogFoodObj
+        });
+    
+        Actions.meallog();
+        
+     };
+}
 
 export const removefood = (foodobj,mealNo,ogFoodObj) => {
     let meal,foodArray;

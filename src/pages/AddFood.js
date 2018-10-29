@@ -4,7 +4,7 @@ import {View, Text, FlatList, Image, TouchableHighlight, StyleSheet} from 'react
 import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {initializefood } from '../actions';
+import {initializefood, removeMeal } from '../actions';
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
 
@@ -12,10 +12,10 @@ import {colors, margin, padding} from '../styles/base.js'
 
 var data=[];
 
-class AddFood extends Component {
+class AddFood extends Component { 
 
     state = {
-        showLoader:true,
+        showLoader:true, 
         showSearch:false, 
         searchText:"", 
         mealNo:""
@@ -95,6 +95,10 @@ class AddFood extends Component {
         Actions.meallog();
     }
 
+    deleteMeal = () => {
+        this.props.removeMeal(this.props.foodArray,this.props.item.mealNo);
+    }
+
     searchTextChanged = (text) => {
         this.setState({searchText:text})
     }
@@ -137,7 +141,7 @@ class AddFood extends Component {
         return (
             <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
-                    text = 'Meal 1'
+                    text = {'Meal ' + this.props.item.mealNo}
                     right = {search}
                 />
                 {
@@ -160,7 +164,7 @@ class AddFood extends Component {
                             <Button 
                                 titleStyle = {styles.confirmText}
                                 title = 'Delete Meal'
-                                onPress = {this.goBack}
+                                onPress = {this.deleteMeal}
                                 buttonStyle = {styles.deleteButton}
                                 containerStyle = {styles.confirmContainer}
                             />
@@ -254,4 +258,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, {initializefood}) (AddFood);
+export default connect(mapStateToProps, {initializefood, removeMeal}) (AddFood);

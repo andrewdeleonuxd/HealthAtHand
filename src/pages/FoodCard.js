@@ -204,7 +204,7 @@ class FoodCard extends Component {
 
 
 
-//export default FoodCard;
+//export default FoodCard; 
 
 const mapStateToProps = state => {
     return {
@@ -214,3 +214,4 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {addfood,removefood}) (FoodCard);
 
+ 

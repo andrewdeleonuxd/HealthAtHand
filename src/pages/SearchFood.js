@@ -11,13 +11,13 @@ const headers = { method: 'GET',
     }};
 
 class SearchFood extends Component {
-    state = {
+    state = { 
         newsData:[],
         totalResults:0,
         page:1,  
         count:0,
         showLoader:true,
-        searchText:""
+        searchText:"" 
     }
 
     componentWillMount = () => {
