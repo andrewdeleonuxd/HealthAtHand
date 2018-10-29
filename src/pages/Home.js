@@ -1,19 +1,18 @@
 import React , {Component } from 'react';
 import {connect} from 'react-redux';
-import {Actions} from 'react-native-router-flux'
-import ScrollableTabView, {ScrollableTabBar, } from 'react-native-scrollable-tab-view';
+import {Actions} from 'react-native-router-flux';
 
 import {employeeCreate} from '../actions';
-import { Header, SearchBar } from 'react-native-elements'
+import { Header, SearchBar } from 'react-native-elements';
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
 import Drawer from 'react-native-drawer';
-import Tabs from 'react-native-tabs';
 import Communications from 'react-native-communications';
 
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
-import { CircularProgress, AnimatedCircularProgress } from 'react-native-circular-progress';
+//import { CircularProgress, AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import {colors, margin, padding} from '../styles/base.js'
+import {HaH_Header, HaH_NavBar} from '../components/common'
 
 const drawerStyles = {
     drawer: { backgroundColor:"#0F084B"}
@@ -96,12 +95,12 @@ class Home extends Component {
     }
 
     email = () => {
-       // Communications.text("4123205413");
-       // Communications.email(to, cc, bcc, subject, body)
-    //   Communications.email(['abcd@gmail.com'],null,null,'update','Hello');
-         Actions.push("email");
-    }
-
+        // Communications.text("4123205413");
+        // Communications.email(to, cc, bcc, subject, body)
+     //   Communications.email(['abcd@gmail.com'],null,null,'update','Hello');
+          Actions.push("email");
+     }
+     
     showChart = () => {
        
     }
@@ -186,14 +185,10 @@ class Home extends Component {
                     backgroundColor={colors.primary}
                     barStyle="light-content"/>
                 <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
-                    <Header
-                        outerContainerStyles={{height:60,backgroundColor:colors.primary, opacity:0.8}}
-                       // leftComponent={hamburger}
-                        centerComponent={{ text: 'Dashboard', style: styles.headerCenter}}
-                      //  rightComponent={search}
-                    />
+                    <HaH_Header 
+                        text = 'Dashboard'/>
                    
-                      <View style={{flex:1}}>
+                    <View style={{flex:1}}>
                         <Card
                             containerStyle = {{margin: margin.lg, elevation: 10}}
                             wrapperStyle = {{alignItems: 'flex-start', marginLeft: 0}}>
@@ -202,7 +197,7 @@ class Home extends Component {
                                 Today's Calorie Intake
                             </Text>
                         </Card>
-
+                        {/*
                         <View style = {{flex:5, alignItems: 'center', justifyContent: "center", marginTop: margin.lg}}>
                             <AnimatedCircularProgress
                                 size={250}
@@ -223,7 +218,7 @@ class Home extends Component {
                                 )}
                             </AnimatedCircularProgress>
                         </View>
-                        {/*
+                        
                         <View
                             style = {{flex: 1, justifyContent: "center"}}>
                             <Text style={styles.pointsHeader}>
@@ -246,48 +241,7 @@ class Home extends Component {
                         
                     </View>
 
-                    <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around", opacity: 0.8}}>
-                        <Icon
-                            name='tachometer'
-                            type='font-awesome'
-                            color={colors.secondary}
-                            onPress={this.showHome}
-                            size={30}
-                            underlayColor='transparent'>
-                        </Icon>
-                        <Icon
-                            name='food'
-                            type='material-community'
-                            color={colors.brandwhite}
-                            onPress={this.showAddFood}
-                            size={30}
-                            underlayColor='transparent'>
-                        </Icon>
-                        <Icon
-                            name='run'
-                            type='material-community'
-                            color={colors.brandwhite}
-                            onPress={this.showAddExercise}
-                            size={30}
-                            underlayColor='transparent'>
-                        </Icon>
-                        <Icon
-                            name='mail'
-                            type='Entypo'
-                            color={colors.brandwhite}
-                            onPress={this.email}
-                            size={30}
-                            underlayColor='transparent'> 
-                        </Icon>
-                        <Icon
-                            name='settings'
-                            type='Feather'
-                            color={colors.brandwhite}
-                            onPress={this.showAddExercise}
-                            size={30}
-                            underlayColor='transparent'>
-                        </Icon>
-                    </View>
+                    <HaH_NavBar/>
                 </View>
         </Drawer>
         );
@@ -352,12 +306,6 @@ const styles = StyleSheet.create({
     },
     pointsDeltaActive: {
       color: '#fff',
-    },
-    headerCenter: {
-        color: colors.brandwhite,
-        fontSize:30, 
-        fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed'
     }
 });
 
