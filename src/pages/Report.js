@@ -81,11 +81,24 @@ class ReportCard extends React.Component {
 						/>
 					</VictoryChart>
 					<Text style={styles.weightText}>
-							Weight (lbs)
+						Weight (lbs)
 					</Text>
 				</View>
+				<View style={styles.space}/>
 				<View style={styles.weightInput}>
+					<Text style={styles.weightInputText}>
+						Enter Today's Weight:
+					</Text>
 					
+				</View>
+				<View style={styles.confirmView}>
+					<Button 
+						titleStyle = {{fontSize: 100, textAlign: 'center', alignItems: 'center', justifyContent: 'center'}}
+						title = 'Confirm Weight'
+						onPress = {this.addWeight}
+						buttonStyle = {styles.confirmButton}
+						containerStyle = {styles.confirmContainer}
+					/>
 				</View>
 				<View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around", opacity: 0.8}}>
 					<Icon
@@ -189,10 +202,15 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontFamily: 'sans-serif-condensed'
 	},
-	weightInput: {
+	space: {
 		flex: 1,
+		backgroundColor: colors.brandwhite
+	},
+	weightInput: {
 		backgroundColor: colors.brandwhite,
-		alignItems: 'center'
+		paddingBottom: padding.sm,
+		paddingLeft: padding.lg,
+		paddingRight: padding.lg
 	},
 	weightText: {
 		textAlign: 'center',
@@ -201,7 +219,35 @@ const styles = StyleSheet.create({
         fontSize: fonts.lg,
         fontWeight: "100",
         justifyContent: 'center'
-	}
+	},
+	weightInputText: {
+		textAlign: 'left',
+		fontSize: fonts.lg, 
+		fontWeight: 'bold',
+		fontFamily: 'sans-serif-condensed',
+	},
+	confirmButton: {
+		backgroundColor: colors.primary,
+		opacity: 0.8,
+		//marginLeft: '10%',
+		//marginRight: '10%',
+		borderRadius: 5,
+		//borderWidth: 1
+	},
+	confirmContainer: {
+		flexDirection:'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		
+	},
+	confirmView: {
+		backgroundColor: colors.brandwhite,
+		paddingLeft: '10%',
+		paddingRight: '10%',
+		paddingTop: '3%',
+		//paddingBottom: padding.sm,
+        flex: 1
+	},
 });
 
 export default ReportCard;
