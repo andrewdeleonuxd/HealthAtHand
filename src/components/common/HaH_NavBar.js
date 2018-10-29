@@ -35,6 +35,10 @@ const HaH_NavBar = (props) => {
         Actions.push("exercisenotes");
     }
 
+    showReport = () => {
+		Actions.push("report");
+	}
+
     email = () => {
         // Communications.text("4123205413");
         // Communications.email(to, cc, bcc, subject, body)
@@ -65,6 +69,7 @@ const HaH_NavBar = (props) => {
                 type='material-community'
                 color={colors.brandwhite}
                 color={props.selected == 3 ? colors.brandgold: colors.brandwhite}
+                onPress={this.showAddExercise}
                 size={30}
                 underlayColor='transparent'>
             </Icon>
@@ -80,7 +85,7 @@ const HaH_NavBar = (props) => {
                 name='settings'
                 type='Feather'
                 color={props.selected == 5 ? colors.brandgold: colors.brandwhite}
-                onPress={this.showAddExercise}
+                //onPress={this.showAddExercise}
                 size={30}
                 underlayColor='transparent'>
             </Icon>

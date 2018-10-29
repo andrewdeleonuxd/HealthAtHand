@@ -25,7 +25,8 @@ export const padding = {
 export const fonts = {
   sm: 12,
   md: 16,
-  lg: 28,
+  lg: 22,
+  xl: 28,
   primary: 'Cochin'
 }
 
