@@ -95,21 +95,8 @@ class AddFood extends Component {
         Actions.meallog();
     }
 
-    searchTextChanged = (text) => {
-        this.setState({searchText:text})
-    }
-
-    showSearchbar = () => {
-        
-        if(this.state.showSearch == true)
-            this.setState({showSearch:false})
-        else 
-            this.setState({showSearch:true})
-            
-    }
-
-    submitEditing = () => {
-        Actions.push("searchfood",{text:this.state.searchText,mealNo:this.props.item.mealNo,onBack:this.props.item});
+    showFoodSearch = () => {
+        Actions.push("searchfood");
     }
 
 
@@ -120,7 +107,7 @@ class AddFood extends Component {
                 underlayColor={"transparent"}
                 color="white"
                 marginTop={50}
-                onPress = {this.showSearchbar}
+                onPress = {this.showFoodSearch}
             />
     )
 
