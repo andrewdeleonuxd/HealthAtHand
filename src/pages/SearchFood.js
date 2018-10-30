@@ -6,6 +6,7 @@ import { Header, SearchBar } from 'react-native-elements'
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
+import testReponse from '../testdata/searchresult_pizza'
 
 const headers = { method: 'GET',
     headers: {
@@ -14,7 +15,7 @@ const headers = { method: 'GET',
 
 class SearchFood extends Component {
     state = {
-        newsData:[],
+        choices:[],
         totalResults:0,
         page:1,  
         count:0,
@@ -33,25 +34,31 @@ class SearchFood extends Component {
     }
 
     formData = (request)  => {
+        {/*
         fetch(request)
             .then((response) => response.json())
             .then((responseJson)=>{
-                if(responseJson.status == 'ok') {
-                    if(this.state.newsData.length == 0) {
-                        this.state.newsData = responseJson.articles
-                    } else {
-                        responseJson.articles.map((item) => {
-                            this.state.newsData.push(item)
-                        })
-                    }
-                    this.setState({newsData:this.state.newsData, showLoader:false})
+                if(responseJson.common.length > 0) {
+                    this.setState({newsData:this.state.choices, showLoader:false})
                 } else {
+                    this.state.choices = responseJson.common
                     console.log("no data");
                 }
             })
             .catch((error) => {
                 console.log("error", error);
             })
+        */}
+
+        
+        if(testReponse.common.length > 0) {
+            console.log(testReponse.common.length)
+            this.state.choices = testReponse.common
+            this.setState({choices:this.state.choices, showLoader:false})
+        } else {
+            this.state.choices = testReponse.common
+            console.log("no data");
+        }
     }
 
     onPress = (item) => {
@@ -61,7 +68,7 @@ class SearchFood extends Component {
     submitEditing = () => {
         let category = this.state.searchText
         this.setState({newsData:[]})
-        const request = new Request('https://newsapi.org/v2/everything?sortBy=relevancy&language=en&page=' + this.state.page + '&q=' + category,headers)
+        const request = new Request('https://http://sis-teach-01.sis.pitt.edu/projects/healthathand/search/' + category)
         this.formData(request)
     }
 
@@ -93,20 +100,21 @@ class SearchFood extends Component {
                         {
                             (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
                             <FlatList       
-                                data={this.state.newsData}
+                                data={this.state.choices}
                                 renderItem={({item}) => (
                                     <TouchableHighlight
-                                    
                                         onPress = {() => this.onPress(item)}
                                         underLayColor="transparent"
                                     >
                                         <View>
                                             <Card
-                                                title = {item.title}
+                                                title = {item.food_name}
 
                                                 titleNumberOfLines = {2}
                                             >
-                                                <Text style={{color:"maroon",fontSize:15,marginBottom:5}}>{item.author}({item.source.name})</Text>
+                                                <Text style={{color:"maroon",fontSize:15,marginBottom:5}}>
+                                                    {item.serving_qty}({item.serving_unit})
+                                                </Text>
                                             </Card>
                                         </View>
                                     </TouchableHighlight>
