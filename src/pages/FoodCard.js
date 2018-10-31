@@ -5,7 +5,9 @@ import {Actions} from 'react-native-router-flux'
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addfood,removefood} from '../actions';
 import _ from 'lodash';
+import { HaH_Header } from '../components/common';
 
+import {colors, margin, padding} from '../styles/base.js'
 
 //import NumberInput from 'rn-number-input';
  
@@ -14,17 +16,13 @@ class FoodCard extends Component {
     state ={
         showLoader:false,
         servingSize:"1",
+        food:{},
         itemName:"",
         Calories:""
     }
 
     componentWillMount = () => {
-        
-        if(this.props.firstTime){
-            this.setState({showLoader:true});
-        } else{
-            this.setState({showLoader:true,servingSize:this.props.item.servingSize,Calories:this.props.item.Calories});
-        }
+        this.setState({showLoader:true, food: this.props.item});
     }
 
 
@@ -115,12 +113,9 @@ class FoodCard extends Component {
 
 
         return (
-            <View>
-                <Header
-                    outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
-                    leftComponent={backButton}
-                    centerComponent={{ text: "Add Food", style: { color: '#fff',fontSize:15 }}}
-                    rightComponent={check}
+            <View style = {{flex: 1, marginTop: Expo.Constants.statusBarHeight}}>
+                <HaH_Header
+                    text = {this.state.food.food_name}
                 />
                 {
                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff" /> : 

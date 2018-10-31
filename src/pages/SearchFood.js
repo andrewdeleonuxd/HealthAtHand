@@ -10,12 +10,6 @@ import testReponse from '../testdata/searchresult_pizza'
 
 import {colors, margin, padding} from '../styles/base.js'
 
-
-const headers = { method: 'GET',
-    headers: {
-        "X-Api-Key":"b7c0872a3fb042d9baa45eb7b6385faa"
-    }};
-
 class SearchFood extends Component {
     state = {
         choices:[],
@@ -31,9 +25,6 @@ class SearchFood extends Component {
     
     endReached = () => {
         ToastAndroid.show('Loading more data...',3000,"BOTTOM")
-        let category = this.state.text
-        const request = new Request('https://newsapi.org/v2/everything?sortBy=relevancy&language=en&page=' + this.state.page++ + '&q=' + category,headers)
-        this.formData(request)
     }
 
     formData = (request)  => {
@@ -122,7 +113,7 @@ class SearchFood extends Component {
                         onChangeText = {this.searchTextChanged}
                         onSubmitEditing = {this.submitEditing}
                         placeholder='Type Here...' />
-                    <View style={{flex:2}}>
+                    <View style={{flex:1}}>
                         {
                             (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
                             <FlatList       
