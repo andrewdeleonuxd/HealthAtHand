@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, TextInput } from 'react-native';
+import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, TextInput, StyleSheet } from 'react-native';
 import {Actions} from 'react-native-router-flux'
 import ScrollableTabView, {ScrollableTabBar, } from 'react-native-scrollable-tab-view';
 import { Header, SearchBar } from 'react-native-elements'
@@ -7,6 +7,9 @@ import { Card, ListItem, Button, Icon } from 'react-native-elements'
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
 import testReponse from '../testdata/searchresult_pizza'
+
+import {colors, margin, padding} from '../styles/base.js'
+
 
 const headers = { method: 'GET',
     headers: {
@@ -50,15 +53,24 @@ class SearchFood extends Component {
             })
         */}
 
-        
         if(testReponse.common.length > 0) {
-            console.log(testReponse.common.length)
             this.state.choices = testReponse.common
             this.setState({choices:this.state.choices, showLoader:false})
         } else {
             this.state.choices = testReponse.common
             console.log("no data");
         }
+
+        {/*
+        if(testReponse.common.length > 0) {
+            console.log(testReponse.common.length)
+            this.state.choices = testReponse.branded
+            this.setState({choices:this.state.choices, showLoader:false})
+        } else {
+            this.state.choices = testReponse.branded
+            console.log("no data");
+        }
+        */}
     }
 
     onPress = (item) => {
@@ -66,9 +78,9 @@ class SearchFood extends Component {
     }
 
     submitEditing = () => {
-        let category = this.state.searchText
+        let food = this.state.searchText
         this.setState({newsData:[]})
-        const request = new Request('https://http://sis-teach-01.sis.pitt.edu/projects/healthathand/search/' + category)
+        const request = new Request('https://http://sis-teach-01.sis.pitt.edu/projects/healthathand/search/' + food)
         this.formData(request)
     }
 
@@ -81,7 +93,21 @@ class SearchFood extends Component {
             this.setState({showSearch:false})
         else 
             this.setState({showSearch:true})
-            
+    }
+
+    capitalize(str) {
+        return str.replace(/\w\S*/g, function(txt){
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
+
+    findThumbnail(thumb) {
+        if(thumb != null) {
+            return {uri: thumb}
+        }
+        else {
+            return {uri: "https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png"}
+        }
     }
 
     render() {
@@ -106,14 +132,17 @@ class SearchFood extends Component {
                                         onPress = {() => this.onPress(item)}
                                         underLayColor="transparent"
                                     >
-                                        <View>
+                                        <View style = {{paddingTop: 0, marginTop: 0, paddingBottom: 10}}>
+                                            
                                             <Card
-                                                title = {item.food_name}
-
-                                                titleNumberOfLines = {2}
-                                            >
-                                                <Text style={{color:"maroon",fontSize:15,marginBottom:5}}>
-                                                    {item.serving_qty}({item.serving_unit})
+                                                containerStyle = {styles.cardContainer}
+                                                wrapperStyle = {styles.cardWrapper}>
+                                                <Image
+                                                    style={{width: 50, height: 50}}
+                                                    source={this.findThumbnail(item.photo.thumb)}
+                                                />
+                                                <Text style = {styles.cardHeader}>
+                                                    {this.capitalize(item.food_name)}
                                                 </Text>
                                             </Card>
                                         </View>
@@ -132,4 +161,26 @@ class SearchFood extends Component {
         )
     }
 }
+
+styles = StyleSheet.create({
+    cardHeader: {
+        flex: 3,
+        fontSize: 30,
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.primary,
+        textAlign:'center',
+        marginRight: 25,
+        alignSelf: 'center'
+    },
+    cardContainer: {
+        elevation: 7,
+        borderRadius: 10
+    },
+    cardWrapper: {
+        flexDirection: 'row',
+        flex: 1,
+        marginLeft: 0
+    }
+})
 export default SearchFood;
