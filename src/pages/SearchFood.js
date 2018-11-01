@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, TextInput, StyleSheet } from 'react-native';
+import { Text, Image, View, FlatList, TouchableOpacity, ActivityIndicator, ToastAndroid, TextInput, StyleSheet } from 'react-native';
 import {Actions} from 'react-native-router-flux'
 import ScrollableTabView, {ScrollableTabBar, } from 'react-native-scrollable-tab-view';
-import { Header, SearchBar } from 'react-native-elements'
+import { Header, SearchBar, ButtonGroup} from 'react-native-elements'
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
@@ -17,7 +17,8 @@ class SearchFood extends Component {
         page:1,  
         count:0,
         showLoader:false,
-        searchText:""
+        searchText:"",
+        category: 0
     }
     
     componentWillMount = () => {
@@ -35,7 +36,7 @@ class SearchFood extends Component {
                 if(responseJson.common.length > 0) {
                     this.setState({newsData:this.state.choices, showLoader:false})
                 } else {
-                    this.state.choices = responseJson.common
+                    this.state.choices = responseJson
                     console.log("no data");
                 }
             })
@@ -44,6 +45,7 @@ class SearchFood extends Component {
             })
         */}
 
+        
         if(testReponse.common.length > 0) {
             this.state.choices = testReponse.common
             this.setState({choices:this.state.choices, showLoader:false})
@@ -51,9 +53,9 @@ class SearchFood extends Component {
             this.state.choices = testReponse.common
             console.log("no data");
         }
-
+        
         {/*
-        if(testReponse.common.length > 0) {
+        if(testReponse.branded.length > 0) {
             console.log(testReponse.common.length)
             this.state.choices = testReponse.branded
             this.setState({choices:this.state.choices, showLoader:false})
@@ -61,11 +63,12 @@ class SearchFood extends Component {
             this.state.choices = testReponse.branded
             console.log("no data");
         }
+        
         */}
     }
 
     onPress = (item) => {
-        Actions.push("foodcard",{item:item,firstTime:true,mealNo:this.props.mealNo,onBack:this.props.onBack});
+        Actions.push("foodcard",{item:item,flag:{branded},firstTime:true,mealNo:this.props.mealNo,onBack:this.props.onBack});
     }
 
     submitEditing = () => {
@@ -77,13 +80,6 @@ class SearchFood extends Component {
 
     searchTextChanged = (text) => {
         this.setState({searchText:text})
-    }
-
-    showSearchbar = () => {
-        if(this.state.showSearch == true)
-            this.setState({showSearch:false})
-        else 
-            this.setState({showSearch:true})
     }
 
     capitalize(str) {
@@ -101,12 +97,24 @@ class SearchFood extends Component {
         }
     }
 
+    updateCategory = (category) => {
+        this.setState({showLoader: true});
+        (category == 0) ? this.setState({choices: testReponse.common, category, showLoader: false}) : this.setState({choices: testReponse.branded, category, showLoader: false})
+    }
+
     render() {
         return (
             <View style = {{flex: 1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
                     text = 'Add Food'/>
                 <View style={{flex:1,flexDirection: 'column'}}>
+                    <ButtonGroup
+                        selectedBackgroundColor="pink"
+                        onPress={this.updateCategory}
+                        selectedIndex={this.state.category}
+                        buttons={['Common', 'Branded']}
+                        containerStyle={{height: 30}}
+                    />
                     <SearchBar
                         lightTheme
                         round
@@ -116,32 +124,35 @@ class SearchFood extends Component {
                     <View style={{flex:1}}>
                         {
                             (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
-                            <FlatList       
-                                data={this.state.choices}
-                                renderItem={({item}) => (
-                                    <TouchableHighlight
-                                        onPress = {() => this.onPress(item)}
-                                        underLayColor="transparent"
-                                    >
-                                        <View style = {{paddingTop: 0, marginTop: 0, paddingBottom: 10}}>
-                                            
-                                            <Card
-                                                containerStyle = {styles.cardContainer}
-                                                wrapperStyle = {styles.cardWrapper}>
-                                                <Image
-                                                    style={{width: 50, height: 50}}
-                                                    source={this.findThumbnail(item.photo.thumb)}
-                                                />
-                                                <Text style = {styles.cardHeader}>
-                                                    {this.capitalize(item.food_name)}
-                                                </Text>
-                                            </Card>
-                                        </View>
-                                    </TouchableHighlight>
-                                )}
-                                onEndReachedThreshold={0.5}
-                                onEndReached={this.endReached}
-                            />
+                            <View style={{flex:1}}>
+                                
+                                <FlatList
+                                    data={this.state.choices}
+                                    renderItem={({item}) => (
+                                        <TouchableOpacity
+                                            onPress = {() => this.onPress(item)}
+                                            underLayColor="transparent"
+                                        >
+                                            <View style = {{paddingTop: 0, marginTop: 0, paddingBottom: 10}}>
+                                                
+                                                <Card
+                                                    containerStyle = {styles.cardContainer}
+                                                    wrapperStyle = {styles.cardWrapper}>
+                                                    <Image
+                                                        style={{width: 30, height: 30}}
+                                                        source={this.findThumbnail(item.photo.thumb)}
+                                                    />
+                                                    <Text style = {styles.cardHeader}>
+                                                        {this.capitalize(item.food_name)}
+                                                    </Text>
+                                                </Card>
+                                            </View>
+                                        </TouchableOpacity>
+                                    )}
+                                    onEndReachedThreshold={0.5}
+                                    onEndReached={this.endReached}
+                                />
+                            </View>
                         }
                     </View>
                 </View>
@@ -156,7 +167,7 @@ class SearchFood extends Component {
 styles = StyleSheet.create({
     cardHeader: {
         flex: 3,
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: 'bold',
         fontFamily: 'sans-serif-condensed', 
         color: colors.primary,
