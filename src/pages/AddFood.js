@@ -124,7 +124,8 @@ class AddFood extends Component {
         return (
             <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
-                    text = 'Meal 1'
+                    left = {backButton}
+                    text = {'Meal ' + this.state.mealNo}
                     right = {search}
                 />
                 {

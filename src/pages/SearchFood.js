@@ -32,9 +32,8 @@ class SearchFood extends Component{
             .then((response) => response.json())
             .then((responseJson)=>{
                 if(responseJson.common.length > 0) {
-                    this.setState({newsData:this.state.choices, showLoader:false})
+                    this.setState({searchResults: responseJson, choices:responseJson.common, showLoader:false})
                 } else {
-                    this.state.choices = responseJson
                     console.log("no data");
                 }
             })
@@ -44,13 +43,7 @@ class SearchFood extends Component{
         */}
 
         
-        if(testReponse.common.length > 0) {
-            this.state.choices = testReponse.common
-            this.setState({choices:this.state.choices, showLoader:false})
-        } else {
-            this.state.choices = testReponse.common
-            console.log("no data");
-        }
+        this.setState({choices:testReponse.common, showLoader:false})
         
         {/*
         if(testReponse.branded.length > 0) {
@@ -67,7 +60,7 @@ class SearchFood extends Component{
 
     onPress = (item) => {
         Actions.push("foodcard", {
-            item:item,
+            itemName:item.food_name,
             category:this.state.category,
             firstTime:true,
             mealNo:this.props.mealNo,
@@ -77,7 +70,7 @@ class SearchFood extends Component{
 
     submitEditing = () => {
         let food = this.state.searchText
-        this.setState({newsData:[]})
+        this.setState({choices:[]})
         const request = new Request('https://http://sis-teach-01.sis.pitt.edu/projects/healthathand/search/' + food)
         this.formData(request)
     }
@@ -121,7 +114,6 @@ class SearchFood extends Component{
                         placeholder='Type Here...' />
                     <View style={{padding: 10}}>
                         <ButtonGroup
-                            selectedBackgroundColor="pink"
                             onPress={this.updateCategory}
                             selectedIndex={this.state.category}
                             buttons={['Common', 'Branded']}
@@ -140,6 +132,7 @@ class SearchFood extends Component{
                                 data={this.state.choices}
                                 renderItem={({item}) => (
                                     <TouchableOpacity
+                                        
                                         style = {{paddingTop: 0, paddingBottom: 0}}
                                         onPress = {() => this.onPress(item)}
                                         underLayColor="transparent"

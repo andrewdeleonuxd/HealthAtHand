@@ -1,11 +1,13 @@
 import React,{Component} from 'react'
-import {View, Text, Picker, ActivityIndicator,TextInput} from 'react-native';
+import {View, Text, Picker, ActivityIndicator,TextInput, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux'
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addfood,removefood} from '../actions';
 import _ from 'lodash';
 import { HaH_Header } from '../components/common';
+
+import testResponse from '../testdata/nutrients_pizza.json'
 
 import {colors, margin, padding} from '../styles/base.js'
 
@@ -15,30 +17,23 @@ class FoodCard extends Component {
 
     state ={
         showLoader:false,
-        servingSize:"1",
         food:{},
-        itemName:"",
-        Calories:""
     }
 
     componentWillMount = () => {
-        this.setState({showLoader:true, food: this.props.item});
+        const request = new Request('https://http://sis-teach-01.sis.pitt.edu/projects/healthathand/nat/' + this.props.food_name)
+        this.formData(request)
     }
-
-
-    
 
     componentDidMount = () => {
         if(this.props.firstTime){
             this.setState({
                 showLoader:false,
-                itemName:this.props.item.author ,
                 Calories:5
             })
         } else{
             this.setState({
                 showLoader:false,
-                itemName: this.props.item.itemName,
                 Calories:this.props.item.Calories,
                 servingSize:this.props.item.servingSize
             })
@@ -46,8 +41,37 @@ class FoodCard extends Component {
       
     }
 
-    goBack = () => {
+    formData = (request)  => {
+        {/*
+        fetch(request)
+            .then((response) => response.json())
+            .then((responseJson)=>{
+                if(responseJson.foods[0].length > 0) {
+                    this.setState({food:responseJson.foods[0], showLoader:false})
+                } else {
+                    console.log("no data");
+                }
+            })
+            .catch((error) => {
+                console.log("error", error);
+            })
+        */}
+        this.setState({food:testResponse.foods[0], showLoader:false})
+        
+        {/*
+        if(testReponse.branded.length > 0) {
+            console.log(testReponse.common.length)
+            this.state.choices = testReponse.branded
+            this.setState({choices:this.state.choices, showLoader:false})
+        } else {
+            this.state.choices = testReponse.branded
+            console.log("no data");
+        }
+        
+        */}
+    }
 
+    goBack = () => {
         Actions.push("addfood", {item:this.props.onBack});
     } 
 
@@ -89,6 +113,18 @@ class FoodCard extends Component {
         this.setState({ servingSize:newText });   
       }
 
+    nameOfCard() {
+        (this.props.firstTime == true) ? name = "Add Food" : name = "Edit Food"
+        return name
+    }
+
+    capitalize(str) {
+        console.log(str)
+        return str.replace(/\w\S*/g, function(txt){
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
+
     render = () => {
 
         let check = (
@@ -115,20 +151,31 @@ class FoodCard extends Component {
         return (
             <View style = {{flex: 1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
-                    text = {this.state.food.food_name}
+                    left = {backButton}
+                    text = {this.nameOfCard()}
                 />
                 {
                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff" /> : 
-                    <View style={{backgroundColor:"white", height:"100%"}}>
-
-                                <Card>
-                                     <Text style={{
-                                         color: "maroon",
-                                         fontSize: 15,
-                                         marginBottom: 5
-                                     }}>{this.state.itemName}</Text>
-                                 </Card>
-                   
+                    <View style={{flex: 1}}>
+                                <Card
+                                    containerStyle = {{ elevation: 7,
+                                                        borderRadius: 10
+                                                    }}
+                                    wrapperStyle = {{flexDirection: 'row',
+                                    flex: 1,
+                                    marginLeft: 0}}>
+                                    <Text style = {{
+                                                        flex: 1,
+                                                        fontSize: 25,
+                                                        fontWeight: 'bold',
+                                                        fontFamily: 'sans-serif-condensed', 
+                                                        color: colors.primary,
+                                                        textAlign:'left',
+                                                        alignSelf: 'center',
+                                                    }}>
+                                        {this.capitalize(this.state.food.food_name)}
+                                    </Text>
+                                </Card>
                                  <Card flexDirection='row'>
                                
                                  <Text style={{
@@ -196,8 +243,30 @@ class FoodCard extends Component {
         )
     }
 }
-
-
+{/*
+styles = StyleSheet.create({
+    cardHeader: {
+        flex: 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.primary,
+        textAlign:'left',
+        marginRight: 25,
+        alignSelf: 'center',
+        paddingLeft: 15
+    },
+    cardContainer: {
+        elevation: 7,
+        borderRadius: 10
+    },
+    cardWrapper: {
+        flexDirection: 'row',
+        flex: 1,
+        marginLeft: 0
+    },
+})
+*/}
 
 //export default FoodCard;
 
