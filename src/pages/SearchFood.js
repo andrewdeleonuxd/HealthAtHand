@@ -119,17 +119,19 @@ class SearchFood extends Component{
                         onChangeText = {this.searchTextChanged}
                         onSubmitEditing = {this.submitEditing}
                         placeholder='Type Here...' />
-                    <ButtonGroup
-                        selectedBackgroundColor="pink"
-                        onPress={this.updateCategory}
-                        selectedIndex={this.state.category}
-                        buttons={['Common', 'Branded']}
-                        containerStyle={styles.categoryContainer}
-                        selectedTextStyle={styles.categoryTextSelected}
-                        textStyle={styles.categoryTextUnselected}
-                        selectedButtonStyle={styles.categoryButtonSelected}
-                        buttonStyle={styles.categoryButtonUnselected}
-                    />
+                    <View>
+                        <ButtonGroup
+                            selectedBackgroundColor="pink"
+                            onPress={this.updateCategory}
+                            selectedIndex={this.state.category}
+                            buttons={['Common', 'Branded']}
+                            containerStyle={styles.categoryContainer}
+                            selectedTextStyle={styles.categoryTextSelected}
+                            textStyle={styles.categoryTextUnselected}
+                            selectedButtonStyle={styles.categoryButtonSelected}
+                            buttonStyle={styles.categoryButtonUnselected}
+                        />
+                    </View>
                     <View style={{flex:1}}>
                         {
                             (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
@@ -139,10 +141,11 @@ class SearchFood extends Component{
                                     data={this.state.choices}
                                     renderItem={({item}) => (
                                         <TouchableOpacity
+                                            style = {{paddingTop: 0, paddingBottom: 0}}
                                             onPress = {() => this.onPress(item)}
                                             underLayColor="transparent"
                                         >
-                                            <View style = {{paddingTop: 0, marginTop: 0, paddingBottom: 10}}>
+                                            <View style = {{paddingTop: 5, paddingBottom: 10}}>
                                                 <Card
                                                     containerStyle = {styles.cardContainer}
                                                     wrapperStyle = {styles.cardWrapper}>
@@ -185,6 +188,7 @@ styles = StyleSheet.create({
         paddingLeft: 15
     },
     cardContainer: {
+        marginTop: 0,
         elevation: 7,
         borderRadius: 10
     },
