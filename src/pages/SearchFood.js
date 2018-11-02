@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { Text, Image, View, FlatList, TouchableOpacity, ActivityIndicator, ToastAndroid, TextInput, StyleSheet } from 'react-native';
-import {Actions} from 'react-native-router-flux'
-import ScrollableTabView, {ScrollableTabBar, } from 'react-native-scrollable-tab-view';
-import { Header, SearchBar, ButtonGroup} from 'react-native-elements'
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { Actions } from 'react-native-router-flux'
+import { Header, SearchBar, ButtonGroup, Card, ListItem, Button, Icon } from 'react-native-elements'
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
 import testReponse from '../testdata/searchresult_pizza'
 
 import {colors, margin, padding} from '../styles/base.js'
 
-class SearchFood extends Component {
+class SearchFood extends Component{
     state = {
         choices:[],
         totalResults:0,
@@ -68,7 +66,13 @@ class SearchFood extends Component {
     }
 
     onPress = (item) => {
-        Actions.push("foodcard",{item:item,flag:{branded},firstTime:true,mealNo:this.props.mealNo,onBack:this.props.onBack});
+        Actions.push("foodcard", {
+            item:item,
+            category:this.state.category,
+            firstTime:true,
+            mealNo:this.props.mealNo,
+            onBack:this.props.onBack
+        });
     }
 
     submitEditing = () => {
@@ -108,19 +112,24 @@ class SearchFood extends Component {
                 <HaH_Header
                     text = 'Add Food'/>
                 <View style={{flex:1,flexDirection: 'column'}}>
-                    <ButtonGroup
-                        selectedBackgroundColor="pink"
-                        onPress={this.updateCategory}
-                        selectedIndex={this.state.category}
-                        buttons={['Common', 'Branded']}
-                        containerStyle={{height: 30}}
-                    />
+                    
                     <SearchBar
                         lightTheme
                         round
                         onChangeText = {this.searchTextChanged}
                         onSubmitEditing = {this.submitEditing}
                         placeholder='Type Here...' />
+                    <ButtonGroup
+                        selectedBackgroundColor="pink"
+                        onPress={this.updateCategory}
+                        selectedIndex={this.state.category}
+                        buttons={['Common', 'Branded']}
+                        containerStyle={styles.categoryContainer}
+                        selectedTextStyle={styles.categoryTextSelected}
+                        textStyle={styles.categoryTextUnselected}
+                        selectedButtonStyle={styles.categoryButtonSelected}
+                        buttonStyle={styles.categoryButtonUnselected}
+                    />
                     <View style={{flex:1}}>
                         {
                             (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
@@ -134,7 +143,6 @@ class SearchFood extends Component {
                                             underLayColor="transparent"
                                         >
                                             <View style = {{paddingTop: 0, marginTop: 0, paddingBottom: 10}}>
-                                                
                                                 <Card
                                                     containerStyle = {styles.cardContainer}
                                                     wrapperStyle = {styles.cardWrapper}>
@@ -171,9 +179,10 @@ styles = StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'sans-serif-condensed', 
         color: colors.primary,
-        textAlign:'center',
+        textAlign:'left',
         marginRight: 25,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        paddingLeft: 15
     },
     cardContainer: {
         elevation: 7,
@@ -183,6 +192,23 @@ styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 1,
         marginLeft: 0
-    }
+    },
+    categoryContainer: {
+        height: 40,
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 0,
+    },
+    categoryTextUnselected: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed',
+        color: colors.primary
+    },
+    categoryTextSelected: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed'
+    },
 })
 export default SearchFood;
