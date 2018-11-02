@@ -119,7 +119,7 @@ class SearchFood extends Component{
                         onChangeText = {this.searchTextChanged}
                         onSubmitEditing = {this.submitEditing}
                         placeholder='Type Here...' />
-                    <View>
+                    <View style={{padding: 10}}>
                         <ButtonGroup
                             selectedBackgroundColor="pink"
                             onPress={this.updateCategory}
@@ -132,40 +132,38 @@ class SearchFood extends Component{
                             buttonStyle={styles.categoryButtonUnselected}
                         />
                     </View>
-                    <View style={{flex:1}}>
-                        {
-                            (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
-                            <View style={{flex:1}}>
-                                
-                                <FlatList
-                                    data={this.state.choices}
-                                    renderItem={({item}) => (
-                                        <TouchableOpacity
-                                            style = {{paddingTop: 0, paddingBottom: 0}}
-                                            onPress = {() => this.onPress(item)}
-                                            underLayColor="transparent"
-                                        >
-                                            <View style = {{paddingTop: 5, paddingBottom: 10}}>
-                                                <Card
-                                                    containerStyle = {styles.cardContainer}
-                                                    wrapperStyle = {styles.cardWrapper}>
-                                                    <Image
-                                                        style={{width: 30, height: 30}}
-                                                        source={this.findThumbnail(item.photo.thumb)}
-                                                    />
-                                                    <Text style = {styles.cardHeader}>
-                                                        {this.capitalize(item.food_name)}
-                                                    </Text>
-                                                </Card>
-                                            </View>
-                                        </TouchableOpacity>
-                                    )}
-                                    onEndReachedThreshold={0.5}
-                                    onEndReached={this.endReached}
-                                />
-                            </View>
-                        }
-                    </View>
+                    {
+                        (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
+                        <View style={{flex:1}}>
+                            
+                            <FlatList
+                                data={this.state.choices}
+                                renderItem={({item}) => (
+                                    <TouchableOpacity
+                                        style = {{paddingTop: 0, paddingBottom: 0}}
+                                        onPress = {() => this.onPress(item)}
+                                        underLayColor="transparent"
+                                    >
+                                        <View style = {{paddingTop: 5, paddingBottom: 10}}>
+                                            <Card
+                                                containerStyle = {styles.cardContainer}
+                                                wrapperStyle = {styles.cardWrapper}>
+                                                <Image
+                                                    style={{width: 30, height: 30}}
+                                                    source={this.findThumbnail(item.photo.thumb)}
+                                                />
+                                                <Text style = {styles.cardHeader}>
+                                                    {this.capitalize(item.food_name)}
+                                                </Text>
+                                            </Card>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}
+                                onEndReachedThreshold={0.5}
+                                onEndReached={this.endReached}
+                            />
+                        </View>
+                    }
                 </View>
                 <HaH_NavBar
                     selected = {2}
@@ -198,10 +196,12 @@ styles = StyleSheet.create({
         marginLeft: 0
     },
     categoryContainer: {
-        height: 40,
+        height: 50,
         marginLeft: 0,
         marginRight: 0,
         marginTop: 0,
+        borderRadius: 15,
+        borderColor: colors.brandblue
     },
     categoryTextUnselected: {
         fontSize: 25,
@@ -212,7 +212,12 @@ styles = StyleSheet.create({
     categoryTextSelected: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed'
+        fontFamily: 'sans-serif-condensed',
+        color: colors.brandwhite
     },
+    categoryButtonSelected: {
+        opacity: 0.8, 
+        backgroundColor: colors.brandblue
+    }
 })
 export default SearchFood;
