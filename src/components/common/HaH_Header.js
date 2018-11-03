@@ -8,10 +8,11 @@ const HaH_Header = (props) => {
 
     return(
         <Header
-            outerContainerStyles={{height:60,backgroundColor:colors.primary, opacity:0.8}}
+            outerContainerStyles={{height:60,backgroundColor:colors.primary, opacity:0.8, justifyContent: 'space-between'}}
             leftComponent= {props.left}
             centerComponent={{ text: props.text, style: styles.headerCenter}}
             rightComponent={props.right}
+            placement = 'left'
         />
     )
 };
@@ -21,7 +22,9 @@ const styles = StyleSheet.create ({
         color: colors.brandwhite,
         fontSize:30, 
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed'
+        fontFamily: 'sans-serif-condensed',
+        justifyContent: 'center',
+        alignSelf: 'center'
     }
 })
 

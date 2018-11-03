@@ -18,6 +18,7 @@ class FoodCard extends Component {
     state ={
         showLoader:false,
         food:{},
+        servings:"1"
     }
 
     componentWillMount = () => {
@@ -26,19 +27,18 @@ class FoodCard extends Component {
     }
 
     componentDidMount = () => {
+        {/*
         if(this.props.firstTime){
             this.setState({
-                showLoader:false,
                 Calories:5
             })
         } else{
             this.setState({
-                showLoader:false,
                 Calories:this.props.item.Calories,
                 servingSize:this.props.item.servingSize
             })
         }
-      
+        */}
     }
 
     formData = (request)  => {
@@ -76,6 +76,7 @@ class FoodCard extends Component {
     } 
 
     Add = () => {
+        {/*
         let obj={
             id:this.state.itemName,
             itemName:this.state.itemName,
@@ -86,15 +87,18 @@ class FoodCard extends Component {
         
 
         this.props.addfood(obj,this.props.mealNo,this.props.foodArray,this.props.firstTime);
+        */}
     }
 
     onRemove = () => {
+        {/*
         let obj={
             id:this.state.itemName,
             itemName:this.state.itemName,
             totalCalories:this.state.Calories*this.state.servingSize
         }
         this.props.removefood(obj,this.props.mealNo,this.props.foodArray);
+        */}
     }
 
     onservingSizeChange = (text) =>{
@@ -119,10 +123,21 @@ class FoodCard extends Component {
     }
 
     capitalize(str) {
-        console.log(str)
         return str.replace(/\w\S*/g, function(txt){
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
+    }
+
+    
+
+    isWholeNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n) && n.indexOf(".")==-1  && n.indexOf(" ")==-1;
+    }
+
+    check(servings) {
+        if(this.isWholeNumber(servings)){
+            this.setState({servings}) 
+        }
     }
 
     render = () => {
@@ -152,30 +167,46 @@ class FoodCard extends Component {
             <View style = {{flex: 1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
                     left = {backButton}
-                    text = {this.nameOfCard()}
+                    text = "Add Food"//{this.nameOfCard()}
                 />
                 {
                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff" /> : 
-                    <View style={{flex: 1}}>
-                                <Card
-                                    containerStyle = {{ elevation: 7,
-                                                        borderRadius: 10
-                                                    }}
-                                    wrapperStyle = {{flexDirection: 'row',
-                                    flex: 1,
-                                    marginLeft: 0}}>
-                                    <Text style = {{
-                                                        flex: 1,
-                                                        fontSize: 25,
-                                                        fontWeight: 'bold',
-                                                        fontFamily: 'sans-serif-condensed', 
-                                                        color: colors.primary,
-                                                        textAlign:'left',
-                                                        alignSelf: 'center',
-                                                    }}>
-                                        {this.capitalize(this.state.food.food_name)}
+                    <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>
+                        <Card
+                            containerStyle = {styles.cardContainer}
+                            wrapperStyle = {styles.cardWrapper}>
+                            <Text style = {styles.cardHeader}>
+                                {this.capitalize(this.state.food.food_name)}
+                            </Text>
+                        </Card>
+                        <View style={{flex: 1, paddingTop: '3%'}}>
+                            <View style={styles.userInputs}>
+                                <Text style={styles.userInputText}>
+                                    Serving Size
+                                </Text>
+                                <Text style={styles.servingSizeQty}>
+                                    {this.state.food.serving_qty}
+                                    <Text style={styles.servingSizeUnit}>
+                                        {" " + this.state.food.serving_unit}
                                     </Text>
-                                </Card>
+                                </Text>
+                            </View>
+                            <View style={styles.userInputs}>
+                                <Text style={styles.userInputText}>
+                                    Servings
+                                </Text>
+                                <View style={{backgroundColor: colors.brandgrey, paddingLeft: 5, paddingTop: 0, padding: 2, borderRadius: 10}}>
+                                    <TextInput
+                                        style={styles.userInput}
+                                        onChangeText={(servings) => this.check(servings)}
+                                        value={this.state.servings}
+                                        underlineColorAndroid = 'rgba(0,0,0,0)'
+                                        keyboardType='numeric'>
+                                    </TextInput>
+                                </View>
+                            </View>
+                        </View>
+                                {/*
                                  <Card flexDirection='row'>
                                
                                  <Text style={{
@@ -232,42 +263,74 @@ class FoodCard extends Component {
                                     onPress={this.onRemove}
                                     />
                                  </Card>
-                               
+                                */}
 
 
                     </View>
-
-                     
                 }
             </View>
         )
     }
 }
-{/*
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     cardHeader: {
-        flex: 1,
         fontSize: 25,
         fontWeight: 'bold',
+        textAlign: 'center',
         fontFamily: 'sans-serif-condensed', 
-        color: colors.primary,
-        textAlign:'left',
-        marginRight: 25,
-        alignSelf: 'center',
-        paddingLeft: 15
+        color: colors.primary
     },
     cardContainer: {
+        padding: 4,
         elevation: 7,
         borderRadius: 10
     },
-    cardWrapper: {
-        flexDirection: 'row',
-        flex: 1,
-        marginLeft: 0
+    cardWrapper: {        
+        alignItems: 'center'
     },
-})
-*/}
-
+    userInputs: {
+        flexDirection: 'row',
+        paddingLeft: '12%',
+        paddingRight: '12%',
+        justifyContent: 'space-between'
+    },
+    userInputText: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.primary,
+        //backgroundColor: "red",
+        paddingTop: '2%',
+    },
+    servingSizeQty: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.brandblue,
+        textAlign:'right',
+        alignSelf: 'flex-end'
+    },
+    servingSizeUnit: {
+        fontSize: 15,
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.brandgrey,
+        textAlign:'right',
+        alignSelf: 'flex-end',
+    },
+    userInput: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'right',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.primary,
+        paddingLeft: 35,
+        paddingRight: 10,
+        justifyContent: 'center',
+        
+        //backgroundColor: "red",
+    },
+});
 //export default FoodCard;
 
 const mapStateToProps = state => {

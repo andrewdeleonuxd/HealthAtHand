@@ -165,8 +165,7 @@ class SearchFood extends Component{
         )
     }
 }
-
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     cardHeader: {
         flex: 3,
         fontSize: 25,
@@ -212,5 +211,5 @@ styles = StyleSheet.create({
         opacity: 0.8, 
         backgroundColor: colors.brandblue
     }
-})
+});
 export default SearchFood;

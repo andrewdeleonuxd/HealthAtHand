@@ -8,11 +8,11 @@ export const dimensions = {
 export const colors  = {
   primary: '#121350',
   secondary: '#EBBE4B',
-  tertiary: '#D3D3D3',
+  tertiary: '#7a7a9b',
   brandwhite: '#fff',
   brandblue: '#121350',
   brandgold: '#EBBE4B',
-  brandgrey: '#D3D3D3'
+  brandgrey: '#7a7a9b'
 }
 
 export const padding = {
