@@ -111,9 +111,14 @@ class FoodCard extends Component {
         this.setState({ servingSize:newText });   
       }
 
-    nameOfCard() {
-        (this.props.firstTime == true) ? name = "Add Food" : name = "Edit Food"
-        return name
+    titleLabel() {
+        (this.props.firstTime == true) ? label = "Add Food" : label = "Edit Food"
+        return label
+    }
+
+    confirmLabel() {
+        (this.props.firstTime == true) ? label = "Add Food to Meal" : label = "Edit Food"
+        return label
     }
 
     capitalize(str) {
@@ -121,8 +126,6 @@ class FoodCard extends Component {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
     }
-
-    
 
     isWholeNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n) && n.indexOf(".")==-1;
@@ -162,7 +165,7 @@ class FoodCard extends Component {
             <View style = {{flex: 1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
                     left = {backButton}
-                    text = "Add Food"//{this.nameOfCard()}
+                    text = {this.titleLabel()}
                 />
                 {
                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff" /> : 
@@ -227,19 +230,9 @@ class FoodCard extends Component {
                             <TouchableOpacity
                                 style = {styles.confirmButton}
                                 onPress = {this.Add}>
-                            {
-                                (this.props.firstTime == true) ?
-
                                 <Text style = {styles.confirmText}>
-                                    Add Food to Meal
+                                    {this.confirmLabel()}
                                 </Text>
-
-                                :
-
-                                <Text style = {styles.confirmText}>
-                                    Confirm Changes
-                                </Text>
-                            }
                             </TouchableOpacity>
                         </View>
                     </View>

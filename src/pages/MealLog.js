@@ -58,12 +58,13 @@ class MealLog extends Component {
                     key={i}
                     onPress = {() => this.onPress(item)} 
                     underLayColor="transparent"
+                    style = {{paddingTop: 0, paddingBottom: 0}}
                 >
-                    <View style = {{margin: 0, padding: 0}}>   
-                        <Card 
-                            flexDirection='row'
-                            containerStyle = {{margin: margin.lg, marginBottom: 0, elevation: 10}}
-                            wrapperStyle = {{marginLeft: 0}}>
+                    <View style = {{margin: 0, paddingBottom: 7}}>   
+                        <Card
+                            flexDirection = 'row' 
+                            containerStyle = {styles.cardContainer}
+                            wrapperStyle = {styles.cardWrapper}>
                             <Text style = {styles.foodName}>
                                 Meal {item.mealNo}
                             </Text>
@@ -130,7 +131,7 @@ class MealLog extends Component {
                 />
                 {
                     (this.props.foodArray.length == 0) ? <View style={{flex: 1, backgroundColor:"white", height:"75%"}}></View> : 
-                    <View style={{flex: 1, backgroundColor:"white", height:"75%"}}>
+                    <View style={{flex: 1, backgroundColor:"white", height:"75%", paddingTop: 0}}>
                         {data}     
                     </View>   
                 } 
@@ -155,13 +156,21 @@ class MealLog extends Component {
 }
 
 const styles = StyleSheet.create({
+    cardContainer: {
+        padding: 1,
+        elevation: 7,
+        borderRadius: 10
+    },
+    cardWrapper: {        
+        alignItems: 'center',
+        padding: 10,
+    },
     foodName: {
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'left',
         fontFamily: 'sans-serif-condensed', 
         color: colors.primary,
-        flex: 3
     },
     foodCals: {
         fontSize: 20,
