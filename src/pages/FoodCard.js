@@ -76,29 +76,23 @@ class FoodCard extends Component {
     } 
 
     Add = () => {
-        {/*
         let obj={
-            id:this.state.itemName,
-            itemName:this.state.itemName,
-            totalCalories:this.state.Calories*this.state.servingSize,
-            Calories:this.state.Calories,
-            servingSize:this.state.servingSize
+            id:this.state.food.ndb_no,
+            itemName:this.state.food.food_name,
+            totalCalories:this.state.servings * this.state.food.nf_calories,
+            Calories:this.state.food.nf_calories,
+            servingSize:this.state.food.serving_unit
         }
-        
-
         this.props.addfood(obj,this.props.mealNo,this.props.foodArray,this.props.firstTime);
-        */}
     }
 
     onRemove = () => {
-        {/*
         let obj={
-            id:this.state.itemName,
-            itemName:this.state.itemName,
-            totalCalories:this.state.Calories*this.state.servingSize
+            id:this.state.food.ndb_no,
+            itemName:this.state.food.food_name,
+            totalCalories:this.state.servings * this.state.food.nf_calories
         }
         this.props.removefood(obj,this.props.mealNo,this.props.foodArray);
-        */}
     }
 
     onservingSizeChange = (text) =>{
@@ -207,88 +201,45 @@ class FoodCard extends Component {
                                 </View>
                             </View>                            
                         </View>
-                                {/*
-                                 <Card flexDirection='row'>
-                               
-                                 <Text style={{
-                                            color: "maroon",
-                                            fontSize: 15,
-                                            marginBottom: 5
-                                        }}>ServingSize</Text>        
-                                <TextInput  
-                                     keyboardType = 'numeric'
-                                     style={{  color:'maroon',
-                                     paddingRight:5,
-                                     paddingLeft:15,
-                                     fontSize:15,
-                                     lineHeight:23,
-                                     marginLeft:"60%"
-                                     }}
-                                     onChangeText={this.onservingSizeChange.bind(this)}
-                                     value={this.state.servingSize}
-                                     />
-                
-                                </Card>
-                                 <Card flexDirection='row'>
-                                        <Text style={{
-                                            color: "maroon",
-                                            fontSize: 15,
-                                            marginBottom: 5,
-                                        }}>Calories</Text>
-                                       <Text style={{
-                                            color: "maroon",
-                                            fontSize: 15,
-                                            marginBottom: 5,
-                                            marginLeft:"72%"
-                                        }}>{this.state.Calories}</Text> 
-                                 </Card>
-                                 <Card flexDirection='row'>
-                                        <Text style={{
-                                            color: "maroon",
-                                            fontSize: 15,
-                                            marginBottom: 5,
-                                        }}>Total Calories</Text>
-                                       <Text style={{
-                                            color: "maroon",
-                                            fontSize: 15,
-                                            marginBottom: 5,
-                                            marginLeft:"60%"
-                                        }}>{this.state.Calories*this.state.servingSize}</Text> 
-                                 </Card>
-                                 
-                                 <Card>
-                                    <Button
-                                    title='Remove' 
-                                    disabled={this.props.firstTime}
-                                    backgroundColor="blue"
-                                    onPress={this.onRemove}
-                                    />
-                                 </Card>
-                                */}
                         <View style={styles.userInputs}>
-                                <Text style={[styles.userInputText, {fontSize: 35}]}>
-                                    Calories
-                                </Text>
-                                <Text style={[styles.userInputText, {fontSize: 35}]}>
-                                    {this.state.servings * this.state.food.nf_calories}
-                                </Text>
-                            </View>
-                        <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
-                            <TouchableOpacity                                 
-                                //onPress = {this.goBack}
-                                style = {styles.deleteButton}>
-                                <Text style = {styles.deleteText}>
-                                    Delete Food
-                                </Text>
-                            </TouchableOpacity>
+                            <Text style={[styles.userInputText, {fontSize: 35}]}>
+                                Calories
+                            </Text>
+                            <Text style={[styles.userInputText, {fontSize: 35}]}>
+                                {this.state.servings * this.state.food.nf_calories}
+                            </Text>
                         </View>
+                        
+                        {
+                            (this.props.firstTime == true) ? <View/>:
+                            <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                                <TouchableOpacity
+                                    style = {styles.deleteButton}
+                                    onPress={this.onRemove}>
+                                    
+                                    <Text style = {styles.deleteText}>
+                                        Delete Food
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        }
                         <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
-                            <TouchableOpacity                                 
-                                //onPress = {this.goBack}
-                                style = {styles.confirmButton}>
+                            <TouchableOpacity
+                                style = {styles.confirmButton}
+                                onPress = {this.Add}>
+                            {
+                                (this.props.firstTime == true) ?
+
                                 <Text style = {styles.confirmText}>
                                     Add Food to Meal
                                 </Text>
+
+                                :
+
+                                <Text style = {styles.confirmText}>
+                                    Confirm Changes
+                                </Text>
+                            }
                             </TouchableOpacity>
                         </View>
                     </View>
