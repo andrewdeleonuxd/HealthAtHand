@@ -69,19 +69,24 @@ class AddFood extends Component {
                         underLayColor="transparent"
                     >
                     <View>   
-                        <Card flexDirection='row'>
-                            <Text style={{
-                                color: "maroon",
-                                fontSize: 15,
-                                marginBottom: 5,
-                            }}>{item.itemName}
+                        <Card 
+                            flexDirection='row'
+                            containerStyle = {styles.cardContainer}
+                            wrapperStyle = {styles.cardWrapper}>
+                            <Text style={styles.cardHeader}>
+                                {this.capitalize(item.itemName)}
                             </Text>
-                            <Text style={{
-                                color: "maroon",
-                                fontSize: 15,
-                                marginBottom: 5,
-                                marginLeft:"60%"
-                            }}>{item.totalCalories}
+                            <Text style={styles.cardHeader}>
+                                {item.totalCalories / item.Calories}
+                                <Text style={styles.servingSizeUnit}>
+                                    {' ' + item.servingSize + '(s)'}
+                                </Text>
+                            </Text> 
+                            <Text style={styles.cardHeader}>
+                                {item.totalCalories}
+                                <Text style={styles.servingSizeUnit}>
+                                    {' cals'}
+                                </Text>
                             </Text> 
                         </Card>
                     </View>
@@ -108,6 +113,11 @@ class AddFood extends Component {
         Actions.push("searchfood");
     }
 
+    capitalize(str) {
+        return str.replace(/\w\S*/g, function(txt){
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
 
     render = () => {
         let search = (
@@ -174,6 +184,24 @@ class AddFood extends Component {
     
 
 const styles = StyleSheet.create({
+    cardHeader: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.primary
+    },
+    cardContainer: {
+        
+        elevation: 7,
+        borderRadius: 10
+    },
+    cardWrapper: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 2,
+        paddingRight: 2
+    },
     foodName: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -232,7 +260,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignItems: 'center',
         justifyContent: 'center'
-    }
+    },
+    servingSizeUnit: {
+        fontSize: 15,
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.brandgrey,
+        textAlign:'right',
+        alignSelf: 'flex-end',
+    },
 });
 
 //export default AddFood;
