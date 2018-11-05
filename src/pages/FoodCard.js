@@ -117,7 +117,7 @@ class FoodCard extends Component {
     }
 
     confirmLabel() {
-        (this.props.firstTime == true) ? label = "Add Food to Meal" : label = "Edit Food"
+        (this.props.firstTime == true) ? label = "Add Food to Meal" : label = "Confirm Changes"
         return label
     }
 
