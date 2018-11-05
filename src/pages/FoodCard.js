@@ -1,11 +1,11 @@
 import React,{Component} from 'react'
-import {View, Text, Picker, ActivityIndicator,TextInput, StyleSheet} from 'react-native';
+import {View, Text, Picker, ActivityIndicator,TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux'
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addfood,removefood} from '../actions';
 import _ from 'lodash';
-import { HaH_Header } from '../components/common';
+import { HaH_Header, HaH_NavBar } from '../components/common';
 
 import testResponse from '../testdata/nutrients_pizza.json'
 
@@ -131,11 +131,12 @@ class FoodCard extends Component {
     
 
     isWholeNumber(n) {
-        return !isNaN(parseFloat(n)) && isFinite(n) && n.indexOf(".")==-1  && n.indexOf(" ")==-1;
+        return !isNaN(parseFloat(n)) && isFinite(n) && n.indexOf(".")==-1;
     }
 
     check(servings) {
-        if(this.isWholeNumber(servings)){
+        if(this.isWholeNumber(servings) || servings == ''){
+            
             this.setState({servings}) 
         }
     }
@@ -204,7 +205,7 @@ class FoodCard extends Component {
                                         keyboardType='numeric'>
                                     </TextInput>
                                 </View>
-                            </View>
+                            </View>                            
                         </View>
                                 {/*
                                  <Card flexDirection='row'>
@@ -264,10 +265,37 @@ class FoodCard extends Component {
                                     />
                                  </Card>
                                 */}
-
-
+                        <View style={styles.userInputs}>
+                                <Text style={[styles.userInputText, {fontSize: 35}]}>
+                                    Calories
+                                </Text>
+                                <Text style={[styles.userInputText, {fontSize: 35}]}>
+                                    {this.state.servings * this.state.food.nf_calories}
+                                </Text>
+                            </View>
+                        <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                            <TouchableOpacity                                 
+                                //onPress = {this.goBack}
+                                style = {styles.deleteButton}>
+                                <Text style = {styles.deleteText}>
+                                    Delete Food
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                            <TouchableOpacity                                 
+                                //onPress = {this.goBack}
+                                style = {styles.confirmButton}>
+                                <Text style = {styles.confirmText}>
+                                    Add Food to Meal
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 }
+                <HaH_NavBar
+                    selected={2}
+                />
             </View>
         )
     }
@@ -329,6 +357,40 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         
         //backgroundColor: "red",
+    },
+    confirmButton: {
+		backgroundColor: colors.brandgold,
+		borderRadius: 10,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 7,
+    },
+    confirmText: {
+        flex: 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.brandwhite,
+        textAlignVertical: 'center',
+    },
+    deleteButton: {
+		backgroundColor: 'red',
+		borderRadius: 10,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 7
+    },
+    deleteText: {
+        flex: 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.brandwhite,
+        textAlignVertical: 'center',
     },
 });
 //export default FoodCard;

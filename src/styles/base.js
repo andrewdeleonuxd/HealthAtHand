@@ -7,11 +7,11 @@ export const dimensions = {
   
 export const colors  = {
   primary: '#121350',
-  secondary: '#EBBE4B',
+  secondary: '#EBB11C',
   tertiary: '#7a7a9b',
   brandwhite: '#fff',
   brandblue: '#121350',
-  brandgold: '#EBBE4B',
+  brandgold: '#EBB11C',
   brandgrey: '#7a7a9b'
 }
 
