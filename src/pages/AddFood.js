@@ -4,7 +4,7 @@ import {View, Text, FlatList, Image, TouchableHighlight, StyleSheet} from 'react
 import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {initializefood } from '../actions';
+import {initializefood, removeMeal } from '../actions';
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
 
@@ -15,7 +15,7 @@ var data=[];
 class AddFood extends Component {
 
     state = {
-        showLoader:true,
+        showLoader:true, 
         showSearch:false, 
         searchText:"", 
         mealNo:""
@@ -60,34 +60,35 @@ class AddFood extends Component {
        data=[]; 
        let array=this.props.item.food;
        if(array.length>0){
-       array.map((item, i) => {
-   
-        data.push(
-            <TouchableHighlight
-            key={i}
-            onPress = {() => this.onPress(item)}
-            underLayColor="transparent"
-            >
-            <View >   
-            <Card flexDirection='row'>
-                <Text style={{
-                    color: "maroon",
-                    fontSize: 15,
-                    marginBottom: 5,
-                }}>{item.itemName}</Text>
-                <Text style={{
-                    color: "maroon",
-                    fontSize: 15,
-                    marginBottom: 5,
-                    marginLeft:"60%"
-                }}>{item.totalCalories}</Text> 
-            </Card>
-            </View>
-            </TouchableHighlight>
-        )
-    })
-}
-       
+            array.map((item, i) => {
+
+                data.push(
+                    <TouchableHighlight
+                        key={i}
+                        onPress = {() => this.onPress(item)}
+                        underLayColor="transparent"
+                    >
+                    <View>   
+                        <Card flexDirection='row'>
+                            <Text style={{
+                                color: "maroon",
+                                fontSize: 15,
+                                marginBottom: 5,
+                            }}>{item.itemName}
+                            </Text>
+                            <Text style={{
+                                color: "maroon",
+                                fontSize: 15,
+                                marginBottom: 5,
+                                marginLeft:"60%"
+                            }}>{item.totalCalories}
+                            </Text> 
+                        </Card>
+                    </View>
+                    </TouchableHighlight>
+                )
+            })
+        }
     } 
 
 
@@ -96,6 +97,14 @@ class AddFood extends Component {
     }
 
     showFoodSearch = () => {
+        Actions.push("searchfood", {mealNo:this.props.item.mealNo, onBack:this.props.item});
+    }
+
+    deleteMeal = () => {
+        this.props.removeMeal(this.props.foodArray,this.props.item.mealNo);
+    }
+
+    submitEditing = () => {
         Actions.push("searchfood");
     }
 
@@ -109,7 +118,7 @@ class AddFood extends Component {
                 marginTop={50}
                 onPress = {this.showFoodSearch}
             />
-    )
+        )
 
         let backButton = (
             <Icon
@@ -125,18 +134,9 @@ class AddFood extends Component {
             <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
                     left = {backButton}
-                    text = {'Meal ' + this.state.mealNo}
+                    text = {'Meal ' + this.props.item.mealNo}
                     right = {search}
                 />
-                {
-                        (this.state.showSearch == true) ? <SearchBar
-                            lightTheme
-                            round
-                            onChangeText = {this.searchTextChanged}
-                            onSubmitEditing = {this.submitEditing}
-                            placeholder='Type Here...' /> : <View></View>
-                }
-
                 {
                     (data.length == 0) ? <View style={{flex: 1, backgroundColor:"white", height:"75%"}}></View>: 
                     <View style={{flex: 1, backgroundColor:"white", height:"75%"}}>
@@ -148,7 +148,7 @@ class AddFood extends Component {
                             <Button 
                                 titleStyle = {styles.confirmText}
                                 title = 'Delete Meal'
-                                onPress = {this.goBack}
+                                onPress = {this.deleteMeal}
                                 buttonStyle = {styles.deleteButton}
                                 containerStyle = {styles.confirmContainer}
                             />
@@ -171,6 +171,7 @@ class AddFood extends Component {
         )
     }
 }
+    
 
 const styles = StyleSheet.create({
     foodName: {
@@ -242,4 +243,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, {initializefood}) (AddFood);
+export default connect(mapStateToProps, {initializefood, removeMeal}) (AddFood);

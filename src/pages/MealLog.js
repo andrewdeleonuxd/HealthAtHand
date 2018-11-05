@@ -50,12 +50,13 @@ class MealLog extends Component {
     loadData = (props) => {
         data=[]; 
         let array=props.foodArray;
-        array.map((item, i) => {
+         array = array.sort((a, b) => Number(a.mealNo) - Number(b.mealNo));
+        array.map((item, i) => { 
    
             data.push(
                 <TouchableHighlight
                     key={i}
-                    onPress = {() => this.onPress(item)}
+                    onPress = {() => this.onPress(item)} 
                     underLayColor="transparent"
                 >
                     <View style = {{margin: 0, padding: 0}}>   
@@ -80,9 +81,19 @@ class MealLog extends Component {
 
 
     addMealPg = () => {
-          let newObj={'mealNo':this.props.foodArray.length + 1,'food':[]};   
+          let ogFoodObj = this.props.foodArray;
+          let i=1;
+          console.log(ogFoodObj.length);
+          if(ogFoodObj.length>0){
+          while(_.some(ogFoodObj, { 'mealNo':i })){
+              i++;
+          } 
+          let newObj={'mealNo':i,'food':[]};   
         Actions.push("addfood",{type:"addfood",item:newObj});
-                       
+        } else{
+            let newObj={'mealNo':1,'food':[]};   
+            Actions.push("addfood",{type:"addfood",item:newObj});
+        }              
     }
 
 

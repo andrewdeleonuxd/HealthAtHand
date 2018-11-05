@@ -154,6 +154,7 @@ class SearchFood extends Component{
                                 )}
                                 onEndReachedThreshold={0.5}
                                 onEndReached={this.endReached}
+                                keyExtractor={item => item.food_name}
                             />
                         </View>
                     }

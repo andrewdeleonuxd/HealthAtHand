@@ -403,3 +403,4 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {addfood,removefood}) (FoodCard);
 
+ 
