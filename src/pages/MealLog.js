@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import _ from 'lodash';
-import {View, Text, FlatList, Image, TouchableHighlight, StyleSheet} from 'react-native'
+import {View, Text, FlatList, Image, TouchableHighlight, StyleSheet, TouchableOpacity} from 'react-native'
 import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
@@ -130,21 +130,22 @@ class MealLog extends Component {
                     right = {addMeal}
                 />
                 {
-                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, backgroundColor:"white", height:"75%"}}></View> : 
-                    <View style={{flex: 1, backgroundColor:"white", height:"75%", paddingTop: 0}}>
+                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> : 
+                    <View style={{flex: 1, height:"75%", paddingTop: 0}}>
                         {data}     
                     </View>   
                 } 
                 {
-                    (this.props.foodArray.length == 0) ? <View style={{backgroundColor:"white"}}></View> : 
-                    <View style={{backgroundColor:"white", padding: padding.sm}}>  
-                        <Button 
-                            titleStyle = {{fontSize: 100}}//{styles.notesTitle}
-                            title = 'Notes'
-                            onPress = {this.showAddFoodNotes}
+                    (this.props.foodArray.length == 0) ? <View/> : 
+                    <View style={{padding: padding.sm}}>  
+                        <TouchableOpacity
+                            style = {styles.noteButton}
+                            onPress={this.showAddFoodNotes}>
                             
-                            buttonStyle = {styles.notesButton}
-                        />
+                            <Text style = {styles.noteText}>
+                                Meal Notes
+                            </Text>
+                        </TouchableOpacity>
                     </View>  
                 }
                 <HaH_NavBar
@@ -187,14 +188,24 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'sans-serif-condensed'
     },
-    notesTitle: {
-        fontSize: 700,
-        //fontFamily: 'sans-serif-condensed'
+    noteButton: {
+        backgroundColor: colors.brandblue,
+        opacity: 0.8,
+		borderRadius: 10,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 7
     },
-    notesButton: {
-        backgroundColor: colors.primary,
-        opacity: 0.8
-    }
+    noteText: {
+        flex: 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.brandwhite,
+        textAlignVertical: 'center',
+    },
 });
 
 //export default AddFood;

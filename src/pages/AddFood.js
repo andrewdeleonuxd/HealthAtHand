@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import _ from 'lodash';
-import {View, Text, FlatList, Image, TouchableHighlight, StyleSheet} from 'react-native'
+import {View, Text, FlatList, Image, TouchableHighlight, StyleSheet, TouchableOpacity} from 'react-native'
 import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
@@ -143,37 +143,41 @@ class AddFood extends Component {
         return (
             <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
-                    left = {backButton}
                     text = {'Meal ' + this.props.item.mealNo}
                     right = {search}
                 />
-                {
-                    (data.length == 0) ? <View style={{flex: 1, backgroundColor:"white", height:"75%"}}></View>: 
-                    <View style={{flex: 1, backgroundColor:"white", height:"75%"}}>
-                        <View style={{flex: 1, margin: 0}}>
-                            {data} 
+                <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>
+                    {
+                        (data.length == 0) ? <View style={{flex: 1, height:"75%"}}></View>: 
+                        <View style={{flex: 1, height:"75%"}}>
+                            <View style={{flex: 1, margin: 0}}>
+                                {data} 
+                            </View>
                         </View>
-                        <View style = {{flex: 1}}/>
-                        <View style={styles.deleteView}>
-                            <Button 
-                                titleStyle = {styles.confirmText}
-                                title = 'Delete Meal'
-                                onPress = {this.deleteMeal}
-                                buttonStyle = {styles.deleteButton}
-                                containerStyle = {styles.confirmContainer}
-                            />
-                        </View>
-                        <View style={styles.confirmView}>
-                            <Button 
-                                titleStyle = {styles.confirmText}
-                                title = 'Add Meal to Log'
-                                onPress = {this.goBack}
-                                buttonStyle = {styles.confirmButton}
-                                containerStyle = {styles.confirmContainer}
-                            />
-                        </View>
+                    }   
+                    <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                        <TouchableOpacity
+                            style = {styles.deleteButton}
+                            onPress={this.deleteMeal}>
+                            
+                            <Text style = {styles.deleteText}>
+                                Delete Meal
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-                }   
+                    {
+                        (data.length == 0) ? <View/>:
+                        <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                            <TouchableOpacity
+                                style = {styles.confirmButton}
+                                onPress = {this.goBack}>
+                                <Text style = {styles.confirmText}>
+                                    Add Meal To Log
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    }
+                </View>
                 <HaH_NavBar
                     selected = {2}
                 />
@@ -221,52 +225,50 @@ const styles = StyleSheet.create({
     },
     confirmButton: {
 		backgroundColor: colors.brandgold,
-		opacity: 0.8,
-		//marginLeft: '10%',
-		//marginRight: '10%',
-		borderRadius: 5,
-		//borderWidth: 1
+		borderRadius: 10,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 7,
     },
-    deleteButton: {
-		backgroundColor: "red",
-		opacity: 0.8,
-		//marginLeft: '10%',
-		//marginRight: '10%',
-		borderRadius: 5,
-		//borderWidth: 1
-	},
+    confirmText: {
+        flex: 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.brandwhite,
+        textAlignVertical: 'center',
+    },
 	confirmContainer: {
 		flexDirection:'row',
 		//alignItems: 'center',
 		//justifyContent: 'center',
 		
 	},
-	confirmView: {
-		backgroundColor: colors.brandwhite,
-		paddingBottom: '10%'
-		//paddingBottom: padding.sm,
-    },
-    deleteView: {
-		backgroundColor: colors.brandwhite,
-		paddingBottom: '3%'
-		//paddingBottom: padding.sm,
-    },
-    confirmText: {
-        fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed', 
-        color: colors.primary,
-
-        fontSize: 100,
-        textAlign: 'center',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
     servingSizeUnit: {
         fontSize: 15,
         fontFamily: 'sans-serif-condensed', 
         color: colors.brandgrey,
         textAlign:'right',
         alignSelf: 'flex-end',
+    },
+    deleteButton: {
+		backgroundColor: 'red',
+		borderRadius: 10,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 7
+    },
+    deleteText: {
+        flex: 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.brandwhite,
+        textAlignVertical: 'center',
     },
 });
 
