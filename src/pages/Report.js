@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
 import { Header, SearchBar } from 'react-native-elements';
@@ -20,12 +20,13 @@ const userWeights = [
 	{ date: "10/7", weight: 238 }
 ];
 
-state = {
-	curWeight: ""
-}
-
-
 class ReportCard extends React.Component {
+
+	state = {
+		curWeightString: "" + userWeights[userWeights.length - 1].weight, //+ userWeights[userWeights.length - 1].weight
+		curWeight: userWeights[userWeights.length - 1].weight
+	}
+
 	showHome = () => {
 		Actions.home();
 	}
@@ -50,8 +51,26 @@ class ReportCard extends React.Component {
 		Actions.push("report");
 	}
 
-	addWeight() {
+	addWeight = () => {
 		console.log(this.state.curWeight)
+		userWeights[userWeights.length - 1].weight = this.state.curWeight;
+		console.log(userWeights)
+	}
+
+	check(weightString) {
+		console.log(parseInt(weightString))
+		this.setState({curWeightString: weightString})
+		{/*
+		if(weightString != "")
+		{
+			this.setState({curWeightString: weightString, curWeight: parseInt(weightString)})
+			console.log(this.state.curWeight)
+		}
+	*/}
+	}
+
+	submit = () => {
+		this.setState({curWeight: parseInt(this.state.curWeightString)})
 	}
 
 	render() {
@@ -96,26 +115,27 @@ class ReportCard extends React.Component {
 						Enter Today's Weight:
 					</Text>
 					<View style={{backgroundColor: colors.brandgrey, paddingLeft: 5, paddingTop: 0, padding: 2, borderRadius: 10}}>
-						{/*
+						
 						<TextInput
 							style={styles.userInput}
 							onChangeText={(curWeight) => this.check(curWeight)}
-							value={this.state.curWeight}
+							onSubmitEditing={this.submit}
+							value={this.state.curWeightString}
 							underlineColorAndroid = 'rgba(0,0,0,0)'
 							keyboardType='numeric'>
 						</TextInput>
-						*/}
+						
 					</View>
 				</View>
 
 				<View style={styles.confirmView}>
-					<Button 
-						titleStyle = {{fontSize: 100, textAlign: 'center', alignItems: 'center', justifyContent: 'center'}}
-						title = "Add Today's Weight"
-						//onPress = {this.addWeight}	
-						buttonStyle = {styles.confirmButton}
-						containerStyle = {styles.confirmContainer}
-					/>
+					<TouchableOpacity 
+						style = {styles.confirmContainer}
+						onPress = {this.addWeight}>
+						<Text style = {styles.confirmText}>
+							Add Today's Weight
+						</Text>
+					</TouchableOpacity>
 				</View>
 				
 				<HaH_NavBar
@@ -186,9 +206,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	weightInput: {
-		paddingBottom: padding.sm,
-		paddingLeft: padding.lg,
-		paddingRight: padding.lg
+		flexDirection: 'row',
+		paddingLeft: '12%',
+		paddingRight: '12%',
+		justifyContent: 'space-between'
 	},
 	weightText: {
 		textAlign: 'center',
@@ -205,24 +226,35 @@ const styles = StyleSheet.create({
 		fontFamily: 'sans-serif-condensed',
 	},
 	confirmButton: {
-		backgroundColor: colors.primary,
-		opacity: 0.8,
-		//marginLeft: '10%',
-		//marginRight: '10%',
-		borderRadius: 5,
-		//borderWidth: 1
+		backgroundColor: colors.brandblue,
+		borderRadius: 10,
+		height: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+		elevation: 7
 	},
 	confirmContainer: {
-		flexDirection:'row',
-		alignItems: 'center',
+		backgroundColor: colors.brandblue,
+		borderRadius: 10,
+		height: 50,
 		justifyContent: 'center',
-		
+		alignItems: 'center',
+		elevation: 7
 	},
 	confirmView: {
 		paddingLeft: '10%',
 		paddingRight: '10%',
 		paddingTop: '4%',
 		paddingBottom: '10%',
+	},
+	confirmText: {
+		flex: 1,
+		fontSize: 25,
+		fontWeight: 'bold',
+		textAlign: 'center',
+		fontFamily: 'sans-serif-condensed',
+		color: colors.brandwhite,
+		textAlignVertical: 'center'
 	},
 	userInput: {
         fontSize: 25,
