@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
 import { Header, SearchBar } from 'react-native-elements';
@@ -19,6 +19,10 @@ const userWeights = [
 	{ date: "10/6", weight: 274 },
 	{ date: "10/7", weight: 238 }
 ];
+
+state = {
+	curWeight: ""
+}
 
 
 class ReportCard extends React.Component {
@@ -46,6 +50,10 @@ class ReportCard extends React.Component {
 		Actions.push("report");
 	}
 
+	addWeight() {
+		console.log(this.state.curWeight)
+	}
+
 	render() {
 		return (
 			<View style = {{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
@@ -53,6 +61,9 @@ class ReportCard extends React.Component {
 					text = 'Report'
 				/>
 				<View style={styles.chartView}>
+					<Text style={styles.weightText}>
+						Weight (lbs)
+					</Text>
 					<VictoryChart
 						domainPadding={{x: 30, y: 30}}
 						containerComponent = {<VictoryVoronoiContainer
@@ -78,26 +89,35 @@ class ReportCard extends React.Component {
 							y="weight"
 						/>
 					</VictoryChart>
-					<Text style={styles.weightText}>
-						Weight (lbs)
-					</Text>
+					
 				</View>
-				<View style={styles.space}/>
 				<View style={styles.weightInput}>
 					<Text style={styles.weightInputText}>
 						Enter Today's Weight:
 					</Text>
-					
+					<View style={{backgroundColor: colors.brandgrey, paddingLeft: 5, paddingTop: 0, padding: 2, borderRadius: 10}}>
+						{/*
+						<TextInput
+							style={styles.userInput}
+							onChangeText={(curWeight) => this.check(curWeight)}
+							value={this.state.curWeight}
+							underlineColorAndroid = 'rgba(0,0,0,0)'
+							keyboardType='numeric'>
+						</TextInput>
+						*/}
+					</View>
 				</View>
+
 				<View style={styles.confirmView}>
 					<Button 
 						titleStyle = {{fontSize: 100, textAlign: 'center', alignItems: 'center', justifyContent: 'center'}}
-						title = 'Confirm Weight'
-						onPress = {this.addWeight}
+						title = "Add Today's Weight"
+						//onPress = {this.addWeight}	
 						buttonStyle = {styles.confirmButton}
 						containerStyle = {styles.confirmContainer}
 					/>
 				</View>
+				
 				<HaH_NavBar
 					selected = {4}
 				/>
@@ -108,8 +128,10 @@ class ReportCard extends React.Component {
 
 const styles = StyleSheet.create({
 	chartView: {
-		backgroundColor: colors.brandwhite,
+		flex: 1,
+		flexDirection: 'column',
 		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	pointsHeader: {
 		backgroundColor: 'transparent',
@@ -156,17 +178,14 @@ const styles = StyleSheet.create({
 		color: '#fff',
 	},
 	headerCenter: {
-		color: colors.brandwhite,
 		fontSize:30, 
 		fontWeight: 'bold',
 		fontFamily: 'sans-serif-condensed'
 	},
 	space: {
 		flex: 1,
-		backgroundColor: colors.brandwhite
 	},
 	weightInput: {
-		backgroundColor: colors.brandwhite,
 		paddingBottom: padding.sm,
 		paddingLeft: padding.lg,
 		paddingRight: padding.lg
@@ -200,13 +219,23 @@ const styles = StyleSheet.create({
 		
 	},
 	confirmView: {
-		backgroundColor: colors.brandwhite,
 		paddingLeft: '10%',
 		paddingRight: '10%',
-		paddingTop: '3%',
-		//paddingBottom: padding.sm,
-        flex: 1
+		paddingTop: '4%',
+		paddingBottom: '10%',
 	},
+	userInput: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'right',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.primary,
+        paddingLeft: 35,
+        paddingRight: 10,
+        justifyContent: 'center',
+        
+        //backgroundColor: "red",
+    }
 });
 
 export default ReportCard;
