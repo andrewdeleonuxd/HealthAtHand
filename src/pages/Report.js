@@ -10,10 +10,10 @@ import { VictoryLine, VictoryLabel, VictoryChart, VictoryAxis, VictoryVoronoiCon
 import {colors, margin, padding, fonts} from '../styles/base.js'
 import { HaH_Header, HaH_NavBar } from '../components/common/index.js';
 
-const userWeights = [
+const userWeight = [
 	{ date: "10/1", weight: 360 },
-	{ date: "10/2", weight: 355 },
-	{ date: "10/3", weight: 340 },
+	{ date: "10/2", weight: 360 },
+	{ date: "10/3", weight: 360 },
 	{ date: "10/4", weight: 320 },
 	{ date: "10/5", weight: 290 },
 	{ date: "10/6", weight: 274 },
@@ -23,8 +23,9 @@ const userWeights = [
 class ReportCard extends React.Component {
 
 	state = {
-		curWeightString: "" + userWeights[userWeights.length - 1].weight, //+ userWeights[userWeights.length - 1].weight
-		curWeight: userWeights[userWeights.length - 1].weight
+		curWeightString: "" + userWeight[userWeight.length - 1].weight, //+ userWeights[userWeights.length - 1].weight
+		curWeight: userWeight[userWeight.length - 1].weight,
+		userWeightState: userWeight
 	}
 
 	showHome = () => {
@@ -52,13 +53,14 @@ class ReportCard extends React.Component {
 	}
 
 	addWeight = () => {
-		console.log(this.state.curWeight)
-		userWeights[userWeights.length - 1].weight = this.state.curWeight;
-		console.log(userWeights)
+		//console.log(this.state.curWeight)
+		userWeight[userWeight.length - 1].weight = this.state.curWeight;
+		this.setState({userWeightState: userWeight})
+		console.log(this.state.userWeightState)
 	}
 
 	check(weightString) {
-		console.log(parseInt(weightString))
+		//console.log(parseInt(weightString))
 		this.setState({curWeightString: weightString})
 		{/*
 		if(weightString != "")
@@ -79,64 +81,69 @@ class ReportCard extends React.Component {
 				<HaH_Header
 					text = 'Report'
 				/>
-				<View style={styles.chartView}>
-					<Text style={styles.weightText}>
-						Weight (lbs)
-					</Text>
-					<VictoryChart
-						domainPadding={{x: 30, y: 30}}
-						containerComponent = {<VictoryVoronoiContainer
-							labels={(d) => (d.y)}/>}>
-						<VictoryAxis tickValues={[1, 2, 3, 4, 5, 6]} tickFormat={userWeights.date}/>
-						<VictoryLine
-							style={{
-								data:{
-									stroke: colors.brandblue, strokeWidth: 3
-								},
-								labels: {
-									fontSize: fonts.md,
-									fill: (d) => d.date == userWeights[userWeights.length - 1].date ? colors.brandgold : colors.brandblue
-								}
-							}}
-							
-							labelComponent={<VictoryLabel renderInPortal dy={-10}/>}
-							interpolation="natural"
-							data={userWeights}
-							labels={(d) => d.weight}
-							
-							x="date"
-							y="weight"
-						/>
-					</VictoryChart>
-					
-				</View>
-				<View style={styles.weightInput}>
-					<Text style={styles.weightInputText}>
-						Enter Today's Weight:
-					</Text>
-					<View style={{backgroundColor: colors.brandgrey, paddingLeft: 5, paddingTop: 0, padding: 2, borderRadius: 10}}>
-						
-						<TextInput
-							style={styles.userInput}
-							onChangeText={(curWeight) => this.check(curWeight)}
-							onSubmitEditing={this.submit}
-							value={this.state.curWeightString}
-							underlineColorAndroid = 'rgba(0,0,0,0)'
-							keyboardType='numeric'>
-						</TextInput>
+				<View style = {{flex: 1}}>
+					<View style={styles.chartView}>
+						<Text style={styles.weightText}>
+							Weight (lbs)
+						</Text>
+						<VictoryChart
+							domainPadding={{x: 30, y: 30}}
+							containerComponent = {<VictoryVoronoiContainer
+								labels={(d) => (d.y)}/>}
+							animate={{duration: 1000, easing: "poly"}}>
+							<VictoryAxis tickValues={[1, 2, 3, 4, 5, 6]} tickFormat={this.state.userWeightState.date}/>
+							<VictoryLine
+								style={{
+									data:{
+										stroke: colors.brandblue, strokeWidth: 3
+									},
+									labels: {
+										fontSize: fonts.md,
+										fill: (d) => d.date == this.state.userWeightState[this.state.userWeightState.length - 1].date ? colors.brandgold : colors.brandblue
+									}
+								}}
+								
+								labelComponent={<VictoryLabel renderInPortal dy={-10}/>}
+								//interpolation="natural"
+								data={this.state.userWeightState}
+								labels={(d) => String(Math.round(d.weight))}
+								
+								x="date"
+								y="weight"
+							/>
+						</VictoryChart>
 						
 					</View>
-				</View>
-
-				<View style={styles.confirmView}>
-					<TouchableOpacity 
-						style = {styles.confirmContainer}
-						onPress = {this.addWeight}>
-						<Text style = {styles.confirmText}>
-							Add Today's Weight
+					<View style = {{flex:1}}/>
+					<View style={styles.weightInput}>
+						<Text style={styles.weightInputText}>
+							Set Today's Weight:
 						</Text>
-					</TouchableOpacity>
+						<View style={{backgroundColor: colors.brandgrey, paddingLeft: 10, paddingTop: 0, padding: 2, borderRadius: 10}}>
+							
+							<TextInput
+								style={styles.userInput}
+								onChangeText={(curWeight) => this.check(curWeight)}
+								onSubmitEditing={this.submit}
+								value={this.state.curWeightString}
+								underlineColorAndroid = 'rgba(0,0,0,0)'
+								keyboardType='numeric'>
+							</TextInput>
+							
+						</View>
+					</View>
+
+					<View style={styles.confirmView}>
+						<TouchableOpacity 
+							style = {styles.confirmContainer}
+							onPress = {this.addWeight}>
+							<Text style = {styles.confirmText}>
+								Confirm Changes
+							</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
+				
 				
 				<HaH_NavBar
 					selected = {4}
@@ -148,10 +155,9 @@ class ReportCard extends React.Component {
 
 const styles = StyleSheet.create({
 	chartView: {
-		flex: 1,
 		flexDirection: 'column',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 	pointsHeader: {
 		backgroundColor: 'transparent',
@@ -234,7 +240,7 @@ const styles = StyleSheet.create({
 		elevation: 7
 	},
 	confirmContainer: {
-		backgroundColor: colors.brandblue,
+		backgroundColor: colors.brandgold,
 		borderRadius: 10,
 		height: 50,
 		justifyContent: 'center',
