@@ -3,21 +3,22 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import {Actions} from 'react-native-router-flux';
 
 import { Header, SearchBar } from 'react-native-elements';
-import { Card, ListItem, Button, Icon } from 'react-native-elements';
+import { Card, ListItem, Button, Icon, ButtonGroup } from 'react-native-elements';
 
-import { VictoryLine, VictoryLabel, VictoryChart, VictoryAxis, VictoryVoronoiContaine, VictoryCursorContainer } from "victory-native";
+import { VictoryLine, VictoryLabel, VictoryGroup, VictoryAxis, VictoryVoronoiContaine, VictoryCursorContainer } from "victory-native";
 
 import {colors, margin, padding, fonts} from '../styles/base.js'
 import { HaH_Header, HaH_NavBar } from '../components/common/index.js';
+import Moment from 'moment';
 
 const userWeight = [
-	{ date: "10/1", weight: 360 },
-	{ date: "10/2", weight: 400 },
-	{ date: "10/3", weight: 360 },
-	{ date: "10/4", weight: 320 },
-	{ date: "10/5", weight: 290 },
-	{ date: "10/6", weight: 274 },
-	{ date: "10/7", weight: 238 }
+	{ date: "2018-10-01", weight: 360 },
+	{ date: "2018-10-02", weight: 400 },
+	{ date: "2018-10-03", weight: 360 },
+	{ date: "2018-10-04", weight: 320 },
+	{ date: "2018-10-05", weight: 290 },
+	{ date: "2018-10-06", weight: 274 },
+	{ date: "2018-10-07", weight: 238 }
 ];
 
 class ReportCard extends React.Component {
@@ -26,7 +27,9 @@ class ReportCard extends React.Component {
 		curWeightString: "" + userWeight[userWeight.length - 1].weight, //+ userWeights[userWeights.length - 1].weight
 		curWeight: userWeight[userWeight.length - 1].weight,
 		userWeightState: userWeight,
-		shownWeight: userWeight[userWeight.length - 1].weight
+		shownData: userWeight[userWeight.length - 1],
+		category: 0,
+		shownColor: false
 	}
 
 	showHome = () => {
@@ -54,34 +57,39 @@ class ReportCard extends React.Component {
 	}
 
 	addWeight = () => {
-		//console.log(this.state.curWeight)
 		userWeight[userWeight.length - 1].weight = this.state.curWeight;
-		this.setState({userWeightState: userWeight, shownWeight: this.state.curWeight})
-		console.log(this.state.userWeightState)
+		this.setState({userWeightState: userWeight, shownData: userWeight[userWeight.length - 1]})
 	}
 
 	check(weightString) {
-		//console.log(parseInt(weightString))
 		this.setState({curWeightString: weightString})
-		{/*
-		if(weightString != "")
-		{
-			this.setState({curWeightString: weightString, curWeight: parseInt(weightString)})
-			console.log(this.state.curWeight)
-		}
-	*/}
 	}
 
 	submit = () => {
 		this.setState({curWeight: parseInt(this.state.curWeightString)})
 	}
 
+	weightTextColor() {
+		(this.state.shownColor == true) ? chosen = colors.brandgold : chosen = colors.brandblue
+		return {color: chosen};
+	}
+
 	setShownWeight = (d) => {
 		weight = Math.round(d, 1)
-		if(weight > 0 && weight < 8 && this.state.shownWeight != weight) {
-				this.setState({shownWeight: this.state.userWeightState[weight-1].weight});
+		if(weight > 0 && weight < 8 && this.state.shownData.weight != weight) {
+			this.setState({shownData: this.state.userWeightState[weight-1], shownColor: true});
+		}
+		else if(d == null)
+		{
+			this.setState({shownData: {date: this.state.userWeightState[this.state.userWeightState.length-1].date, weight: this.state.curWeightString}, shownColor: false});
 		}
 	}
+
+	
+    updateCategory = (category) => {
+        this.setState({showLoader: true});
+        (category == 0) ? this.setState({category, showLoader: false}) : this.setState({category, showLoader: false})
+    }
 
 	render() {
 		return (
@@ -89,24 +97,35 @@ class ReportCard extends React.Component {
 				<HaH_Header
 					text = 'Report'
 				/>
-				<View style = {{flex: 1}}>
-					<View style={styles.chartView}>
-						<Text style={styles.weightText}>
-							Weight (lbs) - {this.state.shownWeight}
+				<View style = {{flex: 1, paddingTop: '5%', paddingBottom: 0}}>
+					<View style = {{paddingRight: '5%'}}>
+						<Text style={[styles.weightText, this.weightTextColor()]}>
+							{this.state.shownData.weight} 
+							<Text style = {styles.unit}>
+								{' lbs'}
+							</Text>
 						</Text>
-						<VictoryChart
+						<Text style={styles.dateText}>
+							{Moment.utc(this.state.shownData.date).format('Do MMM YY')}
+						</Text>
+					</View>
+					<View style={styles.chartView}>
+						<VictoryGroup
+							height={200}
+							padding = {{top: 5, bottom: 5, left: 0, right: 0}}
 							domainPadding={{y: 5}}
 							containerComponent = {	
 													<VictoryCursorContainer
-														defaultCursorValue={{x: 7}}
+														//defaultCursorValue={{x: 7}}
 														cursorDimension ="x"
 														onCursorChange={(d) => (this.setShownWeight(d))}
 													/>
 												}
-							animate={{duration: 1000, easing: "poly"}}>
-							<VictoryAxis 
-								tickFormat={this.state.userWeightState.date}
-							/>
+							animate={{duration: 500, easing: "poly"}}
+							>
+							{/*<VictoryAxis 
+								//tickFormat={this.state.userWeightState.date}
+											/>*/}
 							<VictoryLine
 								style={{
 									data:{
@@ -126,8 +145,20 @@ class ReportCard extends React.Component {
 								x="date"
 								y="weight"
 							/>
-						</VictoryChart>
+						</VictoryGroup>
 						
+					</View>
+					<View style={{paddingLeft: '20%', paddingRight: '20%', paddingTop: 0, paddingBottom: 0}}>
+						<ButtonGroup
+							onPress={this.updateCategory}
+							selectedIndex={this.state.category}
+							buttons={['1W','1M','1Y']}
+							containerStyle={styles.categoryContainer}
+							selectedTextStyle={styles.categoryTextSelected}
+							textStyle={styles.categoryTextUnselected}
+							selectedButtonStyle={styles.categoryButtonSelected}
+							buttonStyle={styles.categoryButtonUnselected}
+						/>
 					</View>
 					<View style = {{flex:1}}/>
 					<View style={styles.weightInput}>
@@ -170,9 +201,8 @@ class ReportCard extends React.Component {
 
 const styles = StyleSheet.create({
 	chartView: {
-		flexDirection: 'column',
-		alignItems: 'center',
-		justifyContent: 'center',
+		paddingTop: 0,
+		paddingLeft: 0,
 	},
 	pointsHeader: {
 		backgroundColor: 'transparent',
@@ -225,26 +255,22 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between'
 	},
 	weightText: {
-		textAlign: 'center',
-        color: colors.primary,
-        opacity: 0.8,
-        fontSize: fonts.lg,
-        fontWeight: "100",
-        justifyContent: 'center'
-	},
-	weightInputText: {
-		textAlign: 'left',
-		fontSize: fonts.lg, 
+		textAlign: 'right',
+		fontSize: fonts.xl, 
 		fontWeight: 'bold',
 		fontFamily: 'sans-serif-condensed',
 	},
-	confirmButton: {
-		backgroundColor: colors.brandblue,
-		borderRadius: 10,
-		height: 50,
-		justifyContent: 'center',
-		alignItems: 'center',
-		elevation: 7
+	dateText: {
+		textAlign: 'right',
+		fontSize: fonts.sm,
+		fontWeight: 'bold',
+		fontFamily: 'sans-serif-condensed',
+	},
+	weightInputText: {
+		textAlign: 'right',
+		fontSize: fonts.lg, 
+		fontWeight: 'bold',
+		fontFamily: 'sans-serif-condensed',
 	},
 	confirmContainer: {
 		backgroundColor: colors.brandgold,
@@ -258,7 +284,8 @@ const styles = StyleSheet.create({
 		paddingLeft: '10%',
 		paddingRight: '10%',
 		paddingTop: '4%',
-		paddingBottom: '10%',
+		paddingBottom: 0,
+		marginBottom: 0,
 	},
 	confirmText: {
 		flex: 1,
@@ -278,9 +305,38 @@ const styles = StyleSheet.create({
         paddingLeft: 35,
         paddingRight: 10,
         justifyContent: 'center',
-        
-        //backgroundColor: "red",
-    }
+	},
+	categoryContainer: {
+        height: 50,
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 0,
+        borderRadius: 15,
+        borderColor: colors.brandblue
+    },
+    categoryTextUnselected: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed',
+        color: colors.primary
+    },
+    categoryTextSelected: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed',
+        color: colors.brandwhite
+    },
+    categoryButtonSelected: {
+        opacity: 0.8, 
+        backgroundColor: colors.brandblue
+	},
+	unit: {
+		fontSize: fonts.md,
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.brandgrey,
+        textAlign:'right',
+        alignSelf: 'flex-end',
+	}
 });
 
 export default ReportCard;
