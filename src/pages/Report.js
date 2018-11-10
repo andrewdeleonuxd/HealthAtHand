@@ -5,14 +5,14 @@ import {Actions} from 'react-native-router-flux';
 import { Header, SearchBar } from 'react-native-elements';
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
 
-import { VictoryLine, VictoryLabel, VictoryChart, VictoryAxis, VictoryVoronoiContainer } from "victory-native";
+import { VictoryLine, VictoryLabel, VictoryChart, VictoryAxis, VictoryVoronoiContaine, VictoryCursorContainer } from "victory-native";
 
 import {colors, margin, padding, fonts} from '../styles/base.js'
 import { HaH_Header, HaH_NavBar } from '../components/common/index.js';
 
 const userWeight = [
 	{ date: "10/1", weight: 360 },
-	{ date: "10/2", weight: 360 },
+	{ date: "10/2", weight: 400 },
 	{ date: "10/3", weight: 360 },
 	{ date: "10/4", weight: 320 },
 	{ date: "10/5", weight: 290 },
@@ -56,7 +56,7 @@ class ReportCard extends React.Component {
 	addWeight = () => {
 		//console.log(this.state.curWeight)
 		userWeight[userWeight.length - 1].weight = this.state.curWeight;
-		this.setState({userWeightState: userWeight})
+		this.setState({userWeightState: userWeight, shownWeight: this.state.curWeight})
 		console.log(this.state.userWeightState)
 	}
 
@@ -77,11 +77,10 @@ class ReportCard extends React.Component {
 	}
 
 	setShownWeight = (d) => {
-		weightLabel = d[0].weight;
-		console.log(d[0].weight)
-		if(this.state.shownWeight != d[0].weight){
-			this.setState({shownWeight: weightLabel});
-		} 
+		weight = Math.round(d, 1)
+		if(weight > 0 && weight < 8 && this.state.shownWeight != weight) {
+				this.setState({shownWeight: this.state.userWeightState[weight-1].weight});
+		}
 	}
 
 	render() {
@@ -96,15 +95,18 @@ class ReportCard extends React.Component {
 							Weight (lbs) - {this.state.shownWeight}
 						</Text>
 						<VictoryChart
-							domainPadding={{x: 30, y: 30}}
+							domainPadding={{y: 5}}
 							containerComponent = {	
-													<VictoryVoronoiContainer
-														voronoiDimension ="x"
-														onActivated={(d) => (this.setShownWeight(d))}
+													<VictoryCursorContainer
+														defaultCursorValue={{x: 7}}
+														cursorDimension ="x"
+														onCursorChange={(d) => (this.setShownWeight(d))}
 													/>
 												}
 							animate={{duration: 1000, easing: "poly"}}>
-							<VictoryAxis tickValues={[1, 2, 3, 4, 5, 6]} tickFormat={this.state.userWeightState.date}/>
+							<VictoryAxis 
+								tickFormat={this.state.userWeightState.date}
+							/>
 							<VictoryLine
 								style={{
 									data:{
@@ -174,10 +176,6 @@ const styles = StyleSheet.create({
 	},
 	pointsHeader: {
 		backgroundColor: 'transparent',
-		//position: 'absolute',
-		//top: 72,
-		//left: 56,
-		//width: 90,
 		textAlign: 'center',
 		color: colors.secondary,
 		fontSize: 20,
@@ -197,10 +195,6 @@ const styles = StyleSheet.create({
 	},
 	pointsLabel:{
 		backgroundColor: 'transparent',
-		//position: 'absolute',
-		//top: 72,
-		//left: 56,
-		//width: 90,
 		textAlign: 'center',
 		color: '#7591af',
 		fontSize: 14,
