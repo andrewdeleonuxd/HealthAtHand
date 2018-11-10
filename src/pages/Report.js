@@ -25,7 +25,8 @@ class ReportCard extends React.Component {
 	state = {
 		curWeightString: "" + userWeight[userWeight.length - 1].weight, //+ userWeights[userWeights.length - 1].weight
 		curWeight: userWeight[userWeight.length - 1].weight,
-		userWeightState: userWeight
+		userWeightState: userWeight,
+		shownWeight: userWeight[userWeight.length - 1].weight
 	}
 
 	showHome = () => {
@@ -75,6 +76,14 @@ class ReportCard extends React.Component {
 		this.setState({curWeight: parseInt(this.state.curWeightString)})
 	}
 
+	setShownWeight = (d) => {
+		weightLabel = d[0].weight;
+		console.log(d[0].weight)
+		if(this.state.shownWeight != d[0].weight){
+			this.setState({shownWeight: weightLabel});
+		} 
+	}
+
 	render() {
 		return (
 			<View style = {{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
@@ -84,12 +93,16 @@ class ReportCard extends React.Component {
 				<View style = {{flex: 1}}>
 					<View style={styles.chartView}>
 						<Text style={styles.weightText}>
-							Weight (lbs)
+							Weight (lbs) - {this.state.shownWeight}
 						</Text>
 						<VictoryChart
 							domainPadding={{x: 30, y: 30}}
-							containerComponent = {<VictoryVoronoiContainer
-								labels={(d) => (d.y)}/>}
+							containerComponent = {	
+													<VictoryVoronoiContainer
+														voronoiDimension ="x"
+														onActivated={(d) => (this.setShownWeight(d))}
+													/>
+												}
 							animate={{duration: 1000, easing: "poly"}}>
 							<VictoryAxis tickValues={[1, 2, 3, 4, 5, 6]} tickFormat={this.state.userWeightState.date}/>
 							<VictoryLine
@@ -103,10 +116,10 @@ class ReportCard extends React.Component {
 									}
 								}}
 								
-								labelComponent={<VictoryLabel renderInPortal dy={-10}/>}
+								//labelComponent={<VictoryLabel renderInPortal dy={-10}/>}
 								//interpolation="natural"
 								data={this.state.userWeightState}
-								labels={(d) => String(Math.round(d.weight))}
+								//labels={(d) => String(Math.round(d.weight))}
 								
 								x="date"
 								y="weight"
