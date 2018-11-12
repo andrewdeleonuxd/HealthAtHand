@@ -38,12 +38,14 @@ class AddExercise extends Component {
     } 
 
     onPress = (item) => {
-        Actions.push("exercisecard",{item:item,firstTime:false,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
+      //  Actions.push("exercisecard",{item:item,firstTime:false,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
+      Actions.push("exercisecard",{item:item,firstTime:false,onBack:this.props.item});
     }
 
     loadData = (props) => {
+        /*
        data=[]; 
-       let array=this.props.item.exercise;
+       let array=this.props.item;
        if(array.length>0){
        array.map((item, i) => {
    
@@ -71,8 +73,9 @@ class AddExercise extends Component {
             </TouchableHighlight>
         )
     })
+    
 }
-       
+   */    
     } 
 
 
@@ -94,7 +97,8 @@ class AddExercise extends Component {
     }
 
     submitEditing = () => {
-        Actions.push("searchexercise",{text:this.state.searchText,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
+      //  Actions.push("searchexercise",{text:this.state.searchText,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
+      Actions.push("searchexercise",{text:this.state.searchText,onBack:this.props.item});
     }
 
 
@@ -124,7 +128,7 @@ class AddExercise extends Component {
                 <Header
                     outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
                     leftComponent={backButton}
-                    centerComponent={{ text: 'Exercise '+this.props.item.exerciseNo, style: { color: '#fff',fontSize:17 }}}
+                    centerComponent={{ text: 'Add Exercise', style: { color: '#fff',fontSize:17 }}}
                     rightComponent={search}
                 />
                     {
@@ -151,7 +155,7 @@ class AddExercise extends Component {
 }
 
 //export default AddFood;
-
+ 
 const mapStateToProps = state => {
     return {
         exerciseArray: state.exercise.exerciseArray

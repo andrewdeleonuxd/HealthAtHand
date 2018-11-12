@@ -32,7 +32,7 @@ class ExerciseLog extends Component {
     } 
 
     onPress = (item) => {
-        Actions.push("addexercise",{item:item});
+        Actions.push("exercisecard",{item:item,firstTime:false});
     }
 
     loadData = (props) => {
@@ -52,7 +52,7 @@ class ExerciseLog extends Component {
                     color: "maroon",
                     fontSize: 15, 
                     marginBottom: 5,
-                }}>Exercise {item.exerciseNo}</Text>
+                }}>{item.itemName}</Text>
             </Card>
             </View>
             </TouchableHighlight>
@@ -68,8 +68,8 @@ class ExerciseLog extends Component {
 
 
     addExercisePg = () => {
-          let newObj={'exerciseNo':this.props.exerciseArray.length + 1,'exercise':[]};   
-        Actions.push("addexercise",{type:"addexercise",item:newObj});
+         // let newObj={'exerciseNo':this.props.exerciseArray.length + 1,'exercise':[]};   
+        Actions.push("addexercise",{type:"addexercise"});
                        
     }
 
@@ -135,7 +135,7 @@ class ExerciseLog extends Component {
     }
 }
 
-
+ 
 
 const mapStateToProps = state => {
     return {

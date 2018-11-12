@@ -56,7 +56,8 @@ class SearchExercise extends Component {
     }
 
     onPress = (item) => {
-        Actions.push("exercisecard",{item:item,firstTime:true,exerciseNo:this.props.exerciseNo,onBack:this.props.onBack});
+      //  Actions.push("exercisecard",{item:item,firstTime:true,exerciseNo:this.props.exerciseNo,onBack:this.props.onBack});
+      Actions.push("exercisecard",{item:item,firstTime:true,onBack:this.props.onBack});
     }
 
     submitEditing = () => {
@@ -91,7 +92,7 @@ class SearchExercise extends Component {
                                     underLayColor="transparent"
                                 >
                                     <View>
-                                        <Card
+                                        <Card 
                                             title = {item.title}
 
                                             titleNumberOfLines = {2}

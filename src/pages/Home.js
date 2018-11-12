@@ -121,7 +121,7 @@ class Home extends Component {
                 name='menu'
                 underlayColor={"transparent"}
                 color={colors.secondary}
-                onPress = {this.openControlPanel}
+                onPress = {this.openControlPanel} 
             />
         )
 

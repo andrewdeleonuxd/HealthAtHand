@@ -9,7 +9,7 @@ import NumericInput,{ calcSize } from 'react-native-numeric-input';
 
 //import NumberInput from 'rn-number-input';
 
-class ExerciseCard extends Component {
+class ExerciseCard extends Component { 
 
     state ={
         showLoader:false,
@@ -53,7 +53,8 @@ class ExerciseCard extends Component {
 
     goBack = () => {
       //  Actions.addexercise();
-        Actions.push("addexercise", {item:this.props.onBack});
+       Actions.exerciselog();
+      //  Actions.push("addexercise", {item:this.props.onBack});
     } 
 
     Add = () => {
@@ -66,8 +67,8 @@ class ExerciseCard extends Component {
         }
         
 
-        this.props.addexercise(obj,this.props.exerciseNo,this.props.exerciseArray,this.props.firstTime);
-
+      //  this.props.addexercise(obj,this.props.exerciseNo,this.props.exerciseArray,this.props.firstTime);
+          this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime);
     }
 
     onRemove = () => {
@@ -78,8 +79,8 @@ class ExerciseCard extends Component {
             intensity:this.state.intensity,
             duration:this.state.duration
         }
-        this.props.removeexercise(obj,this.props.exerciseNo,this.props.exerciseArray);
-
+      //  this.props.removeexercise(obj,this.props.exerciseNo,this.props.exerciseArray);
+          this.props.removeexercise(obj,this.props.exerciseArray);
     }
 
     onDurationChange = (text) =>{
@@ -156,7 +157,7 @@ class ExerciseCard extends Component {
                                         <Text style={{
                                             color: "maroon",
                                             fontSize: 15,
-                                            marginBottom: 5,
+                                            marginBottom: 5, 
                                         }}>intensity</Text>
                                         <Picker selectedValue={this.state.intensity} onValueChange={value => this.setState({intensity:value})} >
                                             <Picker.Item label="1" value="1" />
