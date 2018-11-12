@@ -75,6 +75,9 @@ class ExerciseLog extends Component {
                        
     }
 
+    showAddExerciseNotes = () => {
+        Actions.push("exercisenotes");
+    }
 
     Complete = () => {
         Actions.home();
@@ -113,10 +116,10 @@ class ExerciseLog extends Component {
                         {data}     
                     </View>    
                 }
-                <View style={{padding: padding.sm}}>  
+                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>  
                     <TouchableOpacity
                         style = {[button.touchable, {backgroundColor: colors.brandblue}]}
-                        onPress={this.showAddFoodNotes}>
+                        onPress={this.showAddExerciseNotes}>
                         <View style={button.view}>
                             <Text style = {button.text}>
                                 Exercise Notes

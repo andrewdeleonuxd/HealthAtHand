@@ -1,7 +1,10 @@
 import React,{Component} from 'react'
-import {View, TextInput, FlatList, ToastAndroid, TouchableHighlight ,ScrollView} from 'react-native'
-import { Header, Icon , SearchBar } from 'react-native-elements'
+import {View, TextInput,ToastAndroid, FlatList, Image, TouchableHighlight, ScrollView, StyleSheet, TouchableOpacity, Text} from 'react-native'
+import { Header, Icon , SearchBar, Card, Button} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux'
+
+import { HaH_Header, HaH_NavBar } from '../components/common';
+import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 class ExerciseNotes extends Component {
     state = {
@@ -9,12 +12,12 @@ class ExerciseNotes extends Component {
     }
 
     goBack = () => {
-        Actions.home();
+        Actions.push("exerciselog",{type:"addexercise"});
     }
 
     done = () => {
         ToastAndroid.show('done',3000,"TOP")
-        Actions.home();
+        Actions.push("exerciselog",{type:"addexercise"});
     }
 
     render = () => {
@@ -39,34 +42,63 @@ class ExerciseNotes extends Component {
         )
 
         return (
-            <View style={{flex:1}}>
-                <Header
-                    outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
-                    leftComponent={backButton}
-                    centerComponent={{ text: 'Exercise Notes', style: { color: '#fff',fontSize:17 }}}
-                    rightComponent={check}
+            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+                <HaH_Header
+                    left = {backButton}
+                    text = {'Add Exercise Notes'}
                 />
-           
-
-                 <ScrollView >
-                    <TextInput
-                    style={{height: "100%"}}
-                    placeholder="Type here to translate!"
-                    onChangeText={(text) => this.setState({text})}
-                    multiline = {true}
-                    textAlignVertical= 'top'
-                    maxLength = {400}
-                    numberOfLines = {200}
-                    disableFullscreenUI ={true}
-                    />
-                    
-                </ScrollView>
-                   
+            
+                <View style = {{flex: 1, padding: 10}}>   
+                    <Card
+                        containerStyle = {styles.cardContainer}
+                        wrapperStyle = {styles.cardWrapper}>
+                        <TextInput
+                            style={styles.noteText}
+                            placeholder="Enter your thoughts on your fitness activity today!"
+                            onChangeText={(text) => this.setState({text})}
+                            multiline = {true}
+                            textAlignVertical= 'top'
+                            maxLength = {400}
+                        />
+                    </Card>
+                </View>
+                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>
+                    <TouchableOpacity
+                        style = {[button.touchable, {backgroundColor: colors.brandgold}]}
+                        onPress={this.showAddFoodNotes}>
+                        <View style={button.view}>
+                            <Text style = {button.text}>
+                                Add Exercise Notes to Log
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <HaH_NavBar
+                    selected = {3}
+                />
             </View>
         )
     }
 }
-
-
+   
+const styles = StyleSheet.create({
+    cardContainer: {
+        flex: 1,
+        padding: 1,
+        elevation: 7,
+        borderRadius: 10,
+    },
+    cardWrapper: {
+        flex: 1,
+        padding: 20,
+    },
+    noteText: {
+        flex: 1,
+        fontSize: 18,
+        fontWeight: 'bold',
+        fontFamily: fonts.primary, 
+        color: colors.brandgrey
+    },
+});
 
 export default ExerciseNotes;

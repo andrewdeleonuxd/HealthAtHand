@@ -96,6 +96,10 @@ class MealLog extends Component {
         }              
     }
 
+    showAddFoodNotes = () => {
+        Actions.push("foodnotes");
+    }
+
 
     Complete = () => {
         Actions.home();
@@ -134,7 +138,7 @@ class MealLog extends Component {
                         {data}     
                     </View>   
                 }
-                <View style={{padding: padding.sm}}>  
+                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}> 
                     <TouchableOpacity
                         style = {[button.touchable, {backgroundColor: colors.brandblue}]}
                         onPress={this.showAddFoodNotes}>
