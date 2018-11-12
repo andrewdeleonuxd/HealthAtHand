@@ -24,7 +24,7 @@ const userWeight = [
 class ReportCard extends React.Component {
 
 	state = {
-		curWeightString: "" + userWeight[userWeight.length - 1].weight, //+ userWeights[userWeights.length - 1].weight
+		curWeightString: "" + userWeight[userWeight.length - 1].weight,
 		curWeight: userWeight[userWeight.length - 1].weight,
 		userWeightState: userWeight,
 		shownData: userWeight[userWeight.length - 1],
@@ -62,8 +62,14 @@ class ReportCard extends React.Component {
 	}
 
 	check(weightString) {
-		this.setState({curWeightString: weightString})
+		if(this.isWholeNumber(weightString) || weightString == ''){
+            this.setState({curWeightString: weightString})
+        }
 	}
+
+	isWholeNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n) && n.indexOf(".")==-1;
+    }
 
 	submit = () => {
 		this.setState({curWeight: parseInt(this.state.curWeightString)})
@@ -98,74 +104,72 @@ class ReportCard extends React.Component {
 					text = 'Report'
 				/>
 				<View style = {{flex: 1, paddingTop: '5%', paddingBottom: 0}}>
-					<View style = {{paddingRight: '5%'}}>
-						<Text style={[styles.weightText, this.weightTextColor()]}>
-							{this.state.shownData.weight} 
-							<Text style = {styles.unit}>
-								{' lbs'}
+					<View style = {{flex: 8, justifyContent: 'center', alignContent: 'center'}}>
+						<View style = {{paddingRight: '5%'}}>
+							<Text style={[styles.weightText, this.weightTextColor()]}>
+								{this.state.shownData.weight} 
+								<Text style = {styles.unit}>
+									{' lbs'}
+								</Text>
 							</Text>
-						</Text>
-						<Text style={styles.dateText}>
-							{Moment.utc(this.state.shownData.date).format('Do MMM YY')}
-						</Text>
-					</View>
-					<View style={styles.chartView}>
-						<VictoryGroup
-							height={200}
-							padding = {{top: 5, bottom: 5, left: 0, right: 0}}
-							domainPadding={{y: 5}}
-							containerComponent = {	
-													<VictoryCursorContainer
-														//defaultCursorValue={{x: 7}}
-														cursorDimension ="x"
-														onCursorChange={(d) => (this.setShownWeight(d))}
-													/>
-												}
-							animate={{duration: 500, easing: "poly"}}
-							>
-							{/*<VictoryAxis 
-								//tickFormat={this.state.userWeightState.date}
-											/>*/}
-							<VictoryLine
-								style={{
-									data:{
-										stroke: colors.brandblue, strokeWidth: 3
-									},
-									labels: {
-										fontSize: fonts.md,
-										fill: (d) => d.date == this.state.userWeightState[this.state.userWeightState.length - 1].date ? colors.brandgold : colors.brandblue
-									}
-								}}
-								
-								//labelComponent={<VictoryLabel renderInPortal dy={-10}/>}
-								//interpolation="natural"
-								data={this.state.userWeightState}
-								//labels={(d) => String(Math.round(d.weight))}
-								
-								x="date"
-								y="weight"
+							<Text style={styles.dateText}>
+								{Moment.utc(this.state.shownData.date).format('Do MMM YY')}
+							</Text>
+						</View>
+						<View style={styles.chartView}>
+							<VictoryGroup
+								height={200}
+								padding = {{top: 5, bottom: 5, left: 0, right: 0}}
+								domainPadding={{y: 5}}
+								containerComponent = {	
+														<VictoryCursorContainer
+															//defaultCursorValue={{x: 7}}
+															cursorDimension ="x"
+															onCursorChange={(d) => (this.setShownWeight(d))}
+														/>
+													}
+								animate={{duration: 500, easing: "poly"}}
+								>
+								{/*<VictoryAxis 
+									//tickFormat={this.state.userWeightState.date}
+												/>*/}
+								<VictoryLine
+									style={{
+										data:{
+											stroke: colors.brandblue, strokeWidth: 3
+										},
+										labels: {
+											fontSize: fonts.md,
+											fill: (d) => d.date == this.state.userWeightState[this.state.userWeightState.length - 1].date ? colors.brandgold : colors.brandblue
+										}
+									}}
+									//interpolation="natural"
+									data={this.state.userWeightState}
+									
+									x="date"
+									y="weight"
+								/>
+							</VictoryGroup>
+						</View>
+						<View style={{paddingLeft: '20%', paddingRight: '20%', paddingTop: 0, paddingBottom: 0}}>
+							<ButtonGroup
+								onPress={this.updateCategory}
+								selectedIndex={this.state.category}
+								buttons={['1W','1M','1Y']}
+								containerStyle={styles.categoryContainer}
+								selectedTextStyle={styles.categoryTextSelected}
+								textStyle={styles.categoryTextUnselected}
+								selectedButtonStyle={styles.categoryButtonSelected}
+								buttonStyle={styles.categoryButtonUnselected}
 							/>
-						</VictoryGroup>
-						
+						</View>
 					</View>
-					<View style={{paddingLeft: '20%', paddingRight: '20%', paddingTop: 0, paddingBottom: 0}}>
-						<ButtonGroup
-							onPress={this.updateCategory}
-							selectedIndex={this.state.category}
-							buttons={['1W','1M','1Y']}
-							containerStyle={styles.categoryContainer}
-							selectedTextStyle={styles.categoryTextSelected}
-							textStyle={styles.categoryTextUnselected}
-							selectedButtonStyle={styles.categoryButtonSelected}
-							buttonStyle={styles.categoryButtonUnselected}
-						/>
-					</View>
-					<View style = {{flex:1}}/>
+					<View style = {{flex:2}}/>
 					<View style={styles.weightInput}>
 						<Text style={styles.weightInputText}>
-							Set Today's Weight:
+							Today's Weight:
 						</Text>
-						<View style={{backgroundColor: colors.brandgrey, paddingLeft: 10, paddingTop: 0, padding: 2, borderRadius: 10}}>
+						<View style={{width: 70, height: 35, paddingLeft: 0, marginLeft: 0}}>
 							
 							<TextInput
 								style={styles.userInput}
@@ -299,12 +303,13 @@ const styles = StyleSheet.create({
 	userInput: {
         fontSize: 25,
         fontWeight: 'bold',
-        textAlign: 'right',
+        textAlign: 'center',
         fontFamily: 'sans-serif-condensed', 
         color: colors.primary,
-        paddingLeft: 35,
-        paddingRight: 10,
-        justifyContent: 'center',
+		justifyContent: 'center',
+		backgroundColor: colors.brandgrey,
+		borderRadius: 10
+		//backgroundColor: 'red'
 	},
 	categoryContainer: {
         height: 50,
