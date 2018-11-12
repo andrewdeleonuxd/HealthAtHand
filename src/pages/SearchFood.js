@@ -6,7 +6,7 @@ import { Header, SearchBar, ButtonGroup, Card, ListItem, Button, Icon } from 're
 import { HaH_Header, HaH_NavBar } from '../components/common';
 import testReponse from '../testdata/searchresult_pizza'
 
-import {colors, margin, padding} from '../styles/base.js'
+import {colors, margin, padding, fonts} from '../styles/base.js'
 
 class SearchFood extends Component{
     state = {
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
         flex: 3,
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
         textAlign:'left',
         marginRight: 25,
@@ -199,13 +199,13 @@ const styles = StyleSheet.create({
     categoryTextUnselected: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: fonts.primary,
         color: colors.primary
     },
     categoryTextSelected: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: fonts.primary,
         color: colors.brandwhite
     },
     categoryButtonSelected: {

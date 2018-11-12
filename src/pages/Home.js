@@ -11,7 +11,7 @@ import Communications from 'react-native-communications';
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle'
 
-import {colors, margin, padding} from '../styles/base.js'
+import {colors, margin, padding, fonts} from '../styles/base.js'
 import {HaH_Header, HaH_NavBar} from '../components/common'
 
 const drawerStyles = {
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary
     },
     cardContainer: {

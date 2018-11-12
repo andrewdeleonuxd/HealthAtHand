@@ -8,7 +8,7 @@ import {initializefood, removeMeal } from '../actions';
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
 
-import {colors, margin, padding} from '../styles/base.js'
+import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
 
@@ -157,23 +157,26 @@ class AddFood extends Component {
                     }   
                     <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                         <TouchableOpacity
-                            style = {styles.deleteButton}
+                            style = {[button.touchable, {backgroundColor: 'red'}]}
                             onPress={this.deleteMeal}>
-                            
-                            <Text style = {styles.deleteText}>
-                                Delete Meal
-                            </Text>
+                            <View style={button.view}>
+                                <Text style = {styles.deleteText}>
+                                    Delete Meal
+                                </Text>
+                            </View>
                         </TouchableOpacity>
                     </View>
                     {
                         (data.length == 0) ? <View/>:
                         <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                             <TouchableOpacity
-                                style = {styles.confirmButton}
-                                onPress = {this.goBack}>
-                                <Text style = {styles.confirmText}>
-                                    Add Meal To Log
-                                </Text>
+                                style = {[button.touchable, {backgroundColor: colors.brandgold}]}
+                                onPress={this.goBack}>
+                                <View style={button.view}>
+                                    <Text style = {button.text}>
+                                        Add Meal To Log
+                                    </Text>
+                                </View>
                             </TouchableOpacity>
                         </View>
                     }
@@ -192,7 +195,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary
     },
     cardContainer: {
@@ -210,7 +213,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
         flex: 3
     },
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'right',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
         marginRight: '10%',
         flex: 4
@@ -236,7 +239,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandwhite,
         textAlignVertical: 'center',
     },
@@ -248,7 +251,7 @@ const styles = StyleSheet.create({
 	},
     servingSizeUnit: {
         fontSize: 15,
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandgrey,
         textAlign:'right',
         alignSelf: 'flex-end',
@@ -266,7 +269,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandwhite,
         textAlignVertical: 'center',
     },

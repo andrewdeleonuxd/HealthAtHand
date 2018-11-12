@@ -7,8 +7,7 @@ import {Actions} from 'react-native-router-flux';
 import {initializefood } from '../actions';
 import { HaH_Header, HaH_NavBar } from '../components/common';
 
-import {colors, margin, padding} from '../styles/base.js'
-
+import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
 
@@ -134,20 +133,18 @@ class MealLog extends Component {
                     <View style={{flex: 1, height:"75%", paddingTop: 0}}>
                         {data}     
                     </View>   
-                } 
-                {
-                    (this.props.foodArray.length == 0) ? <View/> : 
-                    <View style={{padding: padding.sm}}>  
-                        <TouchableOpacity
-                            style = {styles.noteButton}
-                            onPress={this.showAddFoodNotes}>
-                            
-                            <Text style = {styles.noteText}>
+                }
+                <View style={{padding: padding.sm}}>  
+                    <TouchableOpacity
+                        style = {[button.touchable, {backgroundColor: colors.brandblue}]}
+                        onPress={this.showAddFoodNotes}>
+                        <View style={button.view}>
+                            <Text style = {button.text}>
                                 Meal Notes
                             </Text>
-                        </TouchableOpacity>
-                    </View>  
-                }
+                        </View>
+                    </TouchableOpacity>
+                </View>
                 <HaH_NavBar
                     selected = {2}
                 />
@@ -170,14 +167,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
     },
     foodCals: {
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'right',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
         marginRight: '10%',
         flex: 4
@@ -186,7 +183,7 @@ const styles = StyleSheet.create({
         color: colors.brandwhite,
         fontSize:30, 
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed'
+        fontFamily: fonts.primary
     },
     noteButton: {
         backgroundColor: colors.brandblue,
@@ -197,14 +194,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         elevation: 7
     },
+    noteView: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent: 'center',
+        borderRadius: 10
+    },
     noteText: {
         flex: 1,
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandwhite,
-        textAlignVertical: 'center',
+        alignSelf: 'center',
     },
 });
 

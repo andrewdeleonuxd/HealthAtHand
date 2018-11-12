@@ -9,7 +9,7 @@ import { HaH_Header, HaH_NavBar } from '../components/common';
 
 import testResponse from '../testdata/nutrients_pizza.json'
 
-import {colors, margin, padding} from '../styles/base.js'
+import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 //import NumberInput from 'rn-number-input';
  
@@ -217,22 +217,25 @@ class FoodCard extends Component {
                             (this.props.firstTime == true) ? <View/>:
                             <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                                 <TouchableOpacity
-                                    style = {styles.deleteButton}
+                                    style = {[button.touchable, {backgroundColor: 'red'}]}
                                     onPress={this.onRemove}>
-                                    
-                                    <Text style = {styles.deleteText}>
-                                        Delete Food
-                                    </Text>
+                                    <View style={button.view}>
+                                        <Text style = {styles.deleteText}>
+                                            Delete Food
+                                        </Text>
+                                    </View>
                                 </TouchableOpacity>
                             </View>
                         }
                         <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                             <TouchableOpacity
-                                style = {styles.confirmButton}
+                                style = {[button.touchable, {backgroundColor: colors.brandgold}]}
                                 onPress = {this.Add}>
-                                <Text style = {styles.confirmText}>
-                                    {this.confirmLabel()}
-                                </Text>
+                                <View style={button.view}>
+                                    <Text style = {styles.confirmText}>
+                                        {this.confirmLabel()}
+                                    </Text>
+                                </View>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -249,7 +252,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary
     },
     cardContainer: {
@@ -270,7 +273,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
         //backgroundColor: "red",
         paddingTop: '2%',
@@ -278,14 +281,14 @@ const styles = StyleSheet.create({
     servingSizeQty: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandblue,
         textAlign:'right',
         alignSelf: 'flex-end'
     },
     servingSizeUnit: {
         fontSize: 15,
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandgrey,
         textAlign:'right',
         alignSelf: 'flex-end',
@@ -294,7 +297,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'right',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
         paddingLeft: 35,
         paddingRight: 10,
@@ -315,7 +318,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandwhite,
         textAlignVertical: 'center',
     },
@@ -332,7 +335,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandwhite,
         textAlignVertical: 'center',
     },

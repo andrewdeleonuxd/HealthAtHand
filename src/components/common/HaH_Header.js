@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native'
 import {Header} from 'react-native-elements';
-import {colors, margin, padding} from '../../styles/base.js'
+import {colors, margin, padding, fonts} from '../../styles/base.js'
 
 
 const HaH_Header = (props) => {
@@ -22,7 +22,7 @@ const styles = StyleSheet.create ({
         color: colors.brandwhite,
         fontSize:30, 
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: fonts.primary,
         justifyContent: 'center',
         alignSelf: 'center'
     }
