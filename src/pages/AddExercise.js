@@ -1,10 +1,13 @@
 import React,{Component} from 'react';
 import _ from 'lodash';
-import {View, Text, FlatList, Image, TouchableHighlight} from 'react-native'
+import {View, Text, FlatList, Image, TouchableHighlight, StyleSheet, TouchableOpacity} from 'react-native'
 import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {initializeExercise } from '../actions';
+
+import { HaH_Header, HaH_NavBar } from '../components/common';
+import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
 
@@ -42,37 +45,36 @@ class AddExercise extends Component {
     }
 
     loadData = (props) => {
-       data=[]; 
-       let array=this.props.item.exercise;
-       if(array.length>0){
-       array.map((item, i) => {
-   
-        data.push(
-            <TouchableHighlight
-            key={i}
-            onPress = {() => this.onPress(item)}
-            underLayColor="transparent"
-            >
-            <View >   
-            <Card flexDirection='row'>
-                <Text style={{
-                    color: "maroon",
-                    fontSize: 15,
-                    marginBottom: 5,
-                }}>{item.itemName}</Text>
-                <Text style={{
-                    color: "maroon",
-                    fontSize: 15,
-                    marginBottom: 5,
-                    marginLeft:"60%"
-                }}>{item.duration}</Text> 
-            </Card>
-            </View>
-            </TouchableHighlight>
-        )
-    })
-}
-       
+        data=[]; 
+        let array=this.props.item.exercise;
+        if(array.length>0){
+            array.map((item, i) => {
+    
+                data.push(
+                    <TouchableHighlight
+                        key={i}
+                        onPress = {() => this.onPress(item)}
+                        underLayColor="transparent">
+                        <View>   
+                            <Card 
+                                flexDirection='row'
+                                containerStyle = {styles.cardContainer}
+                                wrapperStyle = {styles.cardWrapper}>
+                                <Text style={styles.cardHeader}>
+                                    {this.capitalize(item.itemName)}
+                                </Text>
+                                <Text style={styles.cardHeader}>
+                                    {item.duration}
+                                    <Text style={styles.servingSizeUnit}>
+                                        {' sec'}
+                                    </Text>
+                                </Text> 
+                            </Card>
+                        </View>
+                    </TouchableHighlight>
+                )
+            })
+        }
     } 
 
 
@@ -80,23 +82,15 @@ class AddExercise extends Component {
         Actions.exerciselog();
     }
 
-    searchTextChanged = (text) => {
-        this.setState({searchText:text})
-    }
-
-    showSearchbar = () => {
-        
-        if(this.state.showSearch == true)
-            this.setState({showSearch:false})
-        else 
-            this.setState({showSearch:true})
-            
-    }
-
-    submitEditing = () => {
+    showExerciseSearch = () => {
         Actions.push("searchexercise",{text:this.state.searchText,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
     }
 
+    capitalize(str) {
+        return str.replace(/\w\S*/g, function(txt){
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
 
     render = () => {
         let search = (
@@ -105,7 +99,7 @@ class AddExercise extends Component {
                 underlayColor={"transparent"}
                 color="white"
                 marginTop={50}
-                onPress = {this.showSearchbar}
+                onPress = {this.showExerciseSearch}
             />
     )
 
@@ -120,37 +114,138 @@ class AddExercise extends Component {
         )
 
         return (
-            <View>
-                <Header
-                    outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
-                    leftComponent={backButton}
-                    centerComponent={{ text: 'Exercise '+this.props.item.exerciseNo, style: { color: '#fff',fontSize:17 }}}
-                    rightComponent={search}
+           <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+                <HaH_Header
+                    text = {'Exercise ' + this.props.item.exerciseNo}
+                    right = {search}
                 />
+                <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}></View>
                     {
-                            (this.state.showSearch == true) ? <SearchBar
-                                lightTheme
-                                round
-                                onChangeText = {this.searchTextChanged}
-                                onSubmitEditing = {this.submitEditing}
-                                placeholder='Type Here...' /> : <View></View>
+                        (data.length == 0) ? <View style={{flex: 1, height:"75%"}}></View>: 
+                        <View style={{flex: 1, height:"75%"}}>
+                            <View style={{flex: 1, margin: 0}}>
+                                {data} 
+                            </View>
+                        </View>
+                    }  
+                    <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                        <TouchableOpacity
+                            style = {[button.touchable, {backgroundColor: 'red'}]}
+                            //onPress={this.deleteMeal}
+                        >
+                            <View style={button.view}>
+                                <Text style = {styles.deleteText}>
+                                    Delete Exercise
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    {
+                        (data.length == 0) ? <View/>:
+                        <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                            <TouchableOpacity
+                                style = {[button.touchable, {backgroundColor: colors.brandgold}]}
+                                onPress={this.goBack}>
+                                <View style={button.view}>
+                                    <Text style = {button.text}>
+                                        Add Exercise To Log
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                     }
-
-                    {
-                    (data.length == 0) ? <View></View> : 
-                    <View style={{backgroundColor:"white", height:"75%"}}>
-
-                              {data}
-                                 
-                    </View>   
-                    }   
-
+                    <HaH_NavBar
+                        selected = {3}
+                    />
             </View>
         )
     }
 }
 
-//export default AddFood;
+const styles = StyleSheet.create({
+    cardHeader: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
+        color: colors.primary
+    },
+    cardContainer: {
+        
+        elevation: 7,
+        borderRadius: 10
+    },
+    cardWrapper: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 2,
+        paddingRight: 2
+    },
+    foodName: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        flex: 3
+    },
+    foodCals: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'right',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        marginRight: '10%',
+        flex: 4
+    },
+    confirmButton: {
+		backgroundColor: colors.brandgold,
+		borderRadius: 10,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 7,
+    },
+    confirmText: {
+        flex: 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
+        color: colors.brandwhite,
+        textAlignVertical: 'center',
+    },
+	confirmContainer: {
+		flexDirection:'row',
+		//alignItems: 'center',
+		//justifyContent: 'center',
+		
+	},
+    servingSizeUnit: {
+        fontSize: 15,
+        fontFamily: fonts.primary, 
+        color: colors.brandgrey,
+        textAlign:'right',
+        alignSelf: 'flex-end',
+    },
+    deleteButton: {
+		backgroundColor: 'red',
+		borderRadius: 10,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 7
+    },
+    deleteText: {
+        flex: 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
+        color: colors.brandwhite,
+        textAlignVertical: 'center',
+    },
+});
 
 const mapStateToProps = state => {
     return {
