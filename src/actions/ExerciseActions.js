@@ -11,7 +11,7 @@ import {
 export const initializeExercise = (exerciseobj,exerciseArray) => {
         return (dispatch) => {  
         exerciseArray.push(exerciseobj); 
-         dispatch({
+         dispatch({ 
              type: EXERCISE_INITIALIZE,
              payload:exerciseArray
          });

@@ -54,7 +54,7 @@ class SearchExercise extends Component {
                 console.log("error", error);
             })
     }
-
+ 
     onPress = (item) => {
       //  Actions.push("exercisecard",{item:item,firstTime:true,exerciseNo:this.props.exerciseNo,onBack:this.props.onBack});
       Actions.push("exercisecard",{item:item,firstTime:true,onBack:this.props.onBack});

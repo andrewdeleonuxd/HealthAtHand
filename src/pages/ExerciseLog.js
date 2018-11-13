@@ -44,7 +44,7 @@ class ExerciseLog extends Component {
             <TouchableHighlight
             key={i}
             onPress = {() => this.onPress(item)}
-            underLayColor="transparent"
+            underLayColor="transparent" 
             >
             <View >   
             <Card flexDirection='row'>

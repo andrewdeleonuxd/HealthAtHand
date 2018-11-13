@@ -65,7 +65,7 @@ class AddExercise extends Component {
                 <Text style={{
                     color: "maroon",
                     fontSize: 15,
-                    marginBottom: 5,
+                    marginBottom: 5, 
                     marginLeft:"60%"
                 }}>{item.duration}</Text> 
             </Card>

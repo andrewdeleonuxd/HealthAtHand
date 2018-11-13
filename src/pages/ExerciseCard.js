@@ -196,7 +196,7 @@ class ExerciseCard extends Component {
                                     backgroundColor="blue"
                                     onPress={this.onRemove}
                                     />
-                                 </Card>
+                                 </Card> 
                                
 
 
