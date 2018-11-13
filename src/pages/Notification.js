@@ -4,9 +4,7 @@ import { Header, Icon , SearchBar, Button } from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
 import { Constants, Calendar, Permissions } from 'expo';
 
-//import RNCalendarEvents from 'react-native-calendar-events';
 
-//import Communications from 'react-native-communications';
 
 
 class Notification extends Component {
@@ -14,61 +12,38 @@ class Notification extends Component {
         subject:"",
         body:"",
         cal_auth: "",
-        results:[]
+        results:""
     }
 
     myCalendar = () =>{
-        let details = {
-          title: 'myCalendar',
-          color: 'blue',
-          entityType: Calendar.EntityTypes.REMINDER,
-          sourceId: 'my_calendar_1'
-        };
+     
+      
 
-        
-        
-        Calendar.createCalendarAsync(details)
-          .then( event => {
-            this.setState({ results: event });
+          var SaveEvent= Expo.Calendar.createEventAsync(Expo.Calendar.DEFAULT,{
+            startDate: new Date('2018-11-13'),
+            endDate: new Date('2018-11-14'),
+            title: "hah event",
+            timeZone: "GMT-7"
           })
-          .catch( error => {
-            this.setState({ results: error });
-          });
+          .then( event => {
+            this.setState({
+                results: "Event added"
+            })
+            console.log('success',event);
+              })
+        .catch( error => {
+            this.setState({
+                results: "cannot add event"
+            })
+            console.log('failure',error);
+            }); 
+   
       }
 
     componentWillMount = () => {
         Permissions.askAsync('calendar')
-        // iOS
-        /*
-        RNCalendarEvents.authorizationStatus()
-        .then(status => {
-          // if the status was previous accepted, set the authorized status to state
-          this.setState({ cal_auth: status })
-          if(status === 'undetermined') {
-            // if we made it this far, we need to ask the user for access 
-            RNCalendarEvents.authorizeEventStore()
-            .then((out) => {
-              if(out == 'authorized') {
-                // set the new status to the auth state
-                this.setState({ cal_auth: out })
-              }
-            })
-           }
-         })
-       .catch(error => console.warn('Auth Error 1: ', error));
      
-       // Android
-       RNCalendarEvents.authorizeEventStore()
-       .then((out) => {
-         if(out == 'authorized') {
-           // set the new status to the auth state
-           this.setState({ cal_auth: out })
-         } else {
-            this.setState({ cal_auth: out })
-         }
-       })
-       .catch(error => console.warn('Auth Error 2: ', out));
-       */
+
      }
    
 
@@ -77,21 +52,7 @@ class Notification extends Component {
     }
 
     done = () => {
-     //   ToastAndroid.show('done',3000,"TOP")
-   //  Communications.email(['abcd@gmail.com'],null,null,this.state.subject,this.state.body);
-   //RNCalendarEvents.findCalendars()
    
-   /*
-   RNCalendarEvents.saveEvent('Title of event', {
-    startDate: '2016-08-19T19:26:00.000Z',
-    endDate: '2017-08-19T19:26:00.000Z'
-  }).then(id => {
-    // we can get the event ID here if we need it
-    console.log("I am here");
-  }).catch(error => console.log('Save Event Error: ', error));
-  */
-
-   //  Actions.home();
 
    console.log("*********************");
 
@@ -134,7 +95,7 @@ class Notification extends Component {
     
         />
         
-        <Text style={{ marginTop: 20 }}>{this.state.results.toString()}</Text>
+        <Text style={{ marginTop: 20 }}>{this.state.results}</Text>
         
       </View>
                    
