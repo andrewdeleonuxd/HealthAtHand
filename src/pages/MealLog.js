@@ -10,12 +10,9 @@ import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
+var dailyCal = 0;
 
 class MealLog extends Component {
-
-    state = {
-
-    }
 
     componentWillMount = () => {
      /*
@@ -24,7 +21,8 @@ class MealLog extends Component {
             itemName:"mango",
             totalCalories:25
         }
-    */
+    */  
+        dailyCal = 0;
         if(this.props.foodArray.length == 0){
          //   this.props.initializefood(obj,this.props.foodArray);
             this.loadData(this.props); 
@@ -67,6 +65,12 @@ class MealLog extends Component {
                             <Text style = {styles.foodName}>
                                 Meal {item.mealNo}
                             </Text>
+                            <Text style = {styles.cardHeader}>
+                                {this.calculateMealCal(item.food)}
+                                <Text style={styles.servingSizeUnit}>
+                                    {' cals'}
+                                </Text>
+                            </Text>
                         </Card>
                     </View>
                 </TouchableHighlight>
@@ -78,7 +82,6 @@ class MealLog extends Component {
     goBack = () => {
         Actions.home();
     }
-
 
     addMealPg = () => {
           let ogFoodObj = this.props.foodArray;
@@ -103,6 +106,16 @@ class MealLog extends Component {
 
     Complete = () => {
         Actions.home();
+    }
+
+    calculateMealCal(food) {
+        console.log("hit");
+        totalCals = 0;
+        for(i = 0; i < food.length; i++) {
+            totalCals += food[i].totalCalories;
+        }
+        dailyCal += totalCals;
+        return totalCals;
     }
 
     render = () => {
@@ -133,10 +146,20 @@ class MealLog extends Component {
                     right = {addMeal}
                 />
                 {
-                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> : 
-                    <View style={{flex: 1, height:"75%", paddingTop: 0}}>
-                        {data}     
-                    </View>   
+                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
+                    <View style = {{flex: 1}}>
+                        <View style={{flex: 1, height:"75%", paddingTop: 0}}>
+                            {data}     
+                        </View>
+                        <View style ={styles.totalCalView}>
+                            <Text style={[styles.totalCal, {fontSize: 35}]}>
+                                Calories
+                            </Text>
+                            <Text style={[styles.totalCal, {fontSize: 35}]}>
+                                {dailyCal.toFixed(2)}
+                            </Text>
+                        </View>
+                    </View>
                 }
                 <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}> 
                     <TouchableOpacity
@@ -161,14 +184,21 @@ const styles = StyleSheet.create({
     cardContainer: {
         padding: 1,
         elevation: 7,
-        borderRadius: 10
+        borderRadius: 10,
     },
-    cardWrapper: {        
-        alignItems: 'center',
+    cardHeader: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'right',
+        fontFamily: fonts.primary, 
+        color: colors.primary
+    },
+    cardWrapper: {
+        justifyContent: 'space-between',
         padding: 10,
     },
     foodName: {
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'left',
         fontFamily: fonts.primary, 
@@ -213,6 +243,28 @@ const styles = StyleSheet.create({
         fontFamily: fonts.primary, 
         color: colors.brandwhite,
         alignSelf: 'center',
+    },
+    servingSizeUnit: {
+        fontSize: 15,
+        fontFamily: fonts.primary, 
+        color: colors.brandgrey,
+        textAlign:'right',
+        alignSelf: 'flex-end',
+    },
+    totalCalView: {
+        flexDirection: 'row',
+        paddingLeft: '12%',
+        paddingRight: '12%',
+        justifyContent: 'space-between'
+    },
+    totalCal: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        //backgroundColor: "red",
+        paddingTop: '2%',
     },
 });
 
