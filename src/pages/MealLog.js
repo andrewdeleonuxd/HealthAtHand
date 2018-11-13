@@ -47,7 +47,6 @@ class MealLog extends Component {
     loadData = (props) => {
         data=[]; 
         let array=props.foodArray;
-         array = array.sort((a, b) => Number(a.mealNo) - Number(b.mealNo));
         array.map((item, i) => { 
    
             data.push(
@@ -109,7 +108,6 @@ class MealLog extends Component {
     }
 
     calculateMealCal(food) {
-        console.log("hit");
         totalCals = 0;
         for(i = 0; i < food.length; i++) {
             totalCals += food[i].totalCalories;
@@ -148,14 +146,40 @@ class MealLog extends Component {
                 {
                     (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
                     <View style = {{flex: 1}}>
-                        <View style={{flex: 1, height:"75%", paddingTop: 0}}>
-                            {data}     
-                        </View>
+                        <FlatList
+                                data={this.props.foodArray}
+                                renderItem={({item}) => (
+                                    <TouchableOpacity
+                                        key={i}
+                                        onPress = {() => this.onPress(item)} 
+                                        underLayColor="transparent"
+                                        style = {{padding: 7}}
+                                    > 
+                                        <Card
+                                            flexDirection = 'row' 
+                                            containerStyle = {styles.cardContainer}
+                                            wrapperStyle = {styles.cardWrapper}>
+                                            <Text style = {styles.foodName}>
+                                                Meal {item.mealNo}
+                                            </Text>
+                                            <Text style = {styles.cardHeader}>
+                                                {this.calculateMealCal(item.food)}
+                                                <Text style={styles.servingSizeUnit}>
+                                                    {' cals'}
+                                                </Text>
+                                            </Text>
+                                        </Card>
+                                    </TouchableOpacity>
+                                )}
+                                onEndReachedThreshold={0.5}
+                                onEndReached={this.endReached}
+                                keyExtractor={item => (item.mealNo.toString())}
+                            />
                         <View style ={styles.totalCalView}>
-                            <Text style={[styles.totalCal, {fontSize: 35}]}>
-                                Calories
+                            <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                Daily Calories
                             </Text>
-                            <Text style={[styles.totalCal, {fontSize: 35}]}>
+                            <Text style={[styles.totalCal, {fontSize: 25}]}>
                                 {dailyCal.toFixed(2)}
                             </Text>
                         </View>
@@ -182,7 +206,7 @@ class MealLog extends Component {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        padding: 1,
+        marginTop: 0,
         elevation: 7,
         borderRadius: 10,
     },
@@ -193,9 +217,11 @@ const styles = StyleSheet.create({
         fontFamily: fonts.primary, 
         color: colors.primary
     },
-    cardWrapper: {
-        justifyContent: 'space-between',
-        padding: 10,
+    cardWrapper: {        
+        flexDirection: 'row',
+        flex: 1,
+        marginLeft: 0,
+        justifyContent: 'space-between'
     },
     foodName: {
         fontSize: 25,
