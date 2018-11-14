@@ -12,13 +12,12 @@ import { HaH_Header, HaH_NavBar } from '../components/common/index.js';
 import Moment from 'moment';
 
 const userWeight = [
-	{ date: "2018-10-01", weight: 360 },
-	{ date: "2018-10-02", weight: 400 },
-	{ date: "2018-10-03", weight: 360 },
-	{ date: "2018-10-04", weight: 320 },
-	{ date: "2018-10-05", weight: 290 },
-	{ date: "2018-10-06", weight: 274 },
-	{ date: "2018-10-07", weight: 238 }
+	{ date: new Date('2018-10-01'), weight: 360 },
+	{ date: new Date('2018-10-03'), weight: 500 },
+	{ date: new Date('2018-10-04'), weight: 320 },
+	{ date: new Date('2018-10-05'), weight: 290 },
+	{ date: new Date('2018-10-06'), weight: 274 },
+	{ date: new Date('2018-10-07'), weight: 238 }
 ];
 
 class ReportCard extends React.Component {
@@ -81,14 +80,29 @@ class ReportCard extends React.Component {
 	}
 
 	setShownWeight = (d) => {
-		weight = Math.round(d, 1)
+		//console.log(d)
+		
+		if(d == null) {
+			this.setState({shownData: {date: this.state.userWeightState[this.state.userWeightState.length-1].date, weight: this.state.curWeightString}, shownColor: false});
+		}
+		else{
+			this.setState({shownData: this.state.userWeightState.sort(function(a,b){
+				var distancea = Math.abs(d - a.date);
+				var distanceb = Math.abs(d - b.date);
+				return distancea - distanceb;
+			})[0], shownColor: true});
+		}
+		
+		
+		{/*
+		console.log(idx)
 		if(weight > 0 && weight < 8 && this.state.shownData.weight != weight) {
 			this.setState({shownData: this.state.userWeightState[weight-1], shownColor: true});
 		}
-		else if(d == null)
-		{
+		else if(d == null) {
 			this.setState({shownData: {date: this.state.userWeightState[this.state.userWeightState.length-1].date, weight: this.state.curWeightString}, shownColor: false});
 		}
+	*/}
 	}
 
 	
@@ -119,6 +133,7 @@ class ReportCard extends React.Component {
 						<View style={styles.chartView}>
 							<VictoryGroup
 								height={200}
+								scale={{x: "time"}}
 								padding = {{top: 5, bottom: 5, left: 0, right: 0}}
 								domainPadding={{y: 5}}
 								containerComponent = {	
