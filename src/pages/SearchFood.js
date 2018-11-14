@@ -8,6 +8,8 @@ import testReponse from '../testdata/searchresult_pizza'
 
 import {colors, margin, padding, fonts} from '../styles/base.js'
 
+const BASE_URL = 'http://10.0.0.4:5000';
+
 class SearchFood extends Component{
     state = {
         choices:[],
@@ -16,7 +18,8 @@ class SearchFood extends Component{
         count:0,
         showLoader:false,
         searchText:"",
-        category: 0
+        category: 0,
+        response: {}
     }
     
     componentWillMount = () => {
@@ -27,12 +30,12 @@ class SearchFood extends Component{
     }
 
     formData = (request)  => {
-        {/*
         fetch(request)
             .then((response) => response.json())
             .then((responseJson)=>{
-                if(responseJson.common.length > 0) {
-                    this.setState({searchResults: responseJson, choices:responseJson.common, showLoader:false})
+                console.log(responseJson);
+                if(responseJson.code == 200) {
+                    this.setState({response: responseJson, choices:responseJson.mealName.common, showLoader:false})
                 } else {
                     console.log("no data");
                 }
@@ -40,22 +43,6 @@ class SearchFood extends Component{
             .catch((error) => {
                 console.log("error", error);
             })
-        */}
-
-        
-        this.setState({choices:testReponse.common, showLoader:false})
-        
-        {/*
-        if(testReponse.branded.length > 0) {
-            console.log(testReponse.common.length)
-            this.state.choices = testReponse.branded
-            this.setState({choices:this.state.choices, showLoader:false})
-        } else {
-            this.state.choices = testReponse.branded
-            console.log("no data");
-        }
-        
-        */}
     }
 
     onPress = (item) => {
@@ -71,7 +58,8 @@ class SearchFood extends Component{
     submitEditing = () => {
         let food = this.state.searchText
         this.setState({choices:[]})
-        const request = new Request('https://http://sis-teach-01.sis.pitt.edu/projects/healthathand/search/' + food)
+        const request = BASE_URL + '/search/' + food
+        console.log(request)
         this.formData(request)
     }
 
@@ -96,7 +84,7 @@ class SearchFood extends Component{
 
     updateCategory = (category) => {
         this.setState({showLoader: true});
-        (category == 0) ? this.setState({choices: testReponse.common, category, showLoader: false}) : this.setState({choices: testReponse.branded, category, showLoader: false})
+        (category == 0) ? this.setState({choices: this.state.response.mealName.common, category, showLoader: false}) : this.setState({choices: this.state.response.mealName.branded, category, showLoader: false})
     }
 
     render() {
