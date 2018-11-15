@@ -29,7 +29,6 @@ class SearchFood extends Component{
         fetch(request)
             .then((response) => response.json())
             .then((responseJson)=>{
-                console.log(responseJson);
                 if(responseJson.code == 200) {
                     (this.state.category == 0) ? this.setState({response: responseJson, choices:responseJson.mealName.common, showLoader:false}) : this.setState({response: responseJson, choices:responseJson.mealName.branded, showLoader:false})
                 } else {
@@ -57,7 +56,7 @@ class SearchFood extends Component{
             let food = text
             this.setState({choices:[], searching: true})
             const request = BASE_URL + '/search/' + food
-            console.log(request)
+            //console.log(request)
             this.formData(request)
         }
     }
@@ -78,10 +77,12 @@ class SearchFood extends Component{
     }
 
     updateCategory = (category) => {
-        if(this.state.searching)
-        {
+        if(this.state.searching) {
             this.setState({showLoader: true});
             (category == 0) ? this.setState({choices: this.state.response.mealName.common, category, showLoader: false}) : this.setState({choices: this.state.response.mealName.branded, category, showLoader: false})
+        }
+        else {
+            this.setState({category})
         }
     }
 
@@ -93,10 +94,11 @@ class SearchFood extends Component{
                 <View style={{flex:1,flexDirection: 'column'}}>
                     
                     <SearchBar
-                        lightTheme
-                        round
                         onChangeText = {this.searchTextChanged}
-                        placeholder='Type Here...' />
+                        placeholder='Enter food...'
+                        containerStyle = {styles.searchContainer}
+                        inputStyle = {styles.searchInputContainer}
+                        searchIcon = {styles.searchIcon}/>
                     <View style={{padding: 10}}>
                         <ButtonGroup
                             onPress={this.updateCategory}
@@ -150,6 +152,21 @@ class SearchFood extends Component{
     }
 }
 const styles = StyleSheet.create({
+    searchContainer: {
+        backgroundColor: 'transparent',
+        borderBottomColor: colors.brandgrey,
+        borderTopColor: 'transparent',
+        borderBottomWidth: 2
+    },
+    searchInputContainer: {
+        backgroundColor: 'transparent',
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    searchIcon: {
+        height: 100,
+        width: 100
+    },
     cardHeader: {
         flex: 3,
         fontSize: 25,
