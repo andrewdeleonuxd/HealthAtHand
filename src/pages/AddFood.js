@@ -11,6 +11,7 @@ import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
+var totalCals = 0;
 
 class AddFood extends Component {
 
@@ -40,22 +41,24 @@ class AddFood extends Component {
         }
 
         */
-        this.loadData(this.props); 
-
-
+        totalCals = 0;
+        //this.loadData(this.props); 
+        this.calculateMealCal(this.props.item.food)
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
       //  alert("inside componentWillReceiveProps")
         console.log("componentWillReceiveProps ");
-        this.loadData(nextProps)
+        //this.loadData(nextProps)
+
     } 
 
     onPress = (item) => {
         Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.item.mealNo,onBack:this.props.item});
     }
 
+    /*
     loadData = (props) => {
        data=[]; 
        let array=this.props.item.food;
@@ -83,7 +86,7 @@ class AddFood extends Component {
                                 </Text>
                             </Text> 
                             <Text style={styles.cardHeader}>
-                                {item.totalCalories}
+                                {this.calculateMealCal(item.totalCalories)}
                                 <Text style={styles.servingSizeUnit}>
                                     {' cals'}
                                 </Text>
@@ -94,7 +97,7 @@ class AddFood extends Component {
                 )
             })
         }
-    } 
+    } */
 
 
     goBack = () => {
@@ -117,6 +120,13 @@ class AddFood extends Component {
         return str.replace(/\w\S*/g, function(txt){
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
+    }
+
+    calculateMealCal(item) {
+        for(i = 0; i < item.length; i++)
+        {
+            totalCals += item[i].totalCalories
+        }
     }
 
     render = () => {
@@ -143,18 +153,59 @@ class AddFood extends Component {
         return (
             <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
+                    left = {backButton}
                     text = {'Meal ' + this.props.item.mealNo}
                     right = {search}
                 />
                 <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>
                     {
-                        (data.length == 0) ? <View style={{flex: 1, height:"75%"}}></View>: 
-                        <View style={{flex: 1, height:"75%"}}>
-                            <View style={{flex: 1, margin: 0}}>
-                                {data} 
+                        (this.props.item.food.length == 0) ? <View style={{flex: 1}}></View>: 
+                        <View style={{flex: 1}}>
+                            <FlatList
+                                data={this.props.item.food}
+                                renderItem={({item}) => (
+                                    <TouchableOpacity
+                                        onPress = {() => this.onPress(item)} 
+                                        underLayColor="transparent"
+                                        style = {{padding: 7}}
+                                    > 
+                                        <Card
+                                            flexDirection = 'row' 
+                                            containerStyle = {styles.cardContainer}
+                                            wrapperStyle = {styles.cardWrapper}>
+                                            <Text style={styles.cardHeader}>
+                                                {this.capitalize(item.itemName)}
+                                            </Text>
+                                            <Text style={styles.cardHeader}>
+                                                {item.totalCalories / item.Calories}
+                                                <Text style={styles.servingSizeUnit}>
+                                                    {' ' + item.servingSize + '(s)'}
+                                                </Text>
+                                            </Text> 
+                                            <Text style={styles.cardHeader}>
+                                                {item.totalCalories}
+                                                <Text style={styles.servingSizeUnit}>
+                                                    {' cals'}
+                                                </Text>
+                                            </Text> 
+                                        </Card>
+                                    </TouchableOpacity>
+                                )}
+                                onEndReachedThreshold={0.5}
+                                onEndReached={this.endReached}
+                                keyExtractor={item => (item.itemName)}
+                            />
+                            <View style ={styles.totalCalView}>
+                                <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                    Total Calories
+                                </Text>
+                                <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                    {totalCals}
+                                </Text>
                             </View>
                         </View>
-                    }   
+                    }
+                    
                     <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                         <TouchableOpacity
                             style = {[button.touchable, {backgroundColor: 'red'}]}
@@ -166,7 +217,7 @@ class AddFood extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    {
+                    {/*
                         (data.length == 0) ? <View/>:
                         <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                             <TouchableOpacity
@@ -179,7 +230,7 @@ class AddFood extends Component {
                                 </View>
                             </TouchableOpacity>
                         </View>
-                    }
+                    */}
                 </View>
                 <HaH_NavBar
                     selected = {2}
@@ -272,6 +323,21 @@ const styles = StyleSheet.create({
         fontFamily: fonts.primary, 
         color: colors.brandwhite,
         textAlignVertical: 'center',
+    },
+    totalCalView: {
+        flexDirection: 'row',
+        paddingLeft: '12%',
+        paddingRight: '12%',
+        justifyContent: 'space-between'
+    },
+    totalCal: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        //backgroundColor: "red",
+        paddingTop: '2%',
     },
 });
 

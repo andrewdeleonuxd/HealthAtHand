@@ -10,12 +10,9 @@ import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
+var dailyCal = 0;
 
 class MealLog extends Component {
-
-    state = {
-
-    }
 
     componentWillMount = () => {
      /*
@@ -24,7 +21,8 @@ class MealLog extends Component {
             itemName:"mango",
             totalCalories:25
         }
-    */
+    */  
+        dailyCal = 0;
         if(this.props.foodArray.length == 0){
          //   this.props.initializefood(obj,this.props.foodArray);
             this.loadData(this.props); 
@@ -49,7 +47,6 @@ class MealLog extends Component {
     loadData = (props) => {
         data=[]; 
         let array=props.foodArray;
-         array = array.sort((a, b) => Number(a.mealNo) - Number(b.mealNo));
         array.map((item, i) => { 
    
             data.push(
@@ -67,6 +64,12 @@ class MealLog extends Component {
                             <Text style = {styles.foodName}>
                                 Meal {item.mealNo}
                             </Text>
+                            <Text style = {styles.cardHeader}>
+                                {this.calculateMealCal(item.food)}
+                                <Text style={styles.servingSizeUnit}>
+                                    {' cals'}
+                                </Text>
+                            </Text>
                         </Card>
                     </View>
                 </TouchableHighlight>
@@ -78,7 +81,6 @@ class MealLog extends Component {
     goBack = () => {
         Actions.home();
     }
-
 
     addMealPg = () => {
           let ogFoodObj = this.props.foodArray;
@@ -103,6 +105,15 @@ class MealLog extends Component {
 
     Complete = () => {
         Actions.home();
+    }
+
+    calculateMealCal(food) {
+        totalCals = 0;
+        for(i = 0; i < food.length; i++) {
+            totalCals += food[i].totalCalories;
+        }
+        dailyCal += totalCals;
+        return totalCals;
     }
 
     render = () => {
@@ -133,10 +144,46 @@ class MealLog extends Component {
                     right = {addMeal}
                 />
                 {
-                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> : 
-                    <View style={{flex: 1, height:"75%", paddingTop: 0}}>
-                        {data}     
-                    </View>   
+                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
+                    <View style = {{flex: 1}}>
+                        <FlatList
+                                data={this.props.foodArray}
+                                renderItem={({item}) => (
+                                    <TouchableOpacity
+                                        key={i}
+                                        onPress = {() => this.onPress(item)} 
+                                        underLayColor="transparent"
+                                        style = {{padding: 7}}
+                                    > 
+                                        <Card
+                                            flexDirection = 'row' 
+                                            containerStyle = {styles.cardContainer}
+                                            wrapperStyle = {styles.cardWrapper}>
+                                            <Text style = {styles.foodName}>
+                                                Meal {item.mealNo}
+                                            </Text>
+                                            <Text style = {styles.cardHeader}>
+                                                {this.calculateMealCal(item.food)}
+                                                <Text style={styles.servingSizeUnit}>
+                                                    {' cals'}
+                                                </Text>
+                                            </Text>
+                                        </Card>
+                                    </TouchableOpacity>
+                                )}
+                                onEndReachedThreshold={0.5}
+                                onEndReached={this.endReached}
+                                keyExtractor={item => (item.mealNo.toString())}
+                            />
+                        <View style ={styles.totalCalView}>
+                            <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                Daily Calories
+                            </Text>
+                            <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                {dailyCal.toFixed(2)}
+                            </Text>
+                        </View>
+                    </View>
                 }
                 <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}> 
                     <TouchableOpacity
@@ -159,16 +206,25 @@ class MealLog extends Component {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        padding: 1,
+        marginTop: 0,
         elevation: 7,
-        borderRadius: 10
+        borderRadius: 10,
+    },
+    cardHeader: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'right',
+        fontFamily: fonts.primary, 
+        color: colors.primary
     },
     cardWrapper: {        
-        alignItems: 'center',
-        padding: 10,
+        flexDirection: 'row',
+        flex: 1,
+        marginLeft: 0,
+        justifyContent: 'space-between'
     },
     foodName: {
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'left',
         fontFamily: fonts.primary, 
@@ -213,6 +269,28 @@ const styles = StyleSheet.create({
         fontFamily: fonts.primary, 
         color: colors.brandwhite,
         alignSelf: 'center',
+    },
+    servingSizeUnit: {
+        fontSize: 15,
+        fontFamily: fonts.primary, 
+        color: colors.brandgrey,
+        textAlign:'right',
+        alignSelf: 'flex-end',
+    },
+    totalCalView: {
+        flexDirection: 'row',
+        paddingLeft: '12%',
+        paddingRight: '12%',
+        justifyContent: 'space-between'
+    },
+    totalCal: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        //backgroundColor: "red",
+        paddingTop: '2%',
     },
 });
 

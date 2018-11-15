@@ -133,23 +133,21 @@ class SearchFood extends Component{
                                 renderItem={({item}) => (
                                     <TouchableOpacity
                                         
-                                        style = {{paddingTop: 0, paddingBottom: 0}}
+                                        style = {{paddingBottom: 7}}
                                         onPress = {() => this.onPress(item)}
                                         underLayColor="transparent"
                                     >
-                                        <View style = {{paddingTop: 5, paddingBottom: 10}}>
-                                            <Card
-                                                containerStyle = {styles.cardContainer}
-                                                wrapperStyle = {styles.cardWrapper}>
-                                                <Image
-                                                    style={{width: 30, height: 30}}
-                                                    source={this.findThumbnail(item.photo.thumb)}
-                                                />
-                                                <Text style = {styles.cardHeader}>
-                                                    {this.capitalize(item.food_name)}
-                                                </Text>
-                                            </Card>
-                                        </View>
+                                        <Card
+                                            containerStyle = {styles.cardContainer}
+                                            wrapperStyle = {styles.cardWrapper}>
+                                            <Image
+                                                style={{width: 30, height: 30}}
+                                                source={this.findThumbnail(item.photo.thumb)}
+                                            />
+                                            <Text style = {styles.cardHeader}>
+                                                {this.capitalize(item.food_name)}
+                                            </Text>
+                                        </Card>
                                     </TouchableOpacity>
                                 )}
                                 onEndReachedThreshold={0.5}
