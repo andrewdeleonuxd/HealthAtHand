@@ -54,7 +54,7 @@ class SearchFood extends Component{
         if(text)
         {
             let food = text
-            this.setState({choices:[], searching: true})
+            this.setState({choices:[], searching: true, showLoader: true})
             const request = BASE_URL + '/search/' + food
             //console.log(request)
             this.formData(request)
@@ -88,7 +88,7 @@ class SearchFood extends Component{
 
     render() {
         return (
-            <View style = {{flex: 1, marginTop: Expo.Constants.statusBarHeight}}>
+            <View style = {{flex: 1}}>
                 <HaH_Header
                     text = 'Add Food'/>
                 <View style={{flex:1,flexDirection: 'column'}}>
@@ -97,7 +97,7 @@ class SearchFood extends Component{
                         onChangeText = {this.searchTextChanged}
                         placeholder='Enter food...'
                         containerStyle = {styles.searchContainer}
-                        inputStyle = {styles.searchInputContainer}
+                        inputContainerStyle = {styles.searchInputContainer}
                         searchIcon = {styles.searchIcon}/>
                     <View style={{padding: 10}}>
                         <ButtonGroup
@@ -161,11 +161,11 @@ const styles = StyleSheet.create({
     searchInputContainer: {
         backgroundColor: 'transparent',
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        paddingLeft: 45
     },
     searchIcon: {
-        height: 100,
-        width: 100
+        //size: 15
     },
     cardHeader: {
         flex: 3,
