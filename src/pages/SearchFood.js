@@ -17,16 +17,12 @@ class SearchFood extends Component{
         page:1,  
         count:0,
         showLoader:false,
-        searchText:"",
+        searching:false,
         category: 0,
         response: {}
     }
     
     componentWillMount = () => {
-    }
-    
-    endReached = () => {
-        ToastAndroid.show('Loading more data...',3000,"BOTTOM")
     }
 
     formData = (request)  => {
@@ -55,16 +51,15 @@ class SearchFood extends Component{
         });
     }
 
-    submitEditing = () => {
-        let food = this.state.searchText
-        this.setState({choices:[]})
-        const request = BASE_URL + '/search/' + food
-        console.log(request)
-        this.formData(request)
-    }
-
     searchTextChanged = (text) => {
-        this.setState({searchText:text})
+        if(text)
+        {
+            let food = text
+            this.setState({choices:[], searching: true})
+            const request = BASE_URL + '/search/' + food
+            console.log(request)
+            this.formData(request)
+        }
     }
 
     capitalize(str) {
@@ -83,8 +78,11 @@ class SearchFood extends Component{
     }
 
     updateCategory = (category) => {
-        this.setState({showLoader: true});
-        (category == 0) ? this.setState({choices: this.state.response.mealName.common, category, showLoader: false}) : this.setState({choices: this.state.response.mealName.branded, category, showLoader: false})
+        if(this.state.searching)
+        {
+            this.setState({showLoader: true});
+            (category == 0) ? this.setState({choices: this.state.response.mealName.common, category, showLoader: false}) : this.setState({choices: this.state.response.mealName.branded, category, showLoader: false})
+        }
     }
 
     render() {
@@ -98,7 +96,6 @@ class SearchFood extends Component{
                         lightTheme
                         round
                         onChangeText = {this.searchTextChanged}
-                        onSubmitEditing = {this.submitEditing}
                         placeholder='Type Here...' />
                     <View style={{padding: 10}}>
                         <ButtonGroup
@@ -140,8 +137,6 @@ class SearchFood extends Component{
                                         </View>
                                     </TouchableOpacity>
                                 )}
-                                onEndReachedThreshold={0.5}
-                                onEndReached={this.endReached}
                                 keyExtractor={item => item.food_name}
                             />
                         </View>
