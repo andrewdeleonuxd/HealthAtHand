@@ -11,6 +11,7 @@ import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
+var totalCal = 0;
 
 class AddFood extends Component {
 
@@ -40,9 +41,8 @@ class AddFood extends Component {
         }
 
         */
+        totalCal = 0;
         this.loadData(this.props); 
-
-
     }
 
 
@@ -83,7 +83,7 @@ class AddFood extends Component {
                                 </Text>
                             </Text> 
                             <Text style={styles.cardHeader}>
-                                {item.totalCalories}
+                                {this.calculateMealCal(item.totalCalories)}
                                 <Text style={styles.servingSizeUnit}>
                                     {' cals'}
                                 </Text>
@@ -117,6 +117,11 @@ class AddFood extends Component {
         return str.replace(/\w\S*/g, function(txt){
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
+    }
+
+    calculateMealCal(foodCal) {
+        totalCal += foodCal;
+        return foodCal;
     }
 
     render = () => {
@@ -154,7 +159,15 @@ class AddFood extends Component {
                                 {data} 
                             </View>
                         </View>
-                    }   
+                    }
+                    <View style ={styles.totalCalView}>
+                        <Text style={[styles.totalCal, {fontSize: 25}]}>
+                            Total Calories
+                        </Text>
+                        <Text style={[styles.totalCal, {fontSize: 25}]}>
+                            {totalCal.toFixed(2)}
+                        </Text>
+                    </View>
                     <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                         <TouchableOpacity
                             style = {[button.touchable, {backgroundColor: 'red'}]}
@@ -272,6 +285,21 @@ const styles = StyleSheet.create({
         fontFamily: fonts.primary, 
         color: colors.brandwhite,
         textAlignVertical: 'center',
+    },
+    totalCalView: {
+        flexDirection: 'row',
+        paddingLeft: '12%',
+        paddingRight: '12%',
+        justifyContent: 'space-between'
+    },
+    totalCal: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        //backgroundColor: "red",
+        paddingTop: '2%',
     },
 });
 
