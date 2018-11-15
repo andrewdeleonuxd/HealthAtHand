@@ -7,7 +7,7 @@ import { Card, ListItem, Button, Icon, ButtonGroup } from 'react-native-elements
 
 import { VictoryLine, VictoryLabel, VictoryGroup, VictoryAxis, VictoryVoronoiContaine, VictoryCursorContainer } from "victory-native";
 
-import {colors, margin, padding, fonts} from '../styles/base.js'
+import {colors, margin, padding, fonts, button} from '../styles/base.js'
 import { HaH_Header, HaH_NavBar } from '../components/common/index.js';
 import Moment from 'moment';
 
@@ -199,13 +199,15 @@ class ReportCard extends React.Component {
 					</View>
 
 					<View style={styles.confirmView}>
-						<TouchableOpacity 
-							style = {styles.confirmContainer}
-							onPress = {this.addWeight}>
-							<Text style = {styles.confirmText}>
-								Confirm Changes
-							</Text>
-						</TouchableOpacity>
+						<TouchableOpacity
+							style = {[button.touchable, {backgroundColor: colors.brandgold}]}
+							onPress={this.addWeight}>
+							<View style={button.view}>
+								<Text style = {button.text}>
+									Confirm Changes
+								</Text>
+							</View>
+                    	</TouchableOpacity>
 					</View>
 				</View>
 				
@@ -262,7 +264,7 @@ const styles = StyleSheet.create({
 	headerCenter: {
 		fontSize:30, 
 		fontWeight: 'bold',
-		fontFamily: 'sans-serif-condensed'
+		fontFamily: fonts.primary
 	},
 	space: {
 		flex: 1,
@@ -277,19 +279,19 @@ const styles = StyleSheet.create({
 		textAlign: 'right',
 		fontSize: fonts.xl, 
 		fontWeight: 'bold',
-		fontFamily: 'sans-serif-condensed',
+		fontFamily: fonts.primary,
 	},
 	dateText: {
 		textAlign: 'right',
 		fontSize: fonts.sm,
 		fontWeight: 'bold',
-		fontFamily: 'sans-serif-condensed',
+		fontFamily: fonts.primary,
 	},
 	weightInputText: {
 		textAlign: 'right',
 		fontSize: fonts.lg, 
 		fontWeight: 'bold',
-		fontFamily: 'sans-serif-condensed',
+		fontFamily: fonts.primary,
 	},
 	confirmContainer: {
 		backgroundColor: colors.brandgold,
@@ -311,7 +313,7 @@ const styles = StyleSheet.create({
 		fontSize: 25,
 		fontWeight: 'bold',
 		textAlign: 'center',
-		fontFamily: 'sans-serif-condensed',
+		fontFamily: fonts.primary,
 		color: colors.brandwhite,
 		textAlignVertical: 'center'
 	},
@@ -319,7 +321,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
 		justifyContent: 'center',
 		backgroundColor: colors.brandgrey,
@@ -337,13 +339,13 @@ const styles = StyleSheet.create({
     categoryTextUnselected: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: fonts.primary,
         color: colors.primary
     },
     categoryTextSelected: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: fonts.primary,
         color: colors.brandwhite
     },
     categoryButtonSelected: {
@@ -352,7 +354,7 @@ const styles = StyleSheet.create({
 	},
 	unit: {
 		fontSize: fonts.md,
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandgrey,
         textAlign:'right',
         alignSelf: 'flex-end',
