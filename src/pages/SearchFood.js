@@ -35,7 +35,7 @@ class SearchFood extends Component{
             .then((responseJson)=>{
                 console.log(responseJson);
                 if(responseJson.code == 200) {
-                    this.setState({response: responseJson, choices:responseJson.mealName.common, showLoader:false})
+                    (this.state.category == 0) ? this.setState({response: responseJson, choices:responseJson.mealName.common, showLoader:false}) : this.setState({response: responseJson, choices:responseJson.mealName.branded, showLoader:false})
                 } else {
                     console.log("no data");
                 }
