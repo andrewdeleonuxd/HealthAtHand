@@ -4,9 +4,12 @@ import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addexercise,removeexercise} from '../actions';
+//import {uuid} from 'node-uuid';
+const uuid = require('uuid/v1');
+//var uuid = require('node-uuid');
 import NumericInput,{ calcSize } from 'react-native-numeric-input';
 
-
+ 
 //import NumberInput from 'rn-number-input';
 
 class ExerciseCard extends Component { 
@@ -30,7 +33,7 @@ class ExerciseCard extends Component {
 
 
     
-
+ 
     componentDidMount = () => {
         if(this.props.firstTime){
             this.setState({
@@ -58,24 +61,39 @@ class ExerciseCard extends Component {
     } 
 
     Add = () => {
+        if(this.props.firstTime){
+            let id = uuid();
+        id = id.split("-").join("");
         let obj={
-            id:this.state.itemName,
+            id:id,
             itemName:this.state.itemName,
             type:this.state.type,
             intensity:this.state.intensity,
             duration:this.state.duration
         }
-        
 
-      //  this.props.addexercise(obj,this.props.exerciseNo,this.props.exerciseArray,this.props.firstTime);
-          this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime);
+        this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime);
+        } else{
+            let obj={
+                id:this.props.item.id,
+                itemName:this.state.itemName,
+                type:this.state.type,
+                intensity:this.state.intensity,
+                duration:this.state.duration
+            }
+            
+    
+          //  this.props.addexercise(obj,this.props.exerciseNo,this.props.exerciseArray,this.props.firstTime);
+              this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime);
+        }
+
     }
 
     onRemove = () => {
         let obj={
-            id:this.state.itemName,
+            id:this.props.item.id,
             itemName:this.state.itemName,
-            type:this.state.type,
+            type:this.state.type, 
             intensity:this.state.intensity,
             duration:this.state.duration
         }
