@@ -43,7 +43,7 @@ export const initializeExercise = (exerciseobj,exerciseArray) => {
                   duration:exerciseobj.duration,
                   type:exerciseobj.type
                  }
-                 exerciseArray = _.reject(exerciseArray, function(item) { return item.id === exerciseobj.id; });
+              //   exerciseArray = _.reject(exerciseArray, function(item) { return item.id === exerciseobj.id; });
                  exerciseArray.push(newobj)
                  dispatch({
                   type: EXERCISE_ADDED,
