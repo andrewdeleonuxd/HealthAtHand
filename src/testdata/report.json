@@ -1,0 +1,41 @@
+{
+    "code": "200",
+    "message": "Success! We pulled the day, week, month, and year weights",
+    "report": {},
+    "report_card": [
+        {
+            "weight": 130,
+            "date": "2018-10-01"
+        },
+        {
+            "weight": 150,
+            "date": "2018-10-09"
+        },
+        {
+            "weight": 135,
+            "date": "2018-11-01"
+        },
+        {
+            "weight": 125,
+            "date": "2018-11-09"
+        },
+        {
+            "weight": 145,
+            "date": "2018-11-11"
+        },
+        {
+            "weight": 165,
+            "date": "2018-11-12"
+        },
+        {
+            "weight": 200,
+            "date": "2018-11-15"
+        },
+        {
+            "weight": 220,
+            "date": "2018-11-16"
+        }
+    ]
+ }
+ 
+ 

@@ -11,48 +11,51 @@ import {colors, margin, padding, fonts, button} from '../styles/base.js'
 import { HaH_Header, HaH_NavBar } from '../components/common/index.js';
 import Moment from 'moment';
 
-const userWeight = [
-	{ date: new Date('2018-10-01'), weight: 360 },
-	{ date: new Date('2018-10-03'), weight: 500 },
-	{ date: new Date('2018-10-04'), weight: 320 },
-	{ date: new Date('2018-10-05'), weight: 290 },
-	{ date: new Date('2018-10-06'), weight: 274 },
-	{ date: new Date('2018-10-07'), weight: 238 }
-];
+import testResponse from '../testdata/report.json'
+
+const userWeight = {};
 
 class ReportCard extends React.Component {
 
 	state = {
-		curWeightString: "" + userWeight[userWeight.length - 1].weight,
-		curWeight: userWeight[userWeight.length - 1].weight,
+		curWeight: 0,
 		userWeightState: userWeight,
-		shownData: userWeight[userWeight.length - 1],
+		shownData: {},
 		category: 0,
 		shownColor: false
 	}
 
-	showHome = () => {
-		Actions.home();
+	componentWillMount = () => {
+		for(i = 0; i < testResponse.report_card.length; i++)
+		{
+			testResponse.report_card[i].date = new Date(testResponse.report_card[i].date)
+		}
+		userWeight = testResponse.report_card;
+		this.setState({
+			curWeight: userWeight[userWeight.length - 1].weight.toString(),
+			userWeightState: this.changeDomain(userWeight),
+			shownData: userWeight[userWeight.length - 1]
+		});
 	}
-  
-	showAddFood = () => {  
-		Actions.push("addfood",{type:"addfood"});
-	}
-  
-	showAddExercise = () => {
-		Actions.push("addexercise",{type:"addexercise"});
-	}
-  
-	showAddFoodNotes = () => {
-		Actions.push("foodnotes");
-	}
-  
-	showAddExerciseNotes = () => {
-		Actions.push("exercisenotes");
-	}
-  
-	showReport = () => {
-		Actions.push("report");
+
+	changeDomain(userWeight, category) {
+		min = Moment(new Date()).subtract(1, 'week');
+		max = new Date();
+		if(category == 1)
+		{
+			min = Moment(new Date()).subtract(1, 'month');
+		}
+		else if(category == 2)
+		{
+			min = Moment(new Date()).subtract(1, 'year');
+		}
+		dates = userWeight.filter(
+			function(each) {
+				return Moment(each.date).isBetween(min, max);
+			}
+		)
+		dates.filter(a => a.date > min && a.date < max);
+		return dates;
 	}
 
 	addWeight = () => {
@@ -62,17 +65,13 @@ class ReportCard extends React.Component {
 
 	check(weightString) {
 		if(this.isWholeNumber(weightString) || weightString == ''){
-            this.setState({curWeightString: weightString})
+            this.setState({curWeight: weightString})
         }
 	}
 
 	isWholeNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n) && n.indexOf(".")==-1;
     }
-
-	submit = () => {
-		this.setState({curWeight: parseInt(this.state.curWeightString)})
-	}
 
 	weightTextColor() {
 		(this.state.shownColor == true) ? chosen = colors.brandgold : chosen = colors.brandblue
@@ -83,7 +82,7 @@ class ReportCard extends React.Component {
 		//console.log(d)
 		
 		if(d == null) {
-			this.setState({shownData: {date: this.state.userWeightState[this.state.userWeightState.length-1].date, weight: this.state.curWeightString}, shownColor: false});
+			this.setState({shownData: {date: this.state.userWeightState[this.state.userWeightState.length-1].date, weight: this.state.curWeight}, shownColor: false});
 		}
 		else{
 			this.setState({shownData: this.state.userWeightState.sort(function(a,b){
@@ -92,23 +91,11 @@ class ReportCard extends React.Component {
 				return distancea - distanceb;
 			})[0], shownColor: true});
 		}
-		
-		
-		{/*
-		console.log(idx)
-		if(weight > 0 && weight < 8 && this.state.shownData.weight != weight) {
-			this.setState({shownData: this.state.userWeightState[weight-1], shownColor: true});
-		}
-		else if(d == null) {
-			this.setState({shownData: {date: this.state.userWeightState[this.state.userWeightState.length-1].date, weight: this.state.curWeightString}, shownColor: false});
-		}
-	*/}
 	}
 
 	
     updateCategory = (category) => {
-        this.setState({showLoader: true});
-        (category == 0) ? this.setState({category, showLoader: false}) : this.setState({category, showLoader: false})
+        this.setState({category, userWeightState: this.changeDomain(userWeight, category), showLoader: false})
     }
 
 	render() {
@@ -190,7 +177,7 @@ class ReportCard extends React.Component {
 								style={styles.userInput}
 								onChangeText={(curWeight) => this.check(curWeight)}
 								onSubmitEditing={this.submit}
-								value={this.state.curWeightString}
+								value={this.state.curWeight}
 								underlineColorAndroid = 'rgba(0,0,0,0)'
 								keyboardType='numeric'>
 							</TextInput>
