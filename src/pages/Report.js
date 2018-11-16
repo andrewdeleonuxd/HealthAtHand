@@ -14,6 +14,7 @@ import Moment from 'moment';
 import testResponse from '../testdata/report.json'
 
 const userWeight = {};
+const today = new Date();
 
 class ReportCard extends React.Component {
 
@@ -26,6 +27,7 @@ class ReportCard extends React.Component {
 	}
 
 	componentWillMount = () => {
+		today.setHours(0,0,0,0);
 		for(i = 0; i < testResponse.report_card.length; i++)
 		{
 			testResponse.report_card[i].date = new Date(testResponse.report_card[i].date)
@@ -33,8 +35,7 @@ class ReportCard extends React.Component {
 		userWeight = testResponse.report_card;
 		this.setState({
 			curWeight: userWeight[userWeight.length - 1].weight.toString(),
-			userWeightState: this.changeDomain(userWeight),
-			shownData: userWeight[userWeight.length - 1]
+			userWeightState: this.changeDomain(userWeight)
 		});
 	}
 
@@ -55,12 +56,20 @@ class ReportCard extends React.Component {
 			}
 		)
 		dates.filter(a => a.date > min && a.date < max);
+		this.setState({shownData: dates[dates.length - 1]})
 		return dates;
 	}
 
 	addWeight = () => {
-		userWeight[userWeight.length - 1].weight = this.state.curWeight;
-		this.setState({userWeightState: userWeight, shownData: userWeight[userWeight.length - 1]})
+		if(userWeight[userWeight.length - 1].date != today)
+		{			
+			userWeight.push({"date": today, "weight": parseInt(this.state.curWeight)})
+		}
+		else
+		{
+			userWeight[userWeight.length - 1].weight = parseInt(this.state.curWeight);
+		}
+		this.setState({userWeightState: this.changeDomain(userWeight), shownData: userWeight[userWeight.length - 1]})
 	}
 
 	check(weightString) {
@@ -92,7 +101,6 @@ class ReportCard extends React.Component {
 			})[0], shownColor: true});
 		}
 	}
-
 	
     updateCategory = (category) => {
         this.setState({category, userWeightState: this.changeDomain(userWeight, category), showLoader: false})
