@@ -9,11 +9,6 @@ import {colors, margin, padding} from '../styles/base.js'
 
 const emails = [
     {
-        body: "Hey Amanda, let's set up a date for to discuss your new dietary plans. How does the 20th sound?",
-        date_sent: '2018-11-13',
-        calendar_event: false
-    },
-    {
         body: "Thanks for setting up that date for to discuss your new dietary plans. I'll see you on the 20th.",
         date_sent: '2018-11-14',
         calendar_event: {
@@ -21,6 +16,11 @@ const emails = [
             end_date: '2018-11-14',
             title: "Appointment with Health Coach"
         }
+    },
+    {
+        body: "Hey Amanda, let's set up a date for to discuss your new dietary plans. How does the 20th sound?",
+        date_sent: '2018-11-13',
+        calendar_event: {}
     }
 ]
 
