@@ -69,7 +69,7 @@ class ReportCard extends React.Component {
 		{
 			userWeight[userWeight.length - 1].weight = parseInt(this.state.curWeight);
 		}
-		this.setState({userWeightState: this.changeDomain(userWeight), shownData: userWeight[userWeight.length - 1]})
+		this.setState({userWeightState: this.changeDomain(userWeight, this.state.category), shownData: userWeight[userWeight.length - 1]})
 	}
 
 	check(weightString) {
