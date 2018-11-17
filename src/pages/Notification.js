@@ -63,6 +63,21 @@ class Notification extends Component {
         console.log("*********************");
     }
 
+    filter(body) {
+        String.prototype.trunc = String.prototype.trunc ||
+        function(n){
+            return (this.length > n) ? this.substr(0, n-1) + '&hellip;' : this;
+        };
+    }
+
+    truncate(n, useWordBoundary ){
+        if (this.length <= n) { return this; }
+        var subString = this.substr(0, n-1);
+        return (useWordBoundary 
+           ? subString.substr(0, subString.lastIndexOf(' ')) 
+           : subString) + "...";
+    };
+
     render = () => {
         let check = (
             <Icon
@@ -99,10 +114,10 @@ class Notification extends Component {
                                 onPress={() => this.myCalendar()}>
                                 <View style = {{padding: 10}}>
                                     <Text style = {styles.body}>
-                                        {item.body}
+                                        {this.truncate.apply(item.body, [35, true])}
                                     </Text>
                                     <Text>
-                                        {item.date}
+                                        {item.date_sent}
                                     </Text>
                                 </View>
                             </TouchableOpacity>
