@@ -1,11 +1,22 @@
 import React,{Component} from 'react'
-import {View, TextInput, FlatList, ToastAndroid, TouchableHighlight ,ScrollView, Text, StyleSheet} from 'react-native'
+import {View, TextInput, FlatList, ToastAndroid, TouchableHighlight ,ScrollView, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import { Header, Icon , SearchBar, Button } from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
 import { Constants, Calendar, Permissions } from 'expo';
+import { HaH_Header, HaH_NavBar } from '../components/common';
 
-
-
+const emails = [
+    {
+        body: "Hey Amanda, let's set up a date for to discuss your new dietary plans. How does the 20th sound?",
+        date_sent: '2018-11-13',
+        calendar_event: false
+    },
+    {
+        body: "Thanks for setting up that date for to discuss your new dietary plans. I'll see you on the 20th.",
+        date_sent: '2018-11-14',
+        calendar_event: true
+    }
+]
 
 class Notification extends Component {
     state = {
@@ -15,10 +26,7 @@ class Notification extends Component {
         results:""
     }
 
-    myCalendar = () =>{
-     
-      
-
+    myCalendar = () => {
           var SaveEvent= Expo.Calendar.createEventAsync(Expo.Calendar.DEFAULT,{
             startDate: new Date('2018-11-13'),
             endDate: new Date('2018-11-14'),
@@ -42,20 +50,14 @@ class Notification extends Component {
 
     componentWillMount = () => {
         Permissions.askAsync('calendar')
-     
-
      }
-   
 
     goBack = () => {
         Actions.home();
     }
 
     done = () => {
-   
-
-   console.log("*********************");
-
+        console.log("*********************");
     }
 
     render = () => {
@@ -67,7 +69,7 @@ class Notification extends Component {
                 marginTop={50}
                 onPress = {this.done}
             />
-    )
+        )
 
         let backButton = (
             <Icon
@@ -80,25 +82,25 @@ class Notification extends Component {
         )
 
         return (
-            <View style={{flex:1}}>
-                <Header
-                    outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
-                    leftComponent={backButton}
-                    centerComponent={{ text: 'Notification', style: { color: '#fff',fontSize:17 }}}
-                    rightComponent={check}
+            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+                <HaH_Header
+                    text = "Messenger"
+                    left = {backButton}
                 />
-
-                      <View style={styles.container}>
-        <Button
-          title="Make a Calendar"
-          onPress={() => this.myCalendar()}
-    
-        />
-        
-        <Text style={{ marginTop: 20 }}>{this.state.results}</Text>
-        
-      </View>
-                   
+                <View style={styles.container}>
+                    <TouchableOpacity
+                        style = {styles.email}
+                        onPress={() => this.myCalendar()}>
+                        <View>
+                            <Text>
+                                Make a Calendar
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <HaH_NavBar
+                    selected = {1}
+                />
             </View>
         )
     }
@@ -106,13 +108,13 @@ class Notification extends Component {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingTop: Constants.statusBarHeight,
-      backgroundColor: '#ecf0f1',
+        flex: 1,
+        flexDirection: 'row'
     },
-    
+    email: {
+        flex: 1, 
+        height: 75,
+    }
   });
 
 

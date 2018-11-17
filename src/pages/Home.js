@@ -204,9 +204,8 @@ class Home extends Component {
                 <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                     <HaH_Header 
                         text = 'Dashboard'
-                        right = { envelope }
-                        left = { notification }
-                        />
+                        right = { notification }
+                    />
                     <View style={{flex:1, padding: padding.sm}}>
                         <Card
                             containerStyle = {styles.cardContainer}
