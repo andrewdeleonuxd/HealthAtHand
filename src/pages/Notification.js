@@ -5,6 +5,8 @@ import {Actions} from 'react-native-router-flux';
 import { Constants, Calendar, Permissions } from 'expo';
 import { HaH_Header, HaH_NavBar } from '../components/common';
 
+import {colors, margin, padding} from '../styles/base.js'
+
 const emails = [
     {
         body: "Hey Amanda, let's set up a date for to discuss your new dietary plans. How does the 20th sound?",
@@ -14,16 +16,17 @@ const emails = [
     {
         body: "Thanks for setting up that date for to discuss your new dietary plans. I'll see you on the 20th.",
         date_sent: '2018-11-14',
-        calendar_event: true
+        calendar_event: {
+            start_date: '2018-11-13',
+            end_date: '2018-11-14',
+            title: "Appointment with Health Coach"
+        }
     }
 ]
 
 class Notification extends Component {
     state = {
-        subject:"",
-        body:"",
-        cal_auth: "",
-        results:""
+        emailList: emails
     }
 
     myCalendar = () => {
@@ -88,15 +91,24 @@ class Notification extends Component {
                     left = {backButton}
                 />
                 <View style={styles.container}>
-                    <TouchableOpacity
-                        style = {styles.email}
-                        onPress={() => this.myCalendar()}>
-                        <View>
-                            <Text>
-                                Make a Calendar
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+                    <FlatList
+                        data={this.state.emailList}
+                        renderItem={({item}) => (
+                            <TouchableOpacity
+                                style = {styles.email}
+                                onPress={() => this.myCalendar()}>
+                                <View style = {{padding: 10}}>
+                                    <Text style = {styles.body}>
+                                        {item.body}
+                                    </Text>
+                                    <Text>
+                                        {item.date}
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        )}
+                        keyExtractor={item => item.body}
+                    />
                 </View>
                 <HaH_NavBar
                     selected = {1}
@@ -107,6 +119,12 @@ class Notification extends Component {
 }
 
 const styles = StyleSheet.create({
+    body: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed', 
+        color: colors.primary
+    },
     container: {
         flex: 1,
         flexDirection: 'row'
@@ -114,6 +132,8 @@ const styles = StyleSheet.create({
     email: {
         flex: 1, 
         height: 75,
+        borderBottomWidth: 2,
+        borderBottomColor: colors.brandgrey
     }
   });
 
