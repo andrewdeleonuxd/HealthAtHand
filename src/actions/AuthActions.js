@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
+import axios from 'axios';
 import _ from 'lodash';
 
 
@@ -22,9 +23,10 @@ export const passwordChanged = (text) => {
     return {
         type: PASSWORD_CHANGED,
         payload:text
-    };
+    }; 
 };
 
+/*
 export const loginUser = ({email, password}) => {
    return (dispatch) => {  
     let success =false;
@@ -44,22 +46,6 @@ export const loginUser = ({email, password}) => {
         } else{
         loginUserFail(dispatch)  
         }
-  
-     
-    
-    
-   
-   
-
-   /*
-   firebase.auth().signInWithEmailAndPassword(email.trim(), password)
-    .then(user => loginUserSuccess(dispatch,user))
-    .catch(() => {
-         firebase.auth().createUserWithEmailAndPassword(email.trim(),password)
-          .then(user => loginUserSuccess(dispatch,user))
-          .catch(() => loginUserFail(dispatch));
-     });
-     */
  };
 };
 
@@ -78,3 +64,34 @@ const loginUserSuccess = (dispatch,user) => {
     });
     Actions.home();
 };
+
+*/
+
+
+export const loginUser = ({email, password}) => {
+    return (dispatch) => {  
+        axios({
+            method: "get",
+            url: "",
+            headers: {},
+            data:{
+                userId: email,
+                password: password
+               } 
+        
+        }).then(function(response) {
+            if (response.data.code === 400) {
+        
+                dispatch({ type: LOGIN_USER_FAIL})
+        
+            } else {
+        
+                dispatch({ type: LOGIN_USER_SUCCESS, payload: email })
+                Actions.home();
+            }
+        }).catch((e) => {
+            console.log("inside catch");
+        })
+};
+};    
+
