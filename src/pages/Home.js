@@ -102,7 +102,7 @@ class Home extends Component {
     }
 
     showNotification = () => {
-       
+        Actions.push("notification");
     }
 
     render(){
@@ -121,7 +121,7 @@ class Home extends Component {
                 name='menu'
                 underlayColor={"transparent"}
                 color={colors.secondary}
-                onPress = {this.openControlPanel}
+                onPress = {this.openControlPanel} 
             />
         )
 
@@ -131,6 +131,17 @@ class Home extends Component {
                 type='Entypo'
                 color={colors.brandwhite}
                 onPress={this.email}
+                size={30}
+                underlayColor='transparent'> 
+            </Icon>
+        )
+
+        let notification = (
+            <Icon
+                name='mail'
+                type='Entypo'
+                color={colors.brandwhite}
+                onPress={this.showNotification}
                 size={30}
                 underlayColor='transparent'> 
             </Icon>
@@ -193,7 +204,8 @@ class Home extends Component {
                 <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                     <HaH_Header 
                         text = 'Dashboard'
-                        right = { envelope }/>
+                        right = { notification }
+                    />
                     <View style={{flex:1, padding: padding.sm}}>
                         <Card
                             containerStyle = {styles.cardContainer}

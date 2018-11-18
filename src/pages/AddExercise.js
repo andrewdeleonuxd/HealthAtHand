@@ -41,12 +41,14 @@ class AddExercise extends Component {
     } 
 
     onPress = (item) => {
-        Actions.push("exercisecard",{item:item,firstTime:false,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
+      //  Actions.push("exercisecard",{item:item,firstTime:false,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
+      Actions.push("exercisecard",{item:item,firstTime:false,onBack:this.props.item});
     }
 
     loadData = (props) => {
+        /*
         data=[]; 
-        let array=this.props.item.exercise;
+        let array=this.props.item;
         if(array.length>0){
             array.map((item, i) => {
     
@@ -75,6 +77,7 @@ class AddExercise extends Component {
                 )
             })
         }
+        */
     } 
 
 
@@ -83,7 +86,7 @@ class AddExercise extends Component {
     }
 
     showExerciseSearch = () => {
-        Actions.push("searchexercise",{text:this.state.searchText,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
+        Actions.push("searchexercise",{text:this.state.searchText,onBack:this.props.item});
     }
 
     capitalize(str) {
@@ -116,7 +119,7 @@ class AddExercise extends Component {
         return (
            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
-                    text = {'Exercise ' + this.props.item.exerciseNo}
+                    text = {'Exercise Search'}
                     right = {search}
                 />
                 <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}></View>
