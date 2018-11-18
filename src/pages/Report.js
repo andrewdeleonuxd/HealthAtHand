@@ -1,4 +1,7 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import axios from 'axios';
+
 import { StyleSheet, Text, View } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
@@ -8,20 +11,26 @@ import { Card, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryLine, VictoryLabel, VictoryChart, VictoryAxis, VictoryVoronoiContainer } from "victory-native";
 
 import {colors, margin, padding, fonts} from '../styles/base.js'
+import {report} from '../actions';
 import { HaH_Header, HaH_NavBar } from '../components/common/index.js';
 
 const userWeights = [
-	{ date: "10/1", weight: 360 },
+	{ date: "10/1", weight: 360 }, 
 	{ date: "10/2", weight: 355 },
 	{ date: "10/3", weight: 340 },
 	{ date: "10/4", weight: 320 },
-	{ date: "10/5", weight: 290 },
+	{ date: "10/5", weight: 290 },  
 	{ date: "10/6", weight: 274 },
 	{ date: "10/7", weight: 238 }
 ];
 
 
 class ReportCard extends React.Component {
+	componentWillMount = () => {
+		this.props.report("vishal");
+
+	 }
+
 	showHome = () => {
 		Actions.home();
 	}
@@ -191,7 +200,7 @@ const styles = StyleSheet.create({
 		//marginLeft: '10%',
 		//marginRight: '10%',
 		borderRadius: 5,
-		//borderWidth: 1
+		//borderWidth: 1 
 	},
 	confirmContainer: {
 		flexDirection:'row',
@@ -206,7 +215,17 @@ const styles = StyleSheet.create({
 		paddingTop: '3%',
 		//paddingBottom: padding.sm,
         flex: 1
-	},
+	}, 
 });
 
-export default ReportCard;
+//export default ReportCard;
+
+const mapStateToProps = (state) => {
+    
+	return {
+        foodArray: state.food.foodArray
+    };
+};
+
+
+export default connect(mapStateToProps, {report}) (ReportCard);

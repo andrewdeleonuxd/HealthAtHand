@@ -93,7 +93,7 @@ class ExerciseLog extends Component {
             <Icon
                 name='ios-arrow-back'
                 type='ionicon'
-                color={"white"}
+                color={"white"} 
                 onPress = {this.goBack}
                 underlayColor={"transparent"}
             />

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import {
         EXERCISE_INITIALIZE,
         EXERCISE_ADDED
-       } from './types';
+       } from './types'; 
 
 
 export const initializeExercise = (exerciseobj,exerciseArray) => {

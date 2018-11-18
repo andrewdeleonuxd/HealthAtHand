@@ -4,9 +4,7 @@ import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addexercise,removeexercise} from '../actions';
-//import {uuid} from 'node-uuid';
 const uuid = require('uuid/v1');
-//var uuid = require('node-uuid');
 import NumericInput,{ calcSize } from 'react-native-numeric-input';
 
  

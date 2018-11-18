@@ -90,7 +90,7 @@ class SearchExercise extends Component {
                                 
                                     onPress = {() => this.onPress(item)}
                                     underLayColor="transparent"
-                                >
+                                > 
                                     <View>
                                         <Card 
                                             title = {item.title}

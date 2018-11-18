@@ -11,7 +11,7 @@ import AddExercise from './pages/AddExercise';
 
 import SearchFood from './pages/SearchFood';
 import SearchExercise from './pages/SearchExercise';
- 
+  
 import FoodCard from './pages/FoodCard';
 import ExerciseCard from './pages/ExerciseCard';
 
@@ -20,7 +20,7 @@ import Email from './pages/Email';
 import Notification from './pages/Notification';
 import FoodNotes from './pages/FoodNotes';
 import ExerciseNotes from './pages/ExerciseNotes';
-import Report from './pages/Report'
+import Report from './pages/Report';
 
 
 const RouterComponent = () => {

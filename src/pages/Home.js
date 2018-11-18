@@ -5,7 +5,7 @@ import {Actions} from 'react-native-router-flux';
 import {employeeCreate} from '../actions';
 import { Header, SearchBar } from 'react-native-elements';
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
-import Drawer from 'react-native-drawer';
+import Drawer from 'react-native-drawer'; 
 import Communications from 'react-native-communications';
 
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';

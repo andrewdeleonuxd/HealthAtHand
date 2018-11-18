@@ -151,7 +151,7 @@ class AddExercise extends Component {
 
             </View>
         )
-    }
+    } 
 }
 
 //export default AddFood;
