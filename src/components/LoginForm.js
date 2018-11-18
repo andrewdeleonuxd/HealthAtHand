@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {  Header, Tile  } from 'react-native-elements';
 import {Card, CardSection, Input, Button, Spinner} from './common';
-import {emailChanged, passwordChanged, loginUser } from '../actions';
+import {emailChanged, passwordChanged, loginUser } from '../actions'; 
 
 import {colors, fonts, padding, dimensions, margin} from '../styles/base.js'
 import { } from 'react-native'
@@ -12,7 +12,7 @@ class LoginForm extends Component {
     onEmailChange(text){
       this.props.emailChanged(text);    
     }
-
+ 
     onPasswordChange(text){
         this.props.passwordChanged(text);
     }

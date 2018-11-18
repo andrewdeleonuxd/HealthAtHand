@@ -25,3 +25,5 @@ export const EXERCISE_ADDED = 'exercise_added';
 export const EXERCISE_INITIALIZE = 'exercise_initialize';
 
 export const REPORT_RESPONSE = "report_response";
+
+export const GET_CALORIES = "get_calories";

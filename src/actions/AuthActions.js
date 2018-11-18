@@ -68,15 +68,15 @@ const loginUserSuccess = (dispatch,user) => {
 */
 
 
-export const loginUser = ({email, password}) => {
+export const loginUser = ({email, password}) => { 
     return (dispatch) => {  
         axios({
             method: "get",
-            url: "",
+            url: "http://150.212.216.250:5000/login",
             headers: {},
-            data:{
-                userId: email,
-                password: password
+            params:{
+                'userId': email,
+                'password': password
                } 
         
         }).then(function(response) {

@@ -4,20 +4,95 @@ import _ from 'lodash';
 
 import {
         FOOD_INITIALIZE,
-        FOOD_ADDED
+        FOOD_ADDED,
+        GET_CALORIES
        } from './types';
 
- 
-export const initializefood = (foodobj,foodArray) => {
-        return (dispatch) => {  
+export const getCalories = (userId,date) => {
+        return (dispatch) => {   
+            axios({ 
+                method: "get",
+                url: "http://150.212.216.250:5000/dashboard",
+                headers : {'Content-type': 'application/json'}, 
+                params : { 
+                    'userId': userId,
+                    'date': date
+                   } 
+
+            
+            }).then(function(response) {
+                
+                if (response.data.code === 400) {
+            
+                 //   dispatch({ type: LOGIN_USER_FAIL})
+            
+                } else {
+                   
+                    dispatch({ type: GET_CALORIES, totalCal: response.data.data.totalCal, remainingCal:response.data.data.remainingCal })
+                 //   Actions.home();
+                }
+                
+            }).catch((e) => {
+                console.log("inside catch",e);
+            })
+
+
+            /*
+
         foodArray.push(foodobj); 
          dispatch({
              type: FOOD_INITIALIZE,
              payload:foodArray
          });
+
+         */
               
      };
     };
+
+    /*
+export const initializefood = (userId,date) => {
+        return (dispatch) => {  
+            axios({
+                method: "get",
+                url: "http://150.212.216.250:5000/dashboard",
+                headers : {'Content-type': 'application/json'}, 
+                params : {
+                    'userId': userId,
+                    'date': date
+                   } 
+
+            
+            }).then(function(response) {
+                
+                if (response.data.code === 400) {
+            
+                 //   dispatch({ type: LOGIN_USER_FAIL})
+            
+                } else {
+            
+                    dispatch({ type: FOOD_INITIALIZE, payload: email })
+                    Actions.home();
+                }
+                
+            }).catch((e) => {
+                console.log("inside catch",e);
+            })
+
+
+            
+
+        foodArray.push(foodobj); 
+         dispatch({
+             type: FOOD_INITIALIZE,
+             payload:foodArray
+         });
+
+         
+              
+     };
+    };
+    */
 
 export const addfood = (foodobj,mealNo,ogFoodObj,firstTime) => {
 
