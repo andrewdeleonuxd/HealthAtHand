@@ -13,7 +13,7 @@ import Moment from 'moment';
 
 import testResponse from '../testdata/report.json'
 
-const userWeight = {};
+const userWeight = [];
 const today = new Date();
 
 class ReportCard extends React.Component {
@@ -23,7 +23,8 @@ class ReportCard extends React.Component {
 		userWeightState: userWeight,
 		shownData: {},
 		category: 0,
-		shownColor: false
+		shownColor: false,
+		hasNoData: true
 	}
 
 	componentWillMount = () => {
@@ -40,7 +41,7 @@ class ReportCard extends React.Component {
 	}
 
 	changeDomain(userWeight, category) {
-		min = Moment(new Date()).subtract(1, 'week');
+		min = Moment(new Date()).subtract(8, 'day');
 		max = new Date();
 		if(category == 1)
 		{
@@ -56,7 +57,13 @@ class ReportCard extends React.Component {
 			}
 		)
 		dates.filter(a => a.date > min && a.date < max);
-		this.setState({shownData: dates[dates.length - 1]})
+		if(dates.length > 1) {
+			this.state.hasNoData = false;
+			this.setState({shownData: dates[dates.length - 1]})
+		}
+		else {
+			this.state.hasNoData = true;
+		}
 		return dates;
 	}
 
@@ -72,7 +79,7 @@ class ReportCard extends React.Component {
 		this.setState({userWeightState: this.changeDomain(userWeight, this.state.category), shownData: userWeight[userWeight.length - 1]})
 	}
 
-	check(weightString) {
+	checkString(weightString) {
 		if(this.isWholeNumber(weightString) || weightString == ''){
             this.setState({curWeight: weightString})
         }
@@ -115,17 +122,33 @@ class ReportCard extends React.Component {
 				<View style = {{flex: 1, paddingTop: '5%', paddingBottom: 0}}>
 					<View style = {{flex: 8, justifyContent: 'center', alignContent: 'center'}}>
 						<View style = {{paddingRight: '5%'}}>
-							<Text style={[styles.weightText, this.weightTextColor()]}>
-								{this.state.shownData.weight} 
-								<Text style = {styles.unit}>
-									{' lbs'}
+						{
+							this.state.hasNoData == true ? <View style = {{height: 55}}/> :
+							<View style = {{height: 55}}>
+								<Text style={[styles.weightText, this.weightTextColor()]}>
+									{this.state.shownData.weight} 
+									<Text style = {styles.unit}>
+										{' lbs'}
+									</Text>
 								</Text>
-							</Text>
-							<Text style={styles.dateText}>
-								{Moment.utc(this.state.shownData.date).format('Do MMM YY')}
-							</Text>
+								<Text style={styles.dateText}>
+									{Moment.utc(this.state.shownData.date).format('Do MMM YY')}
+								</Text>
+							</View>
+						}
 						</View>
 						<View style={styles.chartView}>
+						{
+							this.state.hasNoData == true ? 
+							<View style = {{height: 200, justifyContent: 'center', alignContent: 'center'}}>
+								<Text style = {{textAlign: 'center'}}>
+									We don't have enough data to graph!
+								</Text>
+								<Text style = {{textAlign: 'center'}}>
+									Enter some more weights each day and help us!
+								</Text>
+							</View>
+							:
 							<VictoryGroup
 								height={200}
 								scale={{x: "time"}}
@@ -160,6 +183,7 @@ class ReportCard extends React.Component {
 									y="weight"
 								/>
 							</VictoryGroup>
+						}
 						</View>
 						<View style={{paddingLeft: '20%', paddingRight: '20%', paddingTop: 0, paddingBottom: 0}}>
 							<ButtonGroup
@@ -183,7 +207,7 @@ class ReportCard extends React.Component {
 							
 							<TextInput
 								style={styles.userInput}
-								onChangeText={(curWeight) => this.check(curWeight)}
+								onChangeText={(curWeight) => this.checkString(curWeight)}
 								onSubmitEditing={this.submit}
 								value={this.state.curWeight}
 								underlineColorAndroid = 'rgba(0,0,0,0)'
