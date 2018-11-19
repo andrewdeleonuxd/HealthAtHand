@@ -27,7 +27,7 @@ class LoginForm extends Component {
         if(this.props.error){
             return(
                 <View style={styles.signInError}>
-                    <Text style={styles.errorTextStyle}>
+                    <Text style={styles.errorTextStyle}> 
                        {this.props.error}
                     </Text>
                 </View>

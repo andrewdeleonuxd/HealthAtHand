@@ -27,8 +27,7 @@ const userWeights = [
 
 class ReportCard extends React.Component {
 	componentWillMount = () => {
-		this.props.report("vishal");
-
+		this.props.report(this.props.userId,this.props.date);
 	 }
 
 	showHome = () => {
@@ -218,12 +217,13 @@ const styles = StyleSheet.create({
 	}, 
 });
 
-//export default ReportCard;
 
 const mapStateToProps = (state) => {
     
 	return {
-        foodArray: state.food.foodArray
+		foodArray: state.food.foodArray,
+		userId: state.auth.userId,
+        date : state.auth.date 
     };
 };
 

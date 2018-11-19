@@ -1,11 +1,21 @@
-import React,{Component} from 'react'
+import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import {View, TextInput, FlatList, ToastAndroid, TouchableHighlight ,ScrollView} from 'react-native'
-import { Header, Icon , SearchBar } from 'react-native-elements'
+import { Header, Icon , SearchBar } from 'react-native-elements';
+import {initializeexerciseNotes,submitexerciseNotes } from '../actions';
 import {Actions} from 'react-native-router-flux'
 
 class ExerciseNotes extends Component {
     state = {
         text:" "
+    }
+
+    componentWillMount = () => {
+        this.props.initializeexerciseNotes(this.props.userId,this.props.date);
+    }
+     
+    componentWillReceiveProps = (nextProps) => { 
+           this.setState({text:nextProps.exerciseNotes});
     }
 
     goBack = () => {
@@ -14,7 +24,7 @@ class ExerciseNotes extends Component {
 
     done = () => {
         ToastAndroid.show('done',3000,"TOP")
-        Actions.home();
+        this.props.submitexerciseNotes(this.props.userId,this.props.date,this.state.text);
     }
 
     render = () => {
@@ -68,5 +78,12 @@ class ExerciseNotes extends Component {
 }
 
 
+const mapStateToProps = state => {
+    return {
+        userId: state.auth.userId,
+        date: state.auth.date,
+        exerciseNotes: state.exercisenotes.notes
+    };
+};
 
-export default ExerciseNotes;
+export default connect(mapStateToProps, {initializeexerciseNotes,submitexerciseNotes}) (ExerciseNotes);

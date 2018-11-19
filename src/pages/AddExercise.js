@@ -92,7 +92,7 @@ class AddExercise extends Component {
         if(this.state.showSearch == true)
             this.setState({showSearch:false})
         else 
-            this.setState({showSearch:true})
+            this.setState({showSearch:true}) 
             
     }
 

@@ -29,7 +29,7 @@ const categories = {
 class Home extends Component {
 
     state = {
-        isMoving: false,
+        isMoving: false, 
         pointsDelta: 0, 
         dailyCal: 325,
         maxCal: 2000 
@@ -37,7 +37,7 @@ class Home extends Component {
 
     componentWillMount = () => {
 
-        this.props.getCalories(this.props.userId,"2018-11-18");
+        this.props.getCalories(this.props.userId,this.props.date);
      
     }
 
@@ -46,6 +46,7 @@ class Home extends Component {
         this.setState({maxCal:nextProps.totalCal,dailyCal:nextProps.remainingCal});
 
     }
+
     componentDidMount = () => {
         this.setState({maxCal:this.props.totalCal,dailyCal:this.props.remainingCal});
     }
@@ -92,9 +93,6 @@ class Home extends Component {
     }
 
     email = () => {
-        // Communications.text("4123205413");
-        // Communications.email(to, cc, bcc, subject, body)
-     //   Communications.email(['abcd@gmail.com'],null,null,'update','Hello');
           Actions.push("email");
      }
 
@@ -299,7 +297,9 @@ const mapStateToProps = (state) => {
     
     return {
         totalCal: state.getCalories.totalCal,
-        remainingCal: state.getCalories.remainingCal
+        remainingCal: state.getCalories.remainingCal,
+        userId: state.auth.userId,
+        date: state.auth.date
     };
 };
 

@@ -1,11 +1,21 @@
-import React,{Component} from 'react'
+import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import {View, TextInput,ToastAndroid, FlatList, Image, TouchableHighlight, ScrollView} from 'react-native'
 import { Header, Icon , SearchBar, Card, Button} from 'react-native-elements';
+import {initializefoodNotes,submitfoodNotes } from '../actions';
 import {Actions} from 'react-native-router-flux'
 
 class FoodNotes extends Component {
     state = {
      text:" "
+    }
+
+    componentWillMount = () => {
+        this.props.initializefoodNotes(this.props.userId,this.props.date);
+    }
+     
+    componentWillReceiveProps = (nextProps) => { 
+           this.setState({text:nextProps.mealNotes});
     }
 
     goBack = () => {
@@ -14,7 +24,7 @@ class FoodNotes extends Component {
 
     done = () => {
         ToastAndroid.show('done',3000,"TOP")
-        Actions.home();
+        this.props.submitfoodNotes(this.props.userId,this.props.date,this.state.text);
     }
 
 
@@ -71,4 +81,15 @@ class FoodNotes extends Component {
     }
 }
 
-export default FoodNotes;
+
+const mapStateToProps = state => {
+    return {
+        userId: state.auth.userId,
+        date: state.auth.date,
+        mealNotes: state.mealnotes.notes
+    };
+};
+
+export default connect(mapStateToProps, {initializefoodNotes,submitfoodNotes}) (FoodNotes);
+
+

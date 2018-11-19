@@ -23,31 +23,12 @@ class AddFood extends Component {
 
     componentWillMount = () => {
 
-        /*
-        let obj={
-            id:"mango",
-            itemName:"mango",
-            totalCalories:25
-        }
-        
-       
-        if(this.props.item.food.length == 0){
-         //   this.props.initializefood(obj,this.props.foodArray);
-            this.loadData(this.props); 
-
-        } else{
-            this.loadData(this.props);
-        }
-
-        */
         this.loadData(this.props); 
-
 
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
-      //  alert("inside componentWillReceiveProps")
         console.log("componentWillReceiveProps ");
         this.loadData(nextProps)
     } 
@@ -98,16 +79,16 @@ class AddFood extends Component {
 
 
     goBack = () => {
-        this.props.addMealToMealLog(this.props.userId,"2018-11-18",this.props.foodArray);
+        this.props.addMealToMealLog(this.props.userId,this.props.date,this.props.foodArray);
       //  Actions.meallog();
     }
 
     showFoodSearch = () => {
-        Actions.push("searchfood", {mealNo:this.props.item.mealNo, onBack:this.props.item});
+        Actions.push("searchfood", {mealNo:this.props.item.mealNo, onBack:this.props.item}); 
     }
 
     deleteMeal = () => {
-        this.props.removeMeal(this.props.foodArray,this.props.item.mealNo,this.props.userId,"2018-11-18");
+        this.props.removeMeal(this.props.foodArray,this.props.item.mealNo,this.props.userId,this.props.date);
     }
 
     submitEditing = () => {
@@ -242,10 +223,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
     },
 	confirmContainer: {
-		flexDirection:'row',
-		//alignItems: 'center',
-		//justifyContent: 'center',
-		
+		flexDirection:'row'
 	},
     servingSizeUnit: {
         fontSize: 15,
@@ -273,12 +251,12 @@ const styles = StyleSheet.create({
     },
 });
 
-//export default AddFood;
 
 const mapStateToProps = state => {
     return {
         foodArray: state.food.foodArray,
-        userId: state.auth.userId
+        userId: state.auth.userId,
+        date : state.auth.date
     };
 };
 

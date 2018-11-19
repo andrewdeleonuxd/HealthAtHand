@@ -24,28 +24,14 @@ export const getCalories = (userId,date) => {
                 
                 if (response.data.code === 400) {
             
-                 //   dispatch({ type: LOGIN_USER_FAIL})
-            
                 } else {
                    console.log("%%%%%%%%%%%%%% :",response.data);
                     dispatch({ type: GET_CALORIES, totalCal: response.data.data.totalCal, remainingCal:response.data.data.remainingCal })
-                 //   Actions.home();
                 }
                 
             }).catch((e) => {
                 console.log("inside catch",e);
             })
-
-
-            /*
-
-        foodArray.push(foodobj); 
-         dispatch({
-             type: FOOD_INITIALIZE,
-             payload:foodArray
-         });
-
-         */
               
      };
     };
@@ -66,13 +52,10 @@ export const initializefood = (userId,date) => {
             }).then(function(response) {
                 
                 if (response.data.code === 400) {
-            
-                 //   dispatch({ type: LOGIN_USER_FAIL})
-            
+                        
                 } else {
 
                     dispatch({ type: FOOD_INITIALIZE, payload: response.data.data })
-                   // Actions.home();
                 }
                 
             }).catch((e) => {
@@ -98,11 +81,9 @@ export const initializefood = (userId,date) => {
                 
                 if (response.data.code === 400) {
             
-                 //   dispatch({ type: LOGIN_USER_FAIL})
             
                 } else {
 
-                  //  dispatch({ type: FOOD_INITIALIZE, payload: response.data.data })
                   Actions.meallog();
                 }
                 
@@ -170,10 +151,7 @@ export const addfood = (foodobj,mealNo,ogFoodObj,firstTime) => {
         } 
      
     }   
-    
-    
-   // Actions.push("addfood");
-    
+        
  };
 } else{
 
@@ -194,7 +172,7 @@ export const addfood = (foodobj,mealNo,ogFoodObj,firstTime) => {
 export const removeMeal = (ogFoodObj,mealNo,userId,date) => {
     ogFoodObj = _.reject(ogFoodObj, { 'mealNo': mealNo});
     return (dispatch) => { 
-     
+      
        
 
         axios({
@@ -211,12 +189,9 @@ export const removeMeal = (ogFoodObj,mealNo,userId,date) => {
         }).then(function(response) {
             
             if (response.data.code === 400) {
-        
-             //   dispatch({ type: LOGIN_USER_FAIL})
-        
+                
             } else {
 
-              //  dispatch({ type: FOOD_INITIALIZE, payload: response.data.data })
               dispatch({
                 type: FOOD_ADDED,
                 payload:ogFoodObj
@@ -228,7 +203,6 @@ export const removeMeal = (ogFoodObj,mealNo,userId,date) => {
             console.log("inside catch",e);
         })  
     
-       // Actions.meallog();
         
      };
 }

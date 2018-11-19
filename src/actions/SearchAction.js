@@ -17,7 +17,7 @@ export const searchResult = (food) => {
      //    headers = JSON.parse(headers)
         axios({
             method: "get",
-            url: "http://150.212.219.117:5000/search/"+food,
+            url: "http://150.212.219.117:5000/search",
             headers : {'Content-type': 'application/json'},  
             params : data  
         

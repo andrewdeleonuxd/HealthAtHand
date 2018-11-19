@@ -29,3 +29,11 @@ export const REPORT_RESPONSE = "report_response";
 export const GET_CALORIES = "get_calories";
 
 export const SEARCH_RESULT = "search_result";
+
+export const GET_MEAL_NOTES = "get_meal_notes";
+
+export const SET_MEAL_NOTES = "set_meal_notes";
+
+
+
+

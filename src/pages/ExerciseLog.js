@@ -15,9 +15,8 @@ class ExerciseLog extends Component {
     }
 
     componentWillMount = () => {
-
+        this.props.initializeExercise(this.props.userId,this.props.date);
         if(this.props.exerciseArray.length == 0){
-         //   this.props.initializeExercise(obj,this.props.exerciseArray);
             this.loadData(this.props); 
 
         } else{
@@ -56,7 +55,7 @@ class ExerciseLog extends Component {
             </Card>
             </View>
             </TouchableHighlight>
-        )
+        ) 
     })
        
     } 
@@ -68,9 +67,7 @@ class ExerciseLog extends Component {
 
 
     addExercisePg = () => {
-         // let newObj={'exerciseNo':this.props.exerciseArray.length + 1,'exercise':[]};   
-        Actions.push("addexercise",{type:"addexercise"});
-                       
+        Actions.push("addexercise",{type:"addexercise"});             
     }
 
 
@@ -139,7 +136,9 @@ class ExerciseLog extends Component {
 
 const mapStateToProps = state => {
     return {
-        exerciseArray: state.exercise.exerciseArray
+        exerciseArray: state.exercise.exerciseArray,
+        userId: state.auth.userId,
+        date : state.auth.date 
     };
 };
 

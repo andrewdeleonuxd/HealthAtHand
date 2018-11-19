@@ -19,18 +19,10 @@ class MealLog extends Component {
     }
 
     componentWillMount = () => {
-     /*
-        let obj={
-            id:"mango",
-            itemName:"mango",
-            totalCalories:25
-        }
-    */
-   this.props.initializefood(1,"2018-11-18");
-        if(this.props.foodArray.length == 0){
-         //   this.props.initializefood(obj,this.props.foodArray);
-            this.loadData(this.props); 
 
+   this.props.initializefood(this.props.userId,this.props.date);
+        if(this.props.foodArray.length == 0){
+            this.loadData(this.props); 
         } else{
             console.log("foodArray :", this.props.foodArray);
             this.loadData(this.props);
@@ -202,7 +194,7 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 25,
         fontWeight: 'bold',
-        textAlign: 'center',
+        textAlign: 'center', 
         fontFamily: 'sans-serif-condensed', 
         color: colors.brandwhite,
         textAlignVertical: 'center',
@@ -213,7 +205,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        foodArray: state.food.foodArray
+        foodArray: state.food.foodArray,
+        userId: state.auth.userId,
+        date: state.auth.date
     };
 };
 

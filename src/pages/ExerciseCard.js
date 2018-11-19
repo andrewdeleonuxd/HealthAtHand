@@ -7,9 +7,6 @@ import {addexercise,removeexercise} from '../actions';
 const uuid = require('uuid/v1');
 import NumericInput,{ calcSize } from 'react-native-numeric-input';
 
- 
-//import NumberInput from 'rn-number-input';
-
 class ExerciseCard extends Component { 
 
     state ={
@@ -53,9 +50,7 @@ class ExerciseCard extends Component {
 
 
     goBack = () => {
-      //  Actions.addexercise();
        Actions.exerciselog();
-      //  Actions.push("addexercise", {item:this.props.onBack});
     } 
 
     Add = () => {
@@ -67,10 +62,10 @@ class ExerciseCard extends Component {
             itemName:this.state.itemName,
             type:this.state.type,
             intensity:this.state.intensity,
-            duration:this.state.duration
+            duration:this.state.duration 
         }
 
-        this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime);
+        this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime,this.props.userId,this.props.date);
         } else{
             let obj={
                 id:this.props.item.id,
@@ -80,9 +75,7 @@ class ExerciseCard extends Component {
                 duration:this.state.duration
             }
             
-    
-          //  this.props.addexercise(obj,this.props.exerciseNo,this.props.exerciseArray,this.props.firstTime);
-              this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime);
+              this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime,this.props.userId,this.props.date);
         }
 
     }
@@ -95,8 +88,7 @@ class ExerciseCard extends Component {
             intensity:this.state.intensity,
             duration:this.state.duration
         }
-      //  this.props.removeexercise(obj,this.props.exerciseNo,this.props.exerciseArray);
-          this.props.removeexercise(obj,this.props.exerciseArray);
+          this.props.removeexercise(obj,this.props.exerciseArray,this.props.userId,this.props.date);
     }
 
     onDurationChange = (text) =>{
@@ -108,7 +100,6 @@ class ExerciseCard extends Component {
                 newText = newText + text[i];
             }
             else {
-                // your call back function
                 Alert.alert("please enter numbers only");
             }
         }
@@ -214,10 +205,7 @@ class ExerciseCard extends Component {
                                     />
                                  </Card> 
                                
-
-
                     </ScrollView>
-
                      
                 }
             </ScrollView>
@@ -228,7 +216,9 @@ class ExerciseCard extends Component {
 
 const mapStateToProps = state => {
     return {
-        exerciseArray: state.exercise.exerciseArray
+        exerciseArray: state.exercise.exerciseArray,
+        userId: state.auth.userId,
+        date : state.auth.date 
     };
 };
 

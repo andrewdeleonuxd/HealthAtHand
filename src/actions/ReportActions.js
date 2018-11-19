@@ -7,19 +7,18 @@ import {
        
        } from './types';
 
-//url: "http://150.212.216.250:5000/report"       
 
-export const report = (userId) => {
+export const report = (userId,date) => {
     return (dispatch) => {  
-        //console.log("userId is :",userId);
-        let data = {'userId': userId}
-      //  let headers = {'Content-type': 'application/json'};
-     //    headers = JSON.parse(headers)
+
         axios({
             method: "get",
             url: "http://150.212.216.250:5000/report",
             headers : {'Content-type': 'application/json'}, 
-            params : data  
+            params : {
+                'userId':userId,
+                'date':date
+            }
         
         }).then(function(response) {
             /*

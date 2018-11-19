@@ -2,6 +2,7 @@ import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import _ from 'lodash';
+import moment from 'moment';
 
 
 import {
@@ -26,48 +27,6 @@ export const passwordChanged = (text) => {
     }; 
 };
 
-/*
-export const loginUser = ({email, password}) => {
-   return (dispatch) => {  
-    let success =false;
-   dispatch({ type: LOGIN_USER });
-    
-        let array = require('../../util/users.json');
-        for(var i=0; i<array.length ;i++){           
-            if(array[i].username == email && array[i].password == password){
-                
-                success =true;
-            } 
-        }
-    
-    
-        if(success==true){
-        loginUserSuccess(dispatch,{"email":email,"password":password})
-        } else{
-        loginUserFail(dispatch)  
-        }
- };
-};
-
-
-
-const loginUserFail = (dispatch) => {
-    dispatch({
-        type: LOGIN_USER_FAIL
-    });
-};
-
-const loginUserSuccess = (dispatch,user) => {
-    dispatch({
-        type: LOGIN_USER_SUCCESS, 
-        payload:user
-    });
-    Actions.home();
-};
-
-*/
-
-
 export const loginUser = ({email, password}) => { 
     return (dispatch) => {  
         axios({
@@ -85,8 +44,8 @@ export const loginUser = ({email, password}) => {
                 dispatch({ type: LOGIN_USER_FAIL})
         
             } else {
-        
-                dispatch({ type: LOGIN_USER_SUCCESS, payload: email })
+                let date = moment().format('YYYY-MM-DD');
+                dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data.data.userId , date:date})
                 Actions.home();
             }
         }).catch((e) => {

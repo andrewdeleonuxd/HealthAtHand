@@ -51,11 +51,9 @@ class SearchFood extends Component{
         {
             let food = text
             this.setState({choices:[], searching: true, showLoader: true, searchText: text})
-          //  const request = BASE_URL + '/search/' + food
-            //console.log(request)
+
             this.props.searchResult(food); 
 
-         //   this.formData(request)
         }
     }
 
