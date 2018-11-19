@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, TextInput } from 'react-native';
-import {Actions} from 'react-native-router-flux'
-import ScrollableTabView, {ScrollableTabBar, } from 'react-native-scrollable-tab-view';
-import { Header, SearchBar } from 'react-native-elements'
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { Text, Image, View, FlatList, TouchableOpacity, ActivityIndicator, ToastAndroid, TextInput, StyleSheet } from 'react-native';
+import { Actions } from 'react-native-router-flux'
+import { Header, SearchBar, ButtonGroup, Card, ListItem, Button, Icon } from 'react-native-elements'
 
-const headers = { method: 'GET',
-    headers: {
-        "X-Api-Key":"b7c0872a3fb042d9baa45eb7b6385faa"
-    }};
+
+import { HaH_Header, HaH_NavBar } from '../components/common';
+import {colors, margin, padding, fonts} from '../styles/base.js'
 
 class SearchExercise extends Component {
     state = {
@@ -21,38 +18,14 @@ class SearchExercise extends Component {
     }
 
     componentWillMount = () => {
-        let category = this.props.text
-        const request = new Request('https://newsapi.org/v2/everything?sortBy=relevancy&language=en&page=' + this.state.page++ + '&q=' + category,headers)
-        this.formData(request)
     }
 
     endReached = () => {
         ToastAndroid.show('Loading more data...',3000,"BOTTOM")
-        let category = this.state.text
-        const request = new Request('https://newsapi.org/v2/everything?sortBy=relevancy&language=en&page=' + this.state.page++ + '&q=' + category,headers)
-        this.formData(request)
     }
 
     formData = (request)  => {
-        fetch(request)
-            .then((response) => response.json())
-            .then((responseJson)=>{
-                if(responseJson.status == 'ok') {
-                    if(this.state.newsData.length == 0) {
-                        this.state.newsData = responseJson.articles
-                    } else {
-                        responseJson.articles.map((item) => {
-                            this.state.newsData.push(item)
-                        })
-                    }
-                    this.setState({newsData:this.state.newsData, showLoader:false})
-                } else {
-                    console.log("no data");
-                }
-            })
-            .catch((error) => {
-                console.log("error", error);
-            })
+        //TO DO
     }
  
     onPress = (item) => {
@@ -60,9 +33,9 @@ class SearchExercise extends Component {
     }
 
     submitEditing = () => {
-        let category = this.state.searchText
+        let exercise = this.state.searchText
         this.setState({newsData:[]})
-        const request = new Request('https://newsapi.org/v2/everything?sortBy=relevancy&language=en&page=' + this.state.page + '&q=' + category,headers)
+        const request = new Request('https://http://sis-teach-01.sis.pitt.edu/projects/healthathand/exercise/' + exercise)
         this.formData(request)
     }
 
@@ -70,9 +43,17 @@ class SearchExercise extends Component {
         this.setState({searchText:text})
     } 
 
+    capitalize(str) {
+        return str.replace(/\w\S*/g, function(txt){
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
+
     render() {
         return (
-            <View style={{flex:1,flexDirection: 'column'}}>
+            <View style = {{flex: 1, marginTop: Expo.Constants.statusBarHeight}}>
+                <HaH_Header
+                    text = 'Add Exercise'/>
                 <SearchBar
                     lightTheme
                     round
@@ -82,32 +63,91 @@ class SearchExercise extends Component {
                 <View style={{flex:2}}>
                     {
                         (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
-                        <FlatList       
-                            data={this.state.newsData}
-                            renderItem={({item}) => (
-                                <TouchableHighlight
-                                
-                                    onPress = {() => this.onPress(item)}
-                                    underLayColor="transparent"
-                                >
-                                    <View>
-                                        <Card 
-                                            title = {item.title}
-
-                                            titleNumberOfLines = {2}
-                                        >
-                                            <Text style={{color:"maroon",fontSize:15,marginBottom:5}}>{item.author}({item.source.name})</Text>
+                        <View style={{flex:1}}>
+                            
+                            <FlatList
+                                data={this.state.choices}
+                                renderItem={({item}) => (
+                                    <TouchableOpacity
+                                        
+                                        style = {{paddingBottom: 7}}
+                                        onPress = {() => this.onPress(item)}
+                                        underLayColor="transparent"
+                                    >
+                                        <Card
+                                            containerStyle = {styles.cardContainer}
+                                            wrapperStyle = {styles.cardWrapper}>
+                                            <Image
+                                                style={{width: 30, height: 30}}
+                                                source={this.findThumbnail(item.photo.thumb)}
+                                            />
+                                            <Text style = {styles.cardHeader}>
+                                                {this.capitalize(item.food_name)}
+                                            </Text>
                                         </Card>
-                                    </View>
-                                </TouchableHighlight>
-                            )}
-                            onEndReachedThreshold={0.5}
-                            onEndReached={this.endReached}
-                        />
+                                    </TouchableOpacity>
+                                )}
+                                onEndReachedThreshold={0.5}
+                                onEndReached={this.endReached}
+                                keyExtractor={item => item.food_name}
+                            />
+                        </View>
                     }
                 </View>
+                <HaH_NavBar
+                    selected = {3}
+                />
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    cardHeader: {
+        flex: 3,
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        textAlign:'left',
+        marginRight: 25,
+        alignSelf: 'center',
+        paddingLeft: 15
+    },
+    cardContainer: {
+        marginTop: 0,
+        elevation: 7,
+        borderRadius: 10
+    },
+    cardWrapper: {
+        flexDirection: 'row',
+        flex: 1,
+        marginLeft: 0
+    },
+    categoryContainer: {
+        height: 50,
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 0,
+        borderRadius: 15,
+        borderColor: colors.brandblue
+    },
+    categoryTextUnselected: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: fonts.primary,
+        color: colors.primary
+    },
+    categoryTextSelected: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: fonts.primary,
+        color: colors.brandwhite
+    },
+    categoryButtonSelected: {
+        opacity: 0.8, 
+        backgroundColor: colors.brandblue
+    }
+});
+
 export default SearchExercise;

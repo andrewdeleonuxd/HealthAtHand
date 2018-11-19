@@ -5,7 +5,7 @@ import {Actions} from 'react-native-router-flux';
 import { Constants, Calendar, Permissions } from 'expo';
 import { HaH_Header, HaH_NavBar } from '../components/common';
 
-import {colors, margin, padding} from '../styles/base.js'
+import {colors, margin, padding, button} from '../styles/base.js'
 
 const emails = [
     {
@@ -27,6 +27,10 @@ const emails = [
 class Notification extends Component {
     state = {
         emailList: emails
+    }
+
+    showEmail = () => {
+        Actions.push("email")
     }
 
     myCalendar = () => {
@@ -124,6 +128,17 @@ class Notification extends Component {
                         )}
                         keyExtractor={item => item.body}
                     />
+                </View>
+                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>
+                    <TouchableOpacity
+                        style = {[button.touchable, {backgroundColor: colors.brandblue}]}
+                        onPress={this.showEmail}>
+                        <View style={button.view}>
+                            <Text style = {button.text}>
+                                Create New Message
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <HaH_NavBar
                     selected = {1}

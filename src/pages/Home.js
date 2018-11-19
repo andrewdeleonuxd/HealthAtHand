@@ -15,7 +15,7 @@ import {colors, margin, padding, fonts} from '../styles/base.js'
 import {HaH_Header, HaH_NavBar} from '../components/common'
 
 const drawerStyles = {
-    drawer: { backgroundColor:"#0F084B"}
+    drawer: { backgroundColor: colors.brandwhite}
 }
 
 const categories = {
@@ -90,6 +90,10 @@ class Home extends Component {
         
     }
 
+    logout = () => {
+        Actions.push("login");
+    }
+
     email = () => {
         // Communications.text("4123205413");
         // Communications.email(to, cc, bcc, subject, body)
@@ -118,9 +122,11 @@ class Home extends Component {
 
         let hamburger = (
             <Icon
-                name='menu'
-                underlayColor={"transparent"}
-                color={colors.secondary}
+                name='settings'
+                type='Feather'
+                color={colors.brandwhite}
+                size={30}
+                underlayColor='transparent'
                 onPress = {this.openControlPanel} 
             />
         )
@@ -138,54 +144,29 @@ class Home extends Component {
 
         let notification = (
             <Icon
-                name='mail'
-                type='Entypo'
+                name='settings'
+                type='Feather'
                 color={colors.brandwhite}
-                onPress={this.showNotification}
+                //onPress={this.showAddExercise}
                 size={30}
-                underlayColor='transparent'> 
+                underlayColor='transparent'>
             </Icon>
         )
 
         let drawerMenu = (
             <View style={{padding:10, marginTop:20}}>
                 <TouchableHighlight
-                    onPress = {this.showAddFood}
+                    onPress = {this.logout}
                     underlayColor = "transparent"
                 >
                 <View style={{"marginBottom":20}}>
-                    <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Add Food</Text>
-                    <View style={{borderColor:"lightgray", borderWidth:1}}></View>
-                </View>
-                </TouchableHighlight>
-
-                <TouchableHighlight
-                    onPress = {this.showAddExercise}
-                    underlayColor = "transparent"
-                >
-                <View style={{"marginBottom":20}}>
-                    <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Add Exercise</Text>
-                    <View style={{borderColor:"lightgray", borderWidth:1}}></View>
-                </View>
-                </TouchableHighlight>
-
-                <TouchableHighlight
-                    onPress = {this.showAddFoodNotes}
-                    underlayColor = "transparent"
-                >
-                <View style={{"marginBottom":20}}>
-                    <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Food Notes</Text>
-                    <View style={{borderColor:"lightgray", borderWidth:1}}></View>
-                </View>
-                </TouchableHighlight>
-
-                <TouchableHighlight
-                    onPress = {this.showAddExerciseNotes}
-                    underlayColor = "transparent"
-                >
-                <View style={{"marginBottom":20}}>
-                    <Text style={{color:"white", fontSize:15, "marginBottom":20}}>Exercise Notes</Text>
-                    <View style={{borderColor:"lightgray", borderWidth:1}}></View>
+                    <Card
+                        containerStyle = {styles.cardContainer}
+                        wrapperStyle = {styles.cardWrapper}>
+                        <Text style = {styles.cardHeader}>
+                            Log Out
+                        </Text>
+                    </Card>
                 </View>
                 </TouchableHighlight>
             </View>
@@ -204,7 +185,7 @@ class Home extends Component {
                 <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                     <HaH_Header 
                         text = 'Dashboard'
-                        right = { notification }
+                        right = { hamburger }
                     />
                     <View style={{flex:1, padding: padding.sm}}>
                         <Card
@@ -212,7 +193,7 @@ class Home extends Component {
                             wrapperStyle = {styles.cardWrapper}>
                             <Text
                                 style = {styles.cardHeader}>
-                                Today's Calorie Intake
+                                Daily Available Calories 
                             </Text>
                         </Card>
                         <View style = {styles.progressView}>
@@ -221,7 +202,7 @@ class Home extends Component {
                                 radius={125}
                                 borderWidth={30}
                                 color={colors.brandgold}
-                                shadowColor={colors.tertiary}
+                                shadowColor={colors.brandgrey}
                                 bgColor='#e9e9ef' >
                                 <Text style={styles.points}>
                                     { this.state.dailyCal }

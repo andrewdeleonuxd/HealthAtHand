@@ -1,8 +1,11 @@
 import React,{Component} from 'react'
-import {View, TextInput, FlatList, ToastAndroid, TouchableHighlight ,ScrollView} from 'react-native'
-import { Header, Icon , SearchBar } from 'react-native-elements'
+import {View, TextInput, FlatList, ToastAndroid, TouchableHighlight ,ScrollView, StyleSheet, TouchableOpacity, Text} from 'react-native'
+import { Header, Icon , SearchBar, Card, Button} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
 import Communications from 'react-native-communications';
+
+import { HaH_Header, HaH_NavBar } from '../components/common';
+import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 
 class Email extends Component {
@@ -12,7 +15,7 @@ class Email extends Component {
     }
 
     goBack = () => {
-        Actions.home();
+        Actions.push("email")
     }
 
     done = () => {
@@ -44,45 +47,82 @@ class Email extends Component {
         )
 
         return (
-            <View style={{flex:1}}>
-                <Header
-                    outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
-                    leftComponent={backButton}
-                    centerComponent={{ text: 'Email', style: { color: '#fff',fontSize:17 }}}
-                    rightComponent={check}
+            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+                <HaH_Header
+                    left = {backButton}
+                    text = {'New Message'}
                 />
-
-                <TextInput
-                    style={{height: "20%"}}
-                    placeholder="Subject"
-                    onChangeText={(text) => this.setState({subject:text})}
-                    multiline = {true}
-                    textAlignVertical= 'top'
-                    maxLength = {40}
-                    numberOfLines = {3}
-                    disableFullscreenUI ={true}
+             
+                <View style = {{flex: 1, padding: 10}}>
+                    <Card
+                        containerStyle = {styles.cardContainer1}
+                        wrapperStyle = {styles.cardWrapper}>
+                        <TextInput
+                            style={styles.noteText}
+                            placeholder="Enter the subject!"
+                            onChangeText={(text) => this.setState({text})}
+                            multiline = {true}
+                            textAlignVertical= 'top'
+                            maxLength = {400}
+                        />
+                    </Card>
+                    <Card
+                        containerStyle = {styles.cardContainer2}
+                        wrapperStyle = {styles.cardWrapper}>
+                        <TextInput
+                            style={styles.noteText}
+                            placeholder="Enter your message!"
+                            onChangeText={(text) => this.setState({text})}
+                            multiline = {true}
+                            textAlignVertical= 'top'
+                            maxLength = {400}
+                        />
+                    </Card>
+                </View>
+                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>
+                    <TouchableOpacity
+                        style = {[button.touchable, {backgroundColor: colors.brandgold}]}
+                        onPress={this.showAddFoodNotes}>
+                        <View style={button.view}>
+                            <Text style = {button.text}>
+                                Send Message
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <HaH_NavBar
+                    selected = {2}
                 />
-           
-
-                 <ScrollView >
-                    <TextInput
-                    style={{height: "80%"}}
-                    placeholder="Type here to translate!"
-                    onChangeText={(text) => this.setState({body:text})}
-                    multiline = {true}
-                    textAlignVertical= 'top'
-                    maxLength = {400}
-                    numberOfLines = {200}
-                    disableFullscreenUI ={true}
-                    />
-                    
-                </ScrollView>
-                   
             </View>
         )
     }
 }
 
+const styles = StyleSheet.create({
+    cardContainer1: {
+        flex: 2,
+        padding: 1,
+        elevation: 7,
+        borderRadius: 10,
+    },
+    cardContainer2: {
+        flex: 8,
+        padding: 1,
+        elevation: 7,
+        borderRadius: 10,
+    },
+    cardWrapper: {
+        flex: 1,
+        padding: 20,
+    },
+    noteText: {
+        flex: 1,
+        fontSize: 18,
+        fontWeight: 'bold',
+        fontFamily: fonts.primary, 
+        color: colors.brandgrey
+    },
+});
 
 
 export default Email;
