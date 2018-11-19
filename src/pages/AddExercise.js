@@ -117,7 +117,7 @@ class AddExercise extends Component {
         )
 
         return (
-           <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+           <View style={{flex:1}}>
                 <HaH_Header
                     text = {'Exercise Search'}
                     right = {search}

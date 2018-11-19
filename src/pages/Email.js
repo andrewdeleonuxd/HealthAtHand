@@ -15,7 +15,7 @@ class Email extends Component {
     }
 
     goBack = () => {
-        Actions.push("email")
+        Actions.push("notificationz")
     }
 
     done = () => {
@@ -47,7 +47,7 @@ class Email extends Component {
         )
 
         return (
-            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+            <View style={{flex:1}}>
                 <HaH_Header
                     left = {backButton}
                     text = {'New Message'}
@@ -100,13 +100,13 @@ class Email extends Component {
 
 const styles = StyleSheet.create({
     cardContainer1: {
-        flex: 2,
+        flex: 1,
         padding: 1,
         elevation: 7,
         borderRadius: 10,
     },
     cardContainer2: {
-        flex: 8,
+        flex: 9,
         padding: 1,
         elevation: 7,
         borderRadius: 10,

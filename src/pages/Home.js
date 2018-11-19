@@ -182,7 +182,7 @@ class Home extends Component {
                 <StatusBar
                     backgroundColor={colors.primary}
                     barStyle="light-content"/>
-                <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+                <View style={{flex:1}}>
                     <HaH_Header 
                         text = 'Dashboard'
                         right = { hamburger }

@@ -104,7 +104,7 @@ class Notification extends Component {
         )
 
         return (
-            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+            <View style={{flex:1}}>
                 <HaH_Header
                     text = "Messenger"
                     left = {backButton}
@@ -141,7 +141,7 @@ class Notification extends Component {
                     </TouchableOpacity>
                 </View>
                 <HaH_NavBar
-                    selected = {1}
+                    selected = {5}
                 />
             </View>
         )

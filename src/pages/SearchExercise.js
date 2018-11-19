@@ -51,15 +51,15 @@ class SearchExercise extends Component {
 
     render() {
         return (
-            <View style = {{flex: 1, marginTop: Expo.Constants.statusBarHeight}}>
+            <View style = {{flex: 1}}>
                 <HaH_Header
                     text = 'Add Exercise'/>
-                <SearchBar
-                    lightTheme
-                    round
+                 <SearchBar
                     onChangeText = {this.searchTextChanged}
-                    onSubmitEditing = {this.submitEditing}
-                    placeholder='Type Here...' />
+                    placeholder='Enter exercise...'
+                    containerStyle = {styles.searchContainer}
+                    inputContainerStyle = {styles.searchInputContainer}
+                    inputStyle = {styles.searchInput}/>
                 <View style={{flex:2}}>
                     {
                         (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
@@ -103,6 +103,22 @@ class SearchExercise extends Component {
 }
 
 const styles = StyleSheet.create({
+    searchContainer: {
+        backgroundColor: 'transparent',
+        borderBottomColor: colors.brandgrey,
+        borderTopColor: 'transparent',
+        borderBottomWidth: 2
+    },
+    searchInputContainer: {
+        backgroundColor: 'transparent',
+    },
+    searchInput: {
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    searchIcon: {
+        //size: 15
+    },
     cardHeader: {
         flex: 3,
         fontSize: 25,

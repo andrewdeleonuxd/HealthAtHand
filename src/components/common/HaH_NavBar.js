@@ -51,7 +51,7 @@ const HaH_NavBar = (props) => {
     }
 
     return(
-        <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around", opacity: 0.8}}>
+        <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around", alignItems: 'center', opacity: 0.8}}>
             <Icon
                 name='tachometer'
                 type='font-awesome'
@@ -88,7 +88,7 @@ const HaH_NavBar = (props) => {
             <Icon
                 name='mail'
                 type='Entypo'
-                color={colors.brandwhite}
+                color={props.selected == 5 ? colors.brandgold: colors.brandwhite}
                 onPress={this.showNotification}
                 size={30}
                 underlayColor='transparent'> 
