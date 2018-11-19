@@ -1,23 +1,98 @@
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
-
+import axios from 'axios';
 
 import {
         FOOD_INITIALIZE,
-        FOOD_ADDED
+        FOOD_ADDED,
+        GET_CALORIES
        } from './types';
 
- 
-export const initializefood = (foodobj,foodArray) => {
-        return (dispatch) => {  
-        foodArray.push(foodobj); 
-         dispatch({
-             type: FOOD_INITIALIZE,
-             payload:foodArray
-         });
+export const getCalories = (userId,date) => {
+        return (dispatch) => {   
+            axios({ 
+                method: "get",
+                url: "http://150.212.219.117:5000/dashboard", 
+                headers : {'Content-type': 'application/json'}, 
+                params : { 
+                    'userId': userId,
+                    'date': date
+                   } 
+
+            
+            }).then(function(response) {
+                
+                if (response.data.code === 400) {
+            
+                } else {
+                   console.log("%%%%%%%%%%%%%% :",response.data);
+                    dispatch({ type: GET_CALORIES, totalCal: response.data.data.totalCal, remainingCal:response.data.data.remainingCal })
+                }
+                
+            }).catch((e) => {
+                console.log("inside catch",e);
+            })
               
      };
     };
+
+    
+export const initializefood = (userId,date) => {
+        return (dispatch) => {  
+            axios({
+                method: "get", 
+                url: "http://150.212.219.117:5000/meallog",
+                headers : {'Content-type': 'application/json'}, 
+                params : {
+                    'userId': userId,
+                    'date': date
+                   } 
+
+            
+            }).then(function(response) {
+                
+                if (response.data.code === 400) {
+                        
+                } else {
+
+                    dispatch({ type: FOOD_INITIALIZE, payload: response.data.data })
+                }
+                
+            }).catch((e) => {
+                console.log("inside catch",e);
+            })              
+     };
+    };
+
+    export const addMealToMealLog = (userId,date,foodArray) => {
+        return (dispatch) => {  
+            axios({
+                method: "post", 
+                url: "http://150.212.219.117:5000/meallog",
+                headers : {'Content-type': 'application/json'}, 
+                data : {
+                    'userId': userId,
+                    'date': date,
+                    'meallog':foodArray
+                   } 
+
+            
+            }).then(function(response) {
+                
+                if (response.data.code === 400) {
+            
+            
+                } else {
+
+                  Actions.meallog();
+                }
+                
+            }).catch((e) => {
+                console.log("inside catch",e);
+            })              
+     };
+    };
+    
 
 export const addfood = (foodobj,mealNo,ogFoodObj,firstTime) => {
 
@@ -76,10 +151,7 @@ export const addfood = (foodobj,mealNo,ogFoodObj,firstTime) => {
         } 
      
     }   
-    
-    
-   // Actions.push("addfood");
-    
+        
  };
 } else{
 
@@ -97,16 +169,40 @@ export const addfood = (foodobj,mealNo,ogFoodObj,firstTime) => {
 }
 };
 
-export const removeMeal = (ogFoodObj,mealNo) => {
+export const removeMeal = (ogFoodObj,mealNo,userId,date) => {
     ogFoodObj = _.reject(ogFoodObj, { 'mealNo': mealNo});
     return (dispatch) => { 
-     
-        dispatch({
-            type: FOOD_ADDED,
-            payload:ogFoodObj
-        });
+      
+       
+
+        axios({
+            method: "post", 
+            url: "http://150.212.219.117:5000/meallog",
+            headers : {'Content-type': 'application/json'}, 
+            data : {
+                'userId': userId,
+                'date': date,
+                'meallog':ogFoodObj
+               } 
+
+        
+        }).then(function(response) {
+            
+            if (response.data.code === 400) {
+                
+            } else {
+
+              dispatch({
+                type: FOOD_ADDED,
+                payload:ogFoodObj
+            });
+              Actions.meallog();
+            }
+            
+        }).catch((e) => {
+            console.log("inside catch",e);
+        })  
     
-        Actions.meallog();
         
      };
 }

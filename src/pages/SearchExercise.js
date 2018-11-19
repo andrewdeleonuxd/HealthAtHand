@@ -54,7 +54,7 @@ class SearchExercise extends Component {
                 console.log("error", error);
             })
     }
- 
+  
     onPress = (item) => {
         Actions.push("exercisecard",{item:item,firstTime:true,onBack:this.props.onBack});
     }
@@ -89,7 +89,7 @@ class SearchExercise extends Component {
                                 
                                     onPress = {() => this.onPress(item)}
                                     underLayColor="transparent"
-                                >
+                                > 
                                     <View>
                                         <Card 
                                             title = {item.title}

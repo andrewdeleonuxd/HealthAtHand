@@ -1,4 +1,7 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import axios from 'axios';
+
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
@@ -8,6 +11,7 @@ import { Card, ListItem, Button, Icon, ButtonGroup } from 'react-native-elements
 import { VictoryLine, VictoryLabel, VictoryGroup, VictoryAxis, VictoryVoronoiContaine, VictoryCursorContainer } from "victory-native";
 
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
+import {report} from '../actions';
 import { HaH_Header, HaH_NavBar } from '../components/common/index.js';
 import Moment from 'moment';
 
@@ -25,6 +29,14 @@ class ReportCard extends React.Component {
 		category: 0,
 		shownColor: false,
 		hasNoData: true
+	}
+	
+	componentWillMount = () => {
+		this.props.report(this.props.userId,this.props.date);
+	 }
+
+	showHome = () => {
+		Actions.home();
 	}
 
 	componentWillMount = () => {
@@ -380,4 +392,15 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default ReportCard;
+
+const mapStateToProps = (state) => {
+    
+	return {
+		foodArray: state.food.foodArray,
+		userId: state.auth.userId,
+        date : state.auth.date 
+    };
+};
+
+
+export default connect(mapStateToProps, {report}) (ReportCard);

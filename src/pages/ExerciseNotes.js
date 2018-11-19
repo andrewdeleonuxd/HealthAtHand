@@ -1,6 +1,8 @@
-import React,{Component} from 'react'
+import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import {View, TextInput,ToastAndroid, FlatList, Image, TouchableHighlight, ScrollView, StyleSheet, TouchableOpacity, Text} from 'react-native'
-import { Header, Icon , SearchBar, Card, Button} from 'react-native-elements';
+import { Header, Icon , SearchBar, Card } from 'react-native-elements';
+import {initializeexerciseNotes,submitexerciseNotes } from '../actions';
 import {Actions} from 'react-native-router-flux'
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
@@ -11,12 +13,21 @@ class ExerciseNotes extends Component {
         text:" "
     }
 
+    componentWillMount = () => {
+        this.props.initializeexerciseNotes(this.props.userId,this.props.date);
+    }
+     
+    componentWillReceiveProps = (nextProps) => { 
+           this.setState({text:nextProps.exerciseNotes});
+    }
+
     goBack = () => {
         Actions.push("exerciselog",{type:"addexercise"});
     }
 
     done = () => {
         ToastAndroid.show('done',3000,"TOP")
+        this.props.submitexerciseNotes(this.props.userId,this.props.date,this.state.text);
         Actions.push("exerciselog",{type:"addexercise"});
     }
 
@@ -101,4 +112,13 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ExerciseNotes;
+
+const mapStateToProps = state => {
+    return {
+        userId: state.auth.userId,
+        date: state.auth.date,
+        exerciseNotes: state.exercisenotes.notes
+    };
+};
+
+export default connect(mapStateToProps, {initializeexerciseNotes,submitexerciseNotes}) (ExerciseNotes);

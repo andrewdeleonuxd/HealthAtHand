@@ -18,9 +18,8 @@ class ExerciseLog extends Component {
     }
 
     componentWillMount = () => {
-
+        this.props.initializeExercise(this.props.userId,this.props.date);
         if(this.props.exerciseArray.length == 0){
-         //   this.props.initializeExercise(obj,this.props.exerciseArray);
             this.loadData(this.props); 
 
         } else{
@@ -97,7 +96,7 @@ class ExerciseLog extends Component {
             <Icon
                 name='ios-arrow-back'
                 type='ionicon'
-                color={"white"}
+                color={"white"} 
                 onPress = {this.goBack}
                 underlayColor={"transparent"}
             />
@@ -195,7 +194,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        exerciseArray: state.exercise.exerciseArray
+        exerciseArray: state.exercise.exerciseArray,
+        userId: state.auth.userId,
+        date : state.auth.date 
     };
 };
 

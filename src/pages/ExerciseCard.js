@@ -62,10 +62,10 @@ class ExerciseCard extends Component {
             itemName:this.state.itemName,
             type:this.state.type,
             intensity:this.state.intensity,
-            duration:this.state.duration
+            duration:this.state.duration 
         }
 
-        this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime);
+        this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime,this.props.userId,this.props.date);
         } else{
             let obj={
                 id:this.props.item.id,
@@ -74,7 +74,8 @@ class ExerciseCard extends Component {
                 intensity:this.state.intensity,
                 duration:this.state.duration
             }
-            this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime);
+            
+              this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime,this.props.userId,this.props.date);
         }
 
     }
@@ -87,7 +88,7 @@ class ExerciseCard extends Component {
             intensity:this.state.intensity,
             duration:this.state.duration
         }
-        this.props.removeexercise(obj,this.props.exerciseArray);
+          this.props.removeexercise(obj,this.props.exerciseArray,this.props.userId,this.props.date);
     }
 
     onDurationChange = (text) =>{
@@ -204,10 +205,7 @@ class ExerciseCard extends Component {
                                     />
                                  </Card> 
                                
-
-
                     </ScrollView>
-
                      
                 }
             </ScrollView>
@@ -218,7 +216,9 @@ class ExerciseCard extends Component {
 
 const mapStateToProps = state => {
     return {
-        exerciseArray: state.exercise.exerciseArray
+        exerciseArray: state.exercise.exerciseArray,
+        userId: state.auth.userId,
+        date : state.auth.date 
     };
 };
 

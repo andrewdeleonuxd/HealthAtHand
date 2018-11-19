@@ -1,6 +1,8 @@
 import React,{Component} from 'react'
+import {connect} from 'react-redux';
 import {View, TextInput,ToastAndroid, FlatList, Image, TouchableHighlight, ScrollView, StyleSheet, TouchableOpacity, Text} from 'react-native'
 import { Header, Icon , SearchBar, Card, Button} from 'react-native-elements';
+import {initializefoodNotes,submitfoodNotes } from '../actions';
 import {Actions} from 'react-native-router-flux'
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
@@ -11,12 +13,21 @@ class FoodNotes extends Component {
      text:" "
     }
 
+    componentWillMount = () => {
+        this.props.initializefoodNotes(this.props.userId,this.props.date);
+    }
+     
+    componentWillReceiveProps = (nextProps) => { 
+           this.setState({text:nextProps.mealNotes});
+    }
+
     goBack = () => {
         Actions.push("meallog",{type:"addfood"});
     }
 
     done = () => {
         ToastAndroid.show('done',3000,"TOP")
+        this.props.submitfoodNotes(this.props.userId,this.props.date,this.state.text);
         Actions.push("meallog",{type:"addfood"});
     }
 
@@ -101,4 +112,14 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FoodNotes;
+const mapStateToProps = state => {
+    return {
+        userId: state.auth.userId,
+        date: state.auth.date,
+        mealNotes: state.mealnotes.notes
+    };
+};
+
+export default connect(mapStateToProps, {initializefoodNotes,submitfoodNotes}) (FoodNotes);
+
+

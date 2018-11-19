@@ -1,7 +1,10 @@
-import React,{Component} from 'react'
+import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import {View, TextInput, FlatList, ToastAndroid, TouchableHighlight ,ScrollView} from 'react-native'
 import { Header, Icon , SearchBar } from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
+import {submitMessage } from '../actions';
+
 import Communications from 'react-native-communications';
 
 
@@ -18,7 +21,9 @@ class Email extends Component {
     done = () => {
      //   ToastAndroid.show('done',3000,"TOP")
      Communications.email(['abcd@gmail.com'],null,null,this.state.subject,this.state.body);
-     Actions.home();
+     this.props.submitMessage(this.props.userId,this.props.date,this.state.subject,this.state.body);
+
+   //  Actions.home();
 
     }
 
@@ -85,4 +90,14 @@ class Email extends Component {
 
 
 
-export default Email;
+//export default Email;
+
+
+const mapStateToProps = state => {
+    return {
+        userId: state.auth.userId,
+        date: state.auth.date
+        };
+};
+
+export default connect(mapStateToProps, {submitMessage}) (Email);
