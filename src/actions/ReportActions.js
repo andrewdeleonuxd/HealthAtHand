@@ -21,18 +21,13 @@ export const report = (userId,date) => {
             }
         
         }).then(function(response) {
-            /*
             if (response.data.code === 400) {
         
-                dispatch({ type: LOGIN_USER_FAIL})
-        
             } else {
-        
-                dispatch({ type: LOGIN_USER_SUCCESS, payload: email })
-                Actions.home();
+                console.log(response.data.report)
+                dispatch({ type: REPORT_RESPONSE, reportData: response.data.report })
             }
-            */
-           console.log("response from report api :",response);
+           console.log("response from report api :", response);
         }).catch((e) => {
             console.log("inside catch",e);
         })

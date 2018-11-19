@@ -25,8 +25,9 @@ export const initializefoodNotes = (userId,date) => {
             
             if (response.data.code === 400) {
 
-            } else {        
-                dispatch({ type: GET_MEAL_NOTES, payload: response.data.data })
+            } else {
+                console.log(response.data)
+                dispatch({ type: GET_MEAL_NOTES, mealNotes: response.data.data })
             }
             
         }).catch((e) => {

@@ -21,6 +21,10 @@ class FoodNotes extends Component {
            this.setState({text:nextProps.mealNotes});
     }
 
+    componentDidMount = () => {
+        this.setState({text: this.props.mealNotes});
+    }
+
     goBack = () => {
         Actions.push("meallog",{type:"addfood"});
     }
@@ -63,14 +67,27 @@ class FoodNotes extends Component {
                     <Card
                         containerStyle = {styles.cardContainer}
                         wrapperStyle = {styles.cardWrapper}>
-                        <TextInput
-                            style={styles.noteText}
-                            placeholder="Enter your thoughts on your calorie intake today!"
-                            onChangeText={(text) => this.setState({text})}
-                            multiline = {true}
-                            textAlignVertical= 'top'
-                            maxLength = {400}
-                        />
+                        {
+                            this.state.text == "" ? 
+                            <TextInput
+                                style={styles.noteText}
+                                placeholder="Enter your thoughts on your calorie intake today!"
+                                onChangeText={(text) => this.setState({text})}
+                                multiline = {true}
+                                textAlignVertical= 'top'
+                                maxLength = {400}
+                            />
+                            :
+                            <TextInput
+                                style={styles.noteText}
+                                placeholder={this.state.text}
+                                onChangeText={(text) => this.setState({text})}
+                                multiline = {true}
+                                textAlignVertical= 'top'
+                                maxLength = {400}
+                            />
+                        }
+                        
                     </Card>
                 </View>
                 <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>

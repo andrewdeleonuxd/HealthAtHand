@@ -14,15 +14,16 @@ var dailyCal = 0;
 
 class MealLog extends Component {
 
+    /*
     componentWillMount = () => {
 
-   this.props.initializefood(this.props.userId,this.props.date);
-        if(this.props.foodArray.length == 0){
-            this.loadData(this.props); 
-        } else{
-            console.log("foodArray :", this.props.foodArray);
-            this.loadData(this.props);
-        }
+    this.props.initializefood(this.props.userId,this.props.date);
+            if(this.props.foodArray.length == 0){
+                this.loadData(this.props); 
+            } else{
+                console.log("foodArray :", this.props.foodArray);
+                this.loadData(this.props);
+            }
 
     }
 
@@ -31,6 +32,7 @@ class MealLog extends Component {
         console.log("componentWillReceiveProps ");
         this.loadData(nextProps)
     } 
+    */
 
     onPress = (item) => {
         Actions.push("addfood",{item:item});

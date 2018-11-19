@@ -212,7 +212,7 @@ class Home extends Component {
                             wrapperStyle = {styles.cardWrapper}>
                             <Text
                                 style = {styles.cardHeader}>
-                                Today's Calorie Intake
+                                Today's Available Calories
                             </Text>
                         </Card>
                         <View style = {styles.progressView}>
