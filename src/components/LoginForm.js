@@ -7,20 +7,28 @@ import {emailChanged, passwordChanged, loginUser } from '../actions';
 
 import {colors, fonts, padding, dimensions, margin} from '../styles/base.js'
 import { } from 'react-native'
+import { Actions } from 'react-native-router-flux';
 
 class LoginForm extends Component {
     onEmailChange(text){
-      this.props.emailChanged(text);    
+        //this.props.emailChanged(text);
+        this.props.emailChanged("shreya@gmail.com"); 
+        this.props.email = "shreya@gmail.com";
+         
     }
  
     onPasswordChange(text){
-        this.props.passwordChanged(text);
+        //this.props.passwordChanged(text);
+        this.props.passwordChanged("password");  
+        this.props.password = "password";
     }
 
     onButtonPress(){
         const {email, password} = this.props;
 
         this.props.loginUser({email,password});
+
+        Actions.home();
     } 
 
     renderError(){
@@ -36,6 +44,7 @@ class LoginForm extends Component {
     }
 
     renderButton(){
+        
         if(this.props.loading){
            return<Spinner size="large"/> 
         } else {

@@ -12,7 +12,7 @@ export const getCalories = (userId,date) => {
         return (dispatch) => {   
             axios({ 
                 method: "get",
-                url: "http://150.212.219.117:5000/dashboard", 
+                url: "http://10.0.0.241:5000/dashboard", 
                 headers : {'Content-type': 'application/json'}, 
                 params : { 
                     'userId': userId,
@@ -41,7 +41,7 @@ export const initializefood = (userId,date) => {
         return (dispatch) => {  
             axios({
                 method: "get", 
-                url: "http://150.212.219.117:5000/meallog",
+                url: "http://10.0.0.241:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
@@ -54,7 +54,7 @@ export const initializefood = (userId,date) => {
                 if (response.data.code === 400) {
                         
                 } else {
-
+                    console.log(response.data)
                     dispatch({ type: FOOD_INITIALIZE, payload: response.data.data })
                 }
                 
@@ -68,7 +68,7 @@ export const initializefood = (userId,date) => {
         return (dispatch) => {  
             axios({
                 method: "post", 
-                url: "http://150.212.219.117:5000/meallog",
+                url: "http://10.0.0.241:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 data : {
                     'userId': userId,
@@ -177,7 +177,7 @@ export const removeMeal = (ogFoodObj,mealNo,userId,date) => {
 
         axios({
             method: "post", 
-            url: "http://150.212.219.117:5000/meallog",
+            url: "http://10.0.0.241:5000/meallog",
             headers : {'Content-type': 'application/json'}, 
             data : {
                 'userId': userId,

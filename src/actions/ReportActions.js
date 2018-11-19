@@ -13,7 +13,7 @@ export const report = (userId,date) => {
 
         axios({
             method: "get",
-            url: "http://150.212.216.250:5000/report",
+            url: "http://10.0.0.241:5000/report",
             headers : {'Content-type': 'application/json'}, 
             params : {
                 'userId':userId,

@@ -7,7 +7,7 @@ import {
        
        } from './types';
 
-//url: "http://150.212.216.250:5000/report"        
+//url: "http://10.0.0.241:5000/report"        
 
 export const searchResult = (food) => {
     return (dispatch) => {  
@@ -17,7 +17,7 @@ export const searchResult = (food) => {
      //    headers = JSON.parse(headers)
         axios({
             method: "get",
-            url: "http://150.212.219.117:5000/search",
+            url: "http://10.0.0.241:5000/search",
             headers : {'Content-type': 'application/json'},  
             params : data  
         
