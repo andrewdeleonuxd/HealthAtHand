@@ -12,17 +12,19 @@ import testResponse from '../testdata/nutrients_pizza.json'
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 //import NumberInput from 'rn-number-input';
+
+const BASE_URL = 'http://10.0.0.4:5000';
  
 class FoodCard extends Component {
 
     state ={
-        showLoader:false,
+        showLoader:true,
         food:{},
         servings:"1"
     }
 
     componentWillMount = () => {
-        const request = new Request('https://http://sis-teach-01.sis.pitt.edu/projects/healthathand/nat/' + this.props.food_name)
+        const request = new Request(BASE_URL + '/nut/'  + this.props.itemName)
         this.formData(request)
     }
 
@@ -42,12 +44,12 @@ class FoodCard extends Component {
     }
 
     formData = (request)  => {
-        {/*
         fetch(request)
             .then((response) => response.json())
             .then((responseJson)=>{
-                if(responseJson.foods[0].length > 0) {
-                    this.setState({food:responseJson.foods[0], showLoader:false})
+                //console.log(responseJson)
+                if(responseJson.code == 200) {
+                    this.setState({food:responseJson.mealName.foods[0], showLoader:false})
                 } else {
                     console.log("no data");
                 }
@@ -55,20 +57,6 @@ class FoodCard extends Component {
             .catch((error) => {
                 console.log("error", error);
             })
-        */}
-        this.setState({food:testResponse.foods[0], showLoader:false})
-        
-        {/*
-        if(testReponse.branded.length > 0) {
-            console.log(testReponse.common.length)
-            this.state.choices = testReponse.branded
-            this.setState({choices:this.state.choices, showLoader:false})
-        } else {
-            this.state.choices = testReponse.branded
-            console.log("no data");
-        }
-        
-        */}
     }
 
     goBack = () => {
@@ -162,11 +150,12 @@ class FoodCard extends Component {
 
 
         return (
-            <View style = {{flex: 1, marginTop: Expo.Constants.statusBarHeight}}>
+            <View style = {{flex: 1}}>
                 <HaH_Header
                     left = {backButton}
                     text = {this.titleLabel()}
                 />
+                <View style = {{flex: 1}}>
                 {
                     (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff" /> : 
                     <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>
@@ -240,6 +229,7 @@ class FoodCard extends Component {
                         </View>
                     </View>
                 }
+                </View>
                 <HaH_NavBar
                     selected={2}
                 />

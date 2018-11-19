@@ -37,7 +37,11 @@ const HaH_NavBar = (props) => {
 
     showReport = () => {
 		Actions.push("report");
-	}
+    }
+    
+    showNotification = () => {
+        Actions.push("notification");
+    }
 
     email = () => {
         // Communications.text("4123205413");
@@ -47,7 +51,7 @@ const HaH_NavBar = (props) => {
     }
 
     return(
-        <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around", opacity: 0.8}}>
+        <View style={{flexDirection: 'row', height:60, backgroundColor: colors.primary, justifyContent:"space-around", alignItems: 'center', opacity: 0.8}}>
             <Icon
                 name='tachometer'
                 type='font-awesome'
@@ -82,12 +86,12 @@ const HaH_NavBar = (props) => {
                 underlayColor='transparent'> 
             </Icon>
             <Icon
-                name='settings'
-                type='Feather'
+                name='mail'
+                type='Entypo'
                 color={props.selected == 5 ? colors.brandgold: colors.brandwhite}
-                //onPress={this.showAddExercise}
+                onPress={this.showNotification}
                 size={30}
-                underlayColor='transparent'>
+                underlayColor='transparent'> 
             </Icon>
         </View>
     )

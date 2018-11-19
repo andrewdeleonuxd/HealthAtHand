@@ -53,7 +53,7 @@ class ExerciseNotes extends Component {
         )
 
         return (
-            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+            <View style={{flex:1}}>
                 <HaH_Header
                     left = {backButton}
                     text = {'Add Exercise Notes'}
