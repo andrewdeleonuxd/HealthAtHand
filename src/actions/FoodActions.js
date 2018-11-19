@@ -12,7 +12,7 @@ export const getCalories = (userId,date) => {
         return (dispatch) => {   
             axios({ 
                 method: "get",
-                url: "http://150.212.219.117:5000/dashboard",
+                url: "http://150.212.219.117:5000/dashboard", 
                 headers : {'Content-type': 'application/json'}, 
                 params : { 
                     'userId': userId,
@@ -50,12 +50,12 @@ export const getCalories = (userId,date) => {
      };
     };
 
-    /*
+    
 export const initializefood = (userId,date) => {
         return (dispatch) => {  
             axios({
-                method: "get",
-                url: "http://150.212.216.250:5000/dashboard",
+                method: "get", 
+                url: "http://150.212.219.117:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
@@ -70,29 +70,48 @@ export const initializefood = (userId,date) => {
                  //   dispatch({ type: LOGIN_USER_FAIL})
             
                 } else {
-            
-                    dispatch({ type: FOOD_INITIALIZE, payload: email })
-                    Actions.home();
+
+                    dispatch({ type: FOOD_INITIALIZE, payload: response.data.data })
+                   // Actions.home();
                 }
                 
             }).catch((e) => {
                 console.log("inside catch",e);
-            })
-
-
-            
-
-        foodArray.push(foodobj); 
-         dispatch({
-             type: FOOD_INITIALIZE,
-             payload:foodArray
-         });
-
-         
-              
+            })              
      };
     };
-    */
+
+    export const addMealToMealLog = (userId,date,foodArray) => {
+        return (dispatch) => {  
+            axios({
+                method: "post", 
+                url: "http://150.212.219.117:5000/meallog",
+                headers : {'Content-type': 'application/json'}, 
+                data : {
+                    'userId': userId,
+                    'date': date,
+                    'meallog':foodArray
+                   } 
+
+            
+            }).then(function(response) {
+                
+                if (response.data.code === 400) {
+            
+                 //   dispatch({ type: LOGIN_USER_FAIL})
+            
+                } else {
+
+                  //  dispatch({ type: FOOD_INITIALIZE, payload: response.data.data })
+                  Actions.meallog();
+                }
+                
+            }).catch((e) => {
+                console.log("inside catch",e);
+            })              
+     };
+    };
+    
 
 export const addfood = (foodobj,mealNo,ogFoodObj,firstTime) => {
 
@@ -172,16 +191,44 @@ export const addfood = (foodobj,mealNo,ogFoodObj,firstTime) => {
 }
 };
 
-export const removeMeal = (ogFoodObj,mealNo) => {
+export const removeMeal = (ogFoodObj,mealNo,userId,date) => {
     ogFoodObj = _.reject(ogFoodObj, { 'mealNo': mealNo});
     return (dispatch) => { 
      
-        dispatch({
-            type: FOOD_ADDED,
-            payload:ogFoodObj
-        });
+       
+
+        axios({
+            method: "post", 
+            url: "http://150.212.219.117:5000/meallog",
+            headers : {'Content-type': 'application/json'}, 
+            data : {
+                'userId': userId,
+                'date': date,
+                'meallog':ogFoodObj
+               } 
+
+        
+        }).then(function(response) {
+            
+            if (response.data.code === 400) {
+        
+             //   dispatch({ type: LOGIN_USER_FAIL})
+        
+            } else {
+
+              //  dispatch({ type: FOOD_INITIALIZE, payload: response.data.data })
+              dispatch({
+                type: FOOD_ADDED,
+                payload:ogFoodObj
+            });
+              Actions.meallog();
+            }
+            
+        }).catch((e) => {
+            console.log("inside catch",e);
+        })  
     
-        Actions.meallog();
+       // Actions.meallog();
         
      };
 }

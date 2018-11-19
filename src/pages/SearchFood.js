@@ -1,12 +1,16 @@
+
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
 import { Text, Image, View, FlatList, TouchableOpacity, ActivityIndicator, ToastAndroid, TextInput, StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux'
 import { Header, SearchBar, ButtonGroup, Card, ListItem, Button, Icon } from 'react-native-elements'
+import {searchResult} from '../actions';
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
 import testReponse from '../testdata/searchresult_pizza'
 
-import {colors, margin, padding} from '../styles/base.js'
+import {colors, margin, padding, fonts} from '../styles/base.js'
 
 class SearchFood extends Component{
     state = {
@@ -21,42 +25,16 @@ class SearchFood extends Component{
     
     componentWillMount = () => {
     }
+
+    componentWillReceiveProps = (nextProps) => {
+        (this.state.category == 0) ? this.setState({response: nextProps.searchArray, choices:nextProps.searchArray.common, showLoader:false}) : this.setState({response: nextProps.searchArray, choices:nextProps.searchArray.branded, showLoader:false})
+    }
     
     endReached = () => {
         ToastAndroid.show('Loading more data...',3000,"BOTTOM")
     }
 
-    formData = (request)  => {
-        {/*
-        fetch(request)
-            .then((response) => response.json())
-            .then((responseJson)=>{
-                if(responseJson.common.length > 0) {
-                    this.setState({searchResults: responseJson, choices:responseJson.common, showLoader:false})
-                } else {
-                    console.log("no data");
-                }
-            })
-            .catch((error) => {
-                console.log("error", error);
-            })
-        */}
 
-        
-        this.setState({choices:testReponse.common, showLoader:false})
-        
-        {/*
-        if(testReponse.branded.length > 0) {
-            console.log(testReponse.common.length)
-            this.state.choices = testReponse.branded
-            this.setState({choices:this.state.choices, showLoader:false})
-        } else {
-            this.state.choices = testReponse.branded
-            console.log("no data");
-        }
-        
-        */}
-    }
 
     onPress = (item) => {
         Actions.push("foodcard", {
@@ -68,16 +46,24 @@ class SearchFood extends Component{
         });
     }
 
-    submitEditing = () => {
-        let food = this.state.searchText
-        this.setState({choices:[]})
-        const request = new Request('https://http://sis-teach-01.sis.pitt.edu/projects/healthathand/search/' + food)
-        this.formData(request)
+    searchTextChanged = (text) => {
+        if(text)
+        {
+            let food = text
+            this.setState({choices:[], searching: true, showLoader: true, searchText: text})
+          //  const request = BASE_URL + '/search/' + food
+            //console.log(request)
+            this.props.searchResult(food); 
+
+         //   this.formData(request)
+        }
     }
 
-    searchTextChanged = (text) => {
-        this.setState({searchText:text})
+    submitEditing = () => {
+        let food = this.state.searchText
+        this.props.searchResult(food); 
     }
+
 
     capitalize(str) {
         return str.replace(/\w\S*/g, function(txt){
@@ -133,23 +119,21 @@ class SearchFood extends Component{
                                 renderItem={({item}) => (
                                     <TouchableOpacity
                                         
-                                        style = {{paddingTop: 0, paddingBottom: 0}}
+                                        style = {{paddingBottom: 7}}
                                         onPress = {() => this.onPress(item)}
                                         underLayColor="transparent"
                                     >
-                                        <View style = {{paddingTop: 5, paddingBottom: 10}}>
-                                            <Card
-                                                containerStyle = {styles.cardContainer}
-                                                wrapperStyle = {styles.cardWrapper}>
-                                                <Image
-                                                    style={{width: 30, height: 30}}
-                                                    source={this.findThumbnail(item.photo.thumb)}
-                                                />
-                                                <Text style = {styles.cardHeader}>
-                                                    {this.capitalize(item.food_name)}
-                                                </Text>
-                                            </Card>
-                                        </View>
+                                        <Card
+                                            containerStyle = {styles.cardContainer}
+                                            wrapperStyle = {styles.cardWrapper}>
+                                            <Image
+                                                style={{width: 30, height: 30}}
+                                                source={this.findThumbnail(item.photo.thumb)}
+                                            />
+                                            <Text style = {styles.cardHeader}>
+                                                {this.capitalize(item.food_name)}
+                                            </Text>
+                                        </Card>
                                     </TouchableOpacity>
                                 )}
                                 onEndReachedThreshold={0.5}
@@ -171,7 +155,7 @@ const styles = StyleSheet.create({
         flex: 3,
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
         textAlign:'left',
         marginRight: 25,
@@ -199,13 +183,13 @@ const styles = StyleSheet.create({
     categoryTextUnselected: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: fonts.primary,
         color: colors.primary
     },
     categoryTextSelected: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: fonts.primary,
         color: colors.brandwhite
     },
     categoryButtonSelected: {
@@ -213,4 +197,12 @@ const styles = StyleSheet.create({
         backgroundColor: colors.brandblue
     }
 });
-export default SearchFood;
+
+const mapStateToProps = state => {
+    return {
+        foodArray: state.food.foodArray,
+        searchArray: state.search.searchArray
+    };
+};
+
+export default connect(mapStateToProps, {searchResult}) (SearchFood);

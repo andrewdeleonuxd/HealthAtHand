@@ -46,13 +46,16 @@ class Home extends Component {
         this.setState({maxCal:nextProps.totalCal,dailyCal:nextProps.remainingCal});
 
     }
+    componentDidMount = () => {
+        this.setState({maxCal:this.props.totalCal,dailyCal:this.props.remainingCal});
+    }
 
 
     closeControlPanel = () => {
         this._drawer.close()
     };
 
-    openControlPanel = () => {
+    openControlPanel = () => { 
         this._drawer.open()
     };
 
@@ -104,6 +107,7 @@ class Home extends Component {
     }
 
     render(){
+       
         let search = (
             <Icon
                 name='notifications'

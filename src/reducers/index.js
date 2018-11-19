@@ -4,6 +4,7 @@ import FoodReducer from './FoodReducer';
 import ExerciseReducer from './ExerciseReducer';
 import ReportReducer from './ReportReducer';
 import GetCaloriesReducer from './GetCaloriesReducer';
+import SearchReducer from './SearchReducer';
 
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
  food: FoodReducer,   
  auth: AuthReducer,
  report: ReportReducer,
- getCalories: GetCaloriesReducer 
+ getCalories: GetCaloriesReducer,
+ search: SearchReducer
 });

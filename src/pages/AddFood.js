@@ -4,7 +4,7 @@ import {View, Text, FlatList, Image, TouchableHighlight, StyleSheet, TouchableOp
 import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {initializefood, removeMeal } from '../actions';
+import {initializefood, removeMeal, addMealToMealLog } from '../actions';
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
 
@@ -89,7 +89,7 @@ class AddFood extends Component {
                                 </Text>
                             </Text> 
                         </Card>
-                    </View>
+                    </View> 
                     </TouchableHighlight>
                 )
             })
@@ -98,7 +98,8 @@ class AddFood extends Component {
 
 
     goBack = () => {
-        Actions.meallog();
+        this.props.addMealToMealLog(this.props.userId,"2018-11-18",this.props.foodArray);
+      //  Actions.meallog();
     }
 
     showFoodSearch = () => {
@@ -106,7 +107,7 @@ class AddFood extends Component {
     }
 
     deleteMeal = () => {
-        this.props.removeMeal(this.props.foodArray,this.props.item.mealNo);
+        this.props.removeMeal(this.props.foodArray,this.props.item.mealNo,this.props.userId,"2018-11-18");
     }
 
     submitEditing = () => {
@@ -276,8 +277,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        foodArray: state.food.foodArray
+        foodArray: state.food.foodArray,
+        userId: state.auth.userId
     };
 };
 
-export default connect(mapStateToProps, {initializefood, removeMeal}) (AddFood);
+export default connect(mapStateToProps, {initializefood, removeMeal, addMealToMealLog}) (AddFood);

@@ -26,6 +26,7 @@ class MealLog extends Component {
             totalCalories:25
         }
     */
+   this.props.initializefood(1,"2018-11-18");
         if(this.props.foodArray.length == 0){
          //   this.props.initializefood(obj,this.props.foodArray);
             this.loadData(this.props); 
