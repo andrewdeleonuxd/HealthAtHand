@@ -32,7 +32,7 @@ class Home extends Component {
         isMoving: false,
         pointsDelta: 0, 
         dailyCal: 325,
-        maxCal: 2000
+        maxCal: 2000 
     }
 
     componentWillMount = () => {
@@ -41,9 +41,11 @@ class Home extends Component {
      
     }
 
-   componentDidMount = () => {
-    this.setState({maxCal:this.props.totalCal,dailyCal:this.props.remainingCal});
-   }
+    componentWillReceiveProps = (nextProps) => {
+
+        this.setState({maxCal:nextProps.totalCal,dailyCal:nextProps.remainingCal});
+
+    }
 
 
     closeControlPanel = () => {

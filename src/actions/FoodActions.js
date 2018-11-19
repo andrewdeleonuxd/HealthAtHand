@@ -1,6 +1,6 @@
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
-
+import axios from 'axios';
 
 import {
         FOOD_INITIALIZE,
@@ -12,7 +12,7 @@ export const getCalories = (userId,date) => {
         return (dispatch) => {   
             axios({ 
                 method: "get",
-                url: "http://150.212.216.250:5000/dashboard",
+                url: "http://150.212.219.117:5000/dashboard",
                 headers : {'Content-type': 'application/json'}, 
                 params : { 
                     'userId': userId,
@@ -27,7 +27,7 @@ export const getCalories = (userId,date) => {
                  //   dispatch({ type: LOGIN_USER_FAIL})
             
                 } else {
-                   
+                   console.log("%%%%%%%%%%%%%% :",response.data);
                     dispatch({ type: GET_CALORIES, totalCal: response.data.data.totalCal, remainingCal:response.data.data.remainingCal })
                  //   Actions.home();
                 }
