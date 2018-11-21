@@ -20,33 +20,24 @@ class AddExercise extends Component {
     }
 
     componentWillMount = () => {
-       /*
-        if(this.props.item.exercise.length == 0){
-         //   this.props.initializeExercise(obj,this.props.exerciseArray);
-            this.loadData(this.props); 
-
-        } else{
-            this.loadData(this.props);
-        }
-
-        */
-        this.loadData(this.props); 
+   
+     //   this.loadData(this.props); 
 
 
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
-        this.loadData(nextProps)
+      //  this.loadData(nextProps)
     } 
 
     onPress = (item) => {
       //  Actions.push("exercisecard",{item:item,firstTime:false,exerciseNo:this.props.item.exerciseNo,onBack:this.props.item});
       Actions.push("exercisecard",{item:item,firstTime:false,onBack:this.props.item});
     }
-
+/*
     loadData = (props) => {
-        /*
+        
         data=[]; 
         let array=this.props.item;
         if(array.length>0){
@@ -77,8 +68,9 @@ class AddExercise extends Component {
                 )
             })
         }
-        */
-    } 
+        
+    }
+   */  
 
 
     goBack = () => {

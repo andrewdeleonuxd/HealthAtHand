@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addexercise,removeexercise} from '../actions';
-const uuid = require('uuid/v1');
 import NumericInput,{ calcSize } from 'react-native-numeric-input';
 
 
@@ -62,10 +61,8 @@ class ExerciseCard extends Component {
 
     Add = () => {
         if(this.props.firstTime){
-            let id = uuid();
-        id = id.split("-").join("");
         let obj={
-            exid:id,
+            exid:this.props.item.exid,
             exName:this.props.item.exName ,
             intensity:this.props.item.intensity,
             duration:this.props.item.duration 

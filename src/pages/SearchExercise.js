@@ -21,14 +21,20 @@ class SearchExercise extends Component {
         }
     }
 
-    endReached = () => {
+    endReached = () => { 
         ToastAndroid.show('Loading more data...',3000,"BOTTOM")
     }
    
     // on selecting perticular item from exercise search result
     onPress = (item) => {
         // on instance item is the obj that we get from search result
-        Actions.push("exercisecard",{item:item,firstTime:true,onBack:this.props.onBack});
+        let obj={
+            "exid":item.tag_id,
+            "exName":item.name,
+            "duration":item.duration_min,
+            "intensity":"1"
+        }
+        Actions.push("exercisecard",{item:obj,firstTime:true,onBack:this.props.onBack});
     }
 
     submitEditing = () => {
@@ -77,7 +83,7 @@ class SearchExercise extends Component {
                                             wrapperStyle = {styles.cardWrapper}>
                                         
                                             <Text style = {styles.cardHeader}>
-                                               {/*{this.capitalize(item.exName)}*/} 
+                                               {this.capitalize(item.name)} 
                                             </Text>
                                         </Card>
                                     </TouchableOpacity>

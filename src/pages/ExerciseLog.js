@@ -74,7 +74,7 @@ class ExerciseLog extends Component {
         Actions.exercisenotes();
     }
 
-    render = () => {
+    render = () => { 
         let addExercise = (
             <Icon
                 name='add-box'

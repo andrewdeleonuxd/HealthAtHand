@@ -42,7 +42,7 @@ class Home extends Component {
     }
 
     componentWillReceiveProps = (nextProps) => {
-
+        
         this.setState({maxCal:nextProps.totalCal,dailyCal:nextProps.remainingCal});
 
     }

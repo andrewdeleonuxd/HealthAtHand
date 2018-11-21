@@ -139,7 +139,7 @@ export const removeexercise = (obj,userId,date) => {
                 console.log("Server responds with code 400 for exercise search");
             } else {
 
-                dispatch({ type: EXERCISE_SEARCH_RESULT, payload: response.data.data })
+                dispatch({ type: EXERCISE_SEARCH_RESULT, payload: response.data.data.exercises })
             }
             
         }).catch((e) => {

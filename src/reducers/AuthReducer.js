@@ -15,7 +15,7 @@ export default (state = INITIAL_STATE, action) => {
 
         case LOGIN_USER_SUCCESS:
           return { ...state, 
-                    userId:action.payload,
+                    userId:action.payload, 
                     date:action.date,
                     healthCoach:action.healthCoach,
                     error: '',
