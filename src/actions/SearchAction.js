@@ -35,7 +35,7 @@ export const searchResult = (food) => {
 };  
 
 export const SearchNut = (food) => {
-    return (dispatch) => {  
+      
         let data = {'food': food}
 
         axios({
@@ -65,6 +65,6 @@ export const SearchNut = (food) => {
         }).catch((e) => {
             console.log("inside catch of searchAction nutrition end point");
         })
-};
+
 }; 
 

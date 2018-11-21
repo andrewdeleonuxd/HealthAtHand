@@ -63,7 +63,6 @@ export const initializefood = (userId,date) => {
     };
 
     export const addMealToMealLog = (userId,date,mealObj) => {
-        return (dispatch) => {  
             axios({
                 method: "post", 
                 url: "http://10.0.0.241:5000/meallog",
@@ -88,11 +87,10 @@ export const initializefood = (userId,date) => {
             }).catch((e) => {
                 console.log("inside catch of post method of add meal");
             })              
-     };
+     
     };
 
     export const removeMeal = (userId,date,mealObj) => {
-        return (dispatch) => {
             axios({
                 method: "delete", 
                 url: "http://10.0.0.241:5000/meallog",
@@ -118,7 +116,6 @@ export const initializefood = (userId,date) => {
                 console.log("inside catch of delete method of add meal");
             })  
 
-        }
     }
 
     
@@ -142,11 +139,12 @@ export const initializefood = (userId,date) => {
                 'cartId':meal.cartId,
                 'food':array
             }
+            Actions.push("addfood", {item:finalObj});
+
             dispatch({
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
-            Actions.push("addfood", {item:finalObj});
 
         } else{
             let array=[];
@@ -158,16 +156,19 @@ export const initializefood = (userId,date) => {
                 'cartId':meal.cartId,
                 'food':array
             }
+            Actions.push("addfood", {item:finalObj});
+
             dispatch({
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
-            Actions.push("addfood", {item:finalObj});
         }
     }
     }
 
     export const removefood = (foodObj,meal) => {
+        return (dispatch) => {  
+
         let array=[];
         let finalObj={};
         array = _.reject(meal.food, function(item) { return foodobj.id === item.id; });
@@ -176,12 +177,13 @@ export const initializefood = (userId,date) => {
             'cartId':meal.cartId,
             'food':array
         }
+        Actions.push("addfood", {item:finalObj});
+
         dispatch({
             type: FOOD_ADDED,
             mealObj:finalObj
         });
-        Actions.push("addfood", {item:finalObj});
-
+    }
     }
 
     
