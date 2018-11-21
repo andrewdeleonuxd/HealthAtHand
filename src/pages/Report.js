@@ -17,57 +17,55 @@ import Moment from 'moment';
 
 import testResponse from '../testdata/report.json'
 
+const userWeight = [];
 const today = new Date();
 
 class ReportCard extends React.Component {
 
 	state = {
 		curWeight: "",
-		userWeightState: [], 
-		shownData: {}, 
+		userWeightState: userWeight,
+		shownData: {},
 		category: 0,
 		shownColor: false,
-		hasNoData: true,
-		userWeight: []
+		hasNoData: true
 	}
-	
+
 	componentWillMount = () => {
-		this.props.report(this.props.userId);
-	 }
-
-	componentWillReceiveProps = (nextProps) => {
-		this.setState({
-			userWeight: this.reformat(nextProps.reportData),
-			curWeight: this.reformat(nextProps.reportData)[this.reformat(nextProps.reportData).length - 1].weight.toString(),
-			userWeightState: this.changeDomain(this.reformat(nextProps.reportData))
-		});
+		this.props.report(1);
+		
 	}
 
-	componentDidMount = () => {
+	
+	componentWillReceiveProps = (nextProps) => {
+		userWeight = testResponse.report_card;
+		console.log("WILL RECEIVE")
 		today.setHours(0,0,0,0);
-		if(this.props.reportData != undefined)
+		
+		if(userWeight.length != 0)
 		{
-			for(i = 0; i < this.props.reportData.length; i++)
-			{
-				this.props.reportData.date = new Date(this.props.reportData[i].date)
-			}
+			userWeight = this.reformat(userWeight);
 			this.setState({
-				userWeight: this.reformat(this.props.reportData),
-				curWeight: this.reformat(this.props.reportData)[this.reformat(this.props.reportData).length - 1].weight.toString(),
-				userWeightState: this.changeDomain(this.reformat(this.props.reportData))
+				curWeight: userWeight[userWeight.length - 1].weight.toString(),
+				userWeightState: this.changeDomain(userWeight)
 			});
 		}
 	}
-	
-	reformat(userWeight)
-	{
-		for(i = 0; i < userWeight; i++)
-		{
-			userWeight.date = new Date(userWeight[i].date)
-		}
+
+	componentDidMount = () => {
+		console.log("MOUNTED")
 	}
 
-	changeDomain(userWeight, category) {
+	reformat(data)
+	{
+		for(i = 0; i < data; i++)
+		{
+			data[i].date = new Date(data[i].date)
+		}
+		return data;
+	}
+
+	changeDomain(dates, category) {
 		min = Moment(new Date()).subtract(8, 'day');
 		max = new Date();
 		if(category == 1)
@@ -78,7 +76,7 @@ class ReportCard extends React.Component {
 		{
 			min = Moment(new Date()).subtract(1, 'year');
 		}
-		dates = userWeight.filter(
+		dates = dates.filter(
 			function(each) {
 				return Moment(each.date).isBetween(min, max);
 			}
@@ -91,19 +89,20 @@ class ReportCard extends React.Component {
 		else {
 			this.state.hasNoData = true;
 		}
+		console.log(dates)
 		return dates;
 	}
 
 	addWeight = () => {
-		if(this.state.userWeight[this.state.userWeight.length - 1].date != today)
+		if(userWeight[userWeight.length - 1].date != today)
 		{			
-			this.state.userWeight.push({"date": today, "weight": parseInt(this.state.curWeight)})
+			userWeight.push({"date": today, "weight": parseInt(this.state.curWeight)})
 		}
 		else
 		{
-			this.state.userWeight[this.state.userWeight.length - 1].weight = parseInt(this.state.curWeight);
+			userWeight[userWeight.length - 1].weight = parseInt(this.state.curWeight);
 		}
-		this.setState({userWeightState: this.changeDomain(this.state.userWeight, this.state.category), shownData: this.state.userWeight[this.state.userWeight.length - 1]})
+		this.setState({userWeightState: this.changeDomain(userWeight, this.state.category)})
 	}
 
 	checkString(weightString) {
@@ -122,7 +121,7 @@ class ReportCard extends React.Component {
 	}
 
 	setShownWeight = (d) => {
-		//console.log(d)
+		console.log(d)
 		
 		if(d == null) {
 			this.setState({shownData: {date: this.state.userWeightState[this.state.userWeightState.length-1].date, weight: this.state.curWeight}, shownColor: false});
@@ -137,7 +136,7 @@ class ReportCard extends React.Component {
 	}
 	
     updateCategory = (category) => {
-        this.setState({category, userWeightState: this.changeDomain(this.state.userWeight, category), showLoader: false})
+        this.setState({category, userWeightState: this.changeDomain(userWeight, category), showLoader: false})
     }
 
 	render() {
@@ -406,7 +405,6 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
 	}
 });
-
 
 const mapStateToProps = (state) => {
     
