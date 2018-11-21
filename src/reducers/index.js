@@ -7,6 +7,7 @@ import GetCaloriesReducer from './GetCaloriesReducer';
 import SearchReducer from './SearchReducer';
 import MealNotesReducer from './MealNotesReducer';
 import ExerciseNotesReducer from './ExerciseNotesReducer';
+import ExerciseSearchReducer from './ExerciseSearchReducer';
 
 export default combineReducers({
  exercise: ExerciseReducer,   
@@ -16,5 +17,6 @@ export default combineReducers({
  getCalories: GetCaloriesReducer,
  search: SearchReducer,
  mealnotes: MealNotesReducer,
- exercisenotes: ExerciseNotesReducer
+ exercisenotes: ExerciseNotesReducer,
+ exerciseSearch: ExerciseSearchReducer
 });

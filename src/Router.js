@@ -23,7 +23,7 @@ import ExerciseNotes from './pages/ExerciseNotes';
 import Report from './pages/Report';
 
 
-const RouterComponent = () => {
+const RouterComponent = () => { 
     return(
         <Router >
             <Scene key="root" >

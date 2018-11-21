@@ -78,6 +78,7 @@ class MealLog extends Component {
           let ogFoodObj = this.props.foodArray; 
           let i=1;
           let cartId = uuid();
+          cartId = cartId.split("-").join("");
           if(ogFoodObj.length>0){
           while(_.some(ogFoodObj, { 'mealName':i })){
               i++;

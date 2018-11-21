@@ -18,7 +18,7 @@ export const EMPLOYEES_SAVE_SUCCESS = 'employees_save_success';
 
 export const FOOD_ADDED = 'food_added';
 
-export const FOOD_INITIALIZE = 'food_initialize';
+export const FOOD_INITIALIZE = 'food_initialize'; 
 
 export const EXERCISE_ADDED = 'exercise_added';
  
@@ -33,6 +33,8 @@ export const SEARCH_RESULT = "search_result";
 export const GET_MEAL_NOTES = "get_meal_notes";
 
 export const SET_MEAL_NOTES = "set_meal_notes";
+
+export const EXERCISE_SEARCH_RESULT = 'exercise_search_result';
 
 
 

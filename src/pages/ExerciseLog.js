@@ -11,7 +11,7 @@ import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
 
-class ExerciseLog extends Component {
+class ExerciseLog extends Component { 
 
     state = {
 
@@ -19,13 +19,7 @@ class ExerciseLog extends Component {
 
     componentWillMount = () => {
         this.props.initializeExercise(this.props.userId,this.props.date);
-        if(this.props.exerciseArray.length == 0){
-            this.loadData(this.props); 
-
-        } else{
-            this.loadData(this.props);
-        }
-
+        this.loadData(this.props);
     }
 
 
@@ -33,6 +27,7 @@ class ExerciseLog extends Component {
         this.loadData(nextProps)
     } 
 
+    // when existing exercise is edited
     onPress = (item) => {
         Actions.push("exercisecard",{item:item,firstTime:false});
     }
@@ -40,6 +35,7 @@ class ExerciseLog extends Component {
     loadData = (props) => {
         data=[]; 
         let array=props.exerciseArray;
+        if(array.length>0){
         array.map((item, i) => {
             data.push(
                 <TouchableHighlight
@@ -53,13 +49,14 @@ class ExerciseLog extends Component {
                             containerStyle = {styles.cardContainer}
                             wrapperStyle = {styles.cardWrapper}>
                             <Text style = {styles.foodName}>
-                                {item.itemName}
+                                {item.exName}
                             </Text>
                         </Card>
                     </View>
                 </TouchableHighlight>
             )
         })
+    }
     } 
 
 
@@ -67,18 +64,13 @@ class ExerciseLog extends Component {
         Actions.home();
     }
 
-
+    // when user wants to add new exercise
     addExercisePg = () => {
-         // let newObj={'exerciseNo':this.props.exerciseArray.length + 1,'exercise':[]};   
         Actions.push("searchexercise",{type:"addexercise", onBack: this.props.item});                  
     }
 
     showAddExerciseNotes = () => {
         Actions.push("exercisenotes");
-    }
-
-    Complete = () => {
-        Actions.home();
     }
 
     render = () => {

@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import { Text, Image, View, FlatList, TouchableOpacity, ActivityIndicator, ToastAndroid, TextInput, StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux'
-import { Header, SearchBar, ButtonGroup, Card, ListItem, Button, Icon } from 'react-native-elements'
-
-
+import { Header, SearchBar, ButtonGroup, Card, ListItem, Button, Icon } from 'react-native-elements';
+import {searchExercise} from '../actions';
 import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts} from '../styles/base.js'
 
 class SearchExercise extends Component {
     state = {
-        newsData:[],
-        totalResults:0,
-        page:1,  
-        count:0,
         showLoader:true,
         searchText:""
     }
@@ -20,27 +15,30 @@ class SearchExercise extends Component {
     componentWillMount = () => {
     }
 
+    componentWillReceiveProps = (nextProps) => {
+        if(nextProps.SearchResult.length>0){
+            this.setState({showLoader:false})
+        }
+    }
+
     endReached = () => {
         ToastAndroid.show('Loading more data...',3000,"BOTTOM")
     }
-
-    formData = (request)  => {
-        //TO DO
-    }
-  
+   
+    // on selecting perticular item from exercise search result
     onPress = (item) => {
+        // on instance item is the obj that we get from search result
         Actions.push("exercisecard",{item:item,firstTime:true,onBack:this.props.onBack});
     }
 
     submitEditing = () => {
-        let exercise = this.state.searchText
-        this.setState({newsData:[]})
-        const request = new Request('https://http://sis-teach-01.sis.pitt.edu/projects/healthathand/exercise/' + exercise)
-        this.formData(request)
+        let text = this.state.searchText;
+        this.props.searchExercise(text);
     }
 
     searchTextChanged = (text) => {
         this.setState({searchText:text})
+        this.props.searchExercise(text);
     } 
 
     capitalize(str) {
@@ -61,26 +59,35 @@ class SearchExercise extends Component {
                     inputContainerStyle = {styles.searchInputContainer}
                     inputStyle = {styles.searchInput}/>
                 <View style={{flex:2}}>
-                    {
+                {
                         (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff"/> :
                         <View style={{flex:1}}>
-                            <TouchableOpacity
-                                
-                                style = {{paddingBottom: 7}}
-                                onPress = {() => this.onPress(item)}
-                                underLayColor="transparent"
-                            >
-                                <Card
-                                    containerStyle = {styles.cardContainer}
-                                    wrapperStyle = {styles.cardWrapper}>
-                                    <Text style = {styles.cardHeader}>
-                                        {/*{this.capitalize(item.name)}*/}
-                                    </Text>
-                                </Card>
-                            </TouchableOpacity>
+                            
+                            <FlatList
+                                data={this.props.SearchResult}
+                                renderItem={({item}) => (
+                                    <TouchableOpacity
+                                        
+                                        style = {{paddingBottom: 7}}
+                                        onPress = {() => this.onPress(item)}
+                                        underLayColor="transparent"
+                                    >
+                                        <Card
+                                            containerStyle = {styles.cardContainer}
+                                            wrapperStyle = {styles.cardWrapper}>
+                                        
+                                            <Text style = {styles.cardHeader}>
+                                               {/*{this.capitalize(item.exName)}*/} 
+                                            </Text>
+                                        </Card>
+                                    </TouchableOpacity>
+                                )}
+                                keyExtractor={item => item.exName}
+                            />
                         </View>
                     }
                 </View>
+               
                 <HaH_NavBar
                     selected = {3}
                 />
@@ -153,4 +160,13 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SearchExercise;
+//export default SearchExercise;
+const mapStateToProps = state => {
+    return {
+        userId: state.auth.userId,
+        date : state.auth.date,
+        SearchResult : state.exerciseSearch.searchRes
+    };
+};
+
+export default connect(mapStateToProps, {searchExercise}) (SearchExercise);

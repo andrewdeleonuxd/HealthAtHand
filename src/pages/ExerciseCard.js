@@ -7,14 +7,15 @@ import {addexercise,removeexercise} from '../actions';
 const uuid = require('uuid/v1');
 import NumericInput,{ calcSize } from 'react-native-numeric-input';
 
+
 class ExerciseCard extends Component { 
 
     state ={
         showLoader:false,
         intensity:"1",
-        itemName:"",
+        exName:"",
+        exid:null,
         duration:"1",
-        type:"Strength",
         numeric:"1"
     }
 
@@ -22,7 +23,13 @@ class ExerciseCard extends Component {
         if(this.props.firstTime){
             this.setState({showLoader:true});
         } else{
-            this.setState({showLoader:true,intensity:this.props.item.intensity,type:this.props.item.type,duration:this.props.item.duration});
+            this.setState({
+                showLoader:true,
+                intensity:this.props.item.intensity,
+                duration:this.props.item.duration,
+                exName:this.props.item.exName,
+                exid:this.props.item.exid
+            });
         }
     }
 
@@ -33,14 +40,14 @@ class ExerciseCard extends Component {
         if(this.props.firstTime){
             this.setState({
                 showLoader:false,
-                itemName:this.props.item.author 
+                exName:this.props.item.exName 
             })
         } else{
             this.setState({
                 showLoader:false,
-                itemName: this.props.item.itemName,
+                exName: this.props.item.exName,
+                exid:this.props.item.exid,
                 intensity:this.props.item.intensity,
-                type:this.props.item.type,
                 duration:this.props.item.duration
             })
         }
@@ -58,37 +65,35 @@ class ExerciseCard extends Component {
             let id = uuid();
         id = id.split("-").join("");
         let obj={
-            id:id,
-            itemName:this.state.itemName,
-            type:this.state.type,
-            intensity:this.state.intensity,
-            duration:this.state.duration 
+            exid:id,
+            exName:this.props.item.exName ,
+            intensity:this.props.item.intensity,
+            duration:this.props.item.duration 
         }
 
-        this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime,this.props.userId,this.props.date);
+        this.props.addexercise(obj,this.props.firstTime,this.props.userId,this.props.date);
         } else{
             let obj={
-                id:this.props.item.id,
-                itemName:this.state.itemName,
-                type:this.state.type,
+                exid:this.state.exid,
+                exName:this.state.exName,
                 intensity:this.state.intensity,
-                duration:this.state.duration
+                duration:this.state.duration 
             }
             
-              this.props.addexercise(obj,this.props.exerciseArray,this.props.firstTime,this.props.userId,this.props.date);
+              this.props.addexercise(obj,this.props.firstTime,this.props.userId,this.props.date);
         }
 
     }
 
+    // when user wants to delete a exercise
     onRemove = () => {
         let obj={
-            id:this.props.item.id,
-            itemName:this.state.itemName,
-            type:this.state.type, 
+            exid:this.state.exid,
+            exName:this.state.exName,
             intensity:this.state.intensity,
-            duration:this.state.duration
+            duration:this.state.duration 
         }
-          this.props.removeexercise(obj,this.props.exerciseArray,this.props.userId,this.props.date);
+          this.props.removeexercise(obj,this.props.userId,this.props.date);
     }
 
     onDurationChange = (text) =>{
@@ -147,19 +152,9 @@ class ExerciseCard extends Component {
                                          color: "maroon",
                                          fontSize: 15,
                                          marginBottom: 5
-                                     }}>{this.state.itemName}</Text>
+                                     }}>{this.state.exName}</Text>
                                  </Card>
-                                 <Card flexDirection='column'>
-                                        <Text style={{
-                                            color: "maroon",
-                                            fontSize: 15,
-                                            marginBottom: 5,
-                                        }}>type</Text>
-                                        <Picker selectedValue={this.state.type} onValueChange={value => this.setState({type:value})} >
-                                            <Picker.Item label="Cardiovascular" value="Cardiovascular" />
-                                            <Picker.Item label="Strength" value="Strength" />
-                                        </Picker>    
-                                 </Card>
+                               
                                  <Card flexDirection='column'>
                                         <Text style={{
                                             color: "maroon",

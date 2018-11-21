@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import {
         EXERCISE_INITIALIZE,
+        EXERCISE_SEARCH_RESULT,
         EXERCISE_ADDED
        } from './types'; 
 
@@ -26,164 +27,125 @@ export const initializeExercise = (userId,date) => {
                 
                 if (response.data.code === 400) {
             
-
+                    console.log("Server responds with code 400 for exercise get");
                 } else {
 
                     dispatch({ type: EXERCISE_INITIALIZE, payload: response.data.data })
                 }
                 
             }).catch((e) => {
-                console.log("inside catch",e);
+                console.log("inside catch for exercise get");
             })              
      };
-    };    
+    };  
 
-    export const addexercise = (exerciseobj,exerciseArray,firstTime,userId,date) => {
-
-        return (dispatch) => {
-         if(!_.find(exerciseArray, {id: exerciseobj.id})){
-             exerciseArray.push(exerciseobj); 
-
-             axios({
-                method: "post", 
-                url: "http://10.0.0.241:5000/exerlog",
-                headers : {'Content-type': 'application/json'}, 
-                data : {
-                    'userId': userId,
-                    'date': date,
-                    'exerciseLog': exerciseArray
-                   } 
-
-            
-            }).then(function(response) {
-                
-                if (response.data.code === 400) {
-            
-
-                } else {
-
-                    dispatch({ type: EXERCISE_ADDED, payload: exerciseArray })
-                    Actions.exerciselog();
-                }
-                
-            }).catch((e) => {
-                console.log("inside catch",e);
-            }) 
-
-         } else{
-             if(firstTime){
-                 let obj= _.filter(exerciseArray, ['id', exerciseobj.id]);
-
-                 let newobj={
-                  id:exerciseobj.id,
-                  itemName:exerciseobj.itemName,
-                  intensity:exerciseobj.intensity,
-                  duration:exerciseobj.duration,
-                  type:exerciseobj.type
-                 }
-                 exerciseArray.push(newobj)
-
-
-                 axios({
-                    method: "post", 
+    export const addexercise = (obj,firstTime,userId,date) => {
+            if(firstTime){
+                axios({
+                    method: "put", 
                     url: "http://10.0.0.241:5000/exerlog",
                     headers : {'Content-type': 'application/json'}, 
                     data : {
                         'userId': userId,
                         'date': date,
-                        'exerciseLog': exerciseArray
+                        'exercise': obj
                        } 
     
                 
                 }).then(function(response) {
                     
                     if (response.data.code === 400) {
-                
+                        console.log("Server responded with code 400 for exercise put");
     
                     } else {
-    
-                        dispatch({ type: EXERCISE_ADDED, payload: exerciseArray })
                         Actions.exerciselog();
                     }
                     
                 }).catch((e) => {
-                    console.log("inside catch",e);
+                    console.log("inside catch put of addexercise");
                 }) 
 
-             } else{
-             exerciseArray = _.reject(exerciseArray, function(item) { return item.id === exerciseobj.id; });
-             exerciseArray.push(exerciseobj);
-     
-
-             axios({
-                method: "post", 
-                url: "http://10.0.0.241:5000/exerlog",
-                headers : {'Content-type': 'application/json'}, 
-                data : {
-                    'userId': userId,
-                    'date': date,
-                    'exerciseLog': exerciseArray
-                   } 
-
-            
-            }).then(function(response) {
+            } else{
+                axios({
+                    method: "post", 
+                    url: "http://10.0.0.241:5000/exerlog",
+                    headers : {'Content-type': 'application/json'}, 
+                    data : {
+                        'userId': userId,
+                        'date': date,
+                        'exercise': obj
+                       } 
+    
                 
-                if (response.data.code === 400) {
-            
-
-                } else {
-
-                    dispatch({ type: EXERCISE_ADDED, payload: exerciseArray })
-                    Actions.exerciselog();
-                }
-                
-            }).catch((e) => {
-                console.log("inside catch",e);
-            })   
-
-             } 
-          
-         }   
-             
-      };
-     };    
-
-
-
-export const removeexercise = (exerciseobj,exerciseArray,userId,date) => {
-    return (dispatch) => { 
-     
-    exerciseArray = _.reject(exerciseArray, function(item) { return item.id === exerciseobj.id; });
-   
+                }).then(function(response) {
+                    
+                    if (response.data.code === 400) {
+                        console.log("Server responded with code 400 for exercise post");
+    
+                    } else {
+                        Actions.exerciselog();
+                    }
+                    
+                }).catch((e) => {
+                    console.log("inside catch post of addexercise");
+                })  
+            }
+        
+    }
+    
+    
+export const removeexercise = (obj,userId,date) => {
+        
     axios({
-        method: "post", 
+        method: "delete", 
         url: "http://10.0.0.241:5000/exerlog",
-        headers : {'Content-type': 'application/json'}, 
+        headers : {'Content-type': 'application/json'},  
         data : {
             'userId': userId,
-            'date': date,
-            'exerciseLog': exerciseArray
+            'date': date, 
+            'exid': obj.exid
            } 
 
     
     }).then(function(response) {
         
         if (response.data.code === 400) {
-    
-
+            console.log("Server responded with code 400 for exercise delete");
         } else {
-
-            dispatch({ type: EXERCISE_ADDED, payload: exerciseArray })
             Actions.exerciselog();
         }
         
     }).catch((e) => {
-        console.log("inside catch",e);
+        console.log("inside catch delete of addexercise");
     }) 
      
-  };
  };
 
- 
+ export const searchExercise = (text) => {
+    return (dispatch) => {  
+        axios({
+            method: "get", 
+            url: "http://10.0.0.241:5000/exerlog",
+            headers : {'Content-type': 'application/json'}, 
+            params : {
+                'exercise': text
+               } 
+
+        
+        }).then(function(response) {
+            
+            if (response.data.code === 400) {
+        
+                console.log("Server responds with code 400 for exercise search");
+            } else {
+
+                dispatch({ type: EXERCISE_SEARCH_RESULT, payload: response.data.data })
+            }
+            
+        }).catch((e) => {
+            console.log("inside catch for exercise search");
+        })              
+ };
+}; 
 
  
