@@ -10,6 +10,13 @@ import { } from 'react-native'
 import { Actions } from 'react-native-router-flux';
 
 class LoginForm extends Component {
+    componentWillReceiveProps = (nextProps) => {
+        
+       if(nextProps.userId != null){
+           Actions.home();
+       }
+
+    }
     onEmailChange(text){
         this.props.emailChanged(text);         
     }
@@ -170,7 +177,8 @@ const mapStateToProps = state => {
         email: state.auth.email,
         password: state.auth.password,
         error:state.auth.error,
-        loading:state.auth.loading
+        loading:state.auth.loading,
+        userId: state.auth.userId
     };
 };
 
