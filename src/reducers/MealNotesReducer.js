@@ -6,10 +6,10 @@ export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
          
         case GET_MEAL_NOTES:
-          return { ...state, notes:action.payload};  
+          return { ...state, notes:action.mealNotes};  
 
         case SET_MEAL_NOTES:
-          return { ...state, notes:action.payload};  
+          return { ...state, notes:action.mealNotes};  
 
         default:
             return state;

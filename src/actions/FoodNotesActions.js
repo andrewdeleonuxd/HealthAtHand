@@ -24,6 +24,7 @@ export const initializefoodNotes = (userId,date) => {
         }).then(function(response) {
             
             if (response.data.code === 400) {
+                console.log("Server responds with code 400 for mealNotes get");
 
             } else {
                 console.log(response.data)
@@ -31,7 +32,7 @@ export const initializefoodNotes = (userId,date) => {
             }
             
         }).catch((e) => {
-            console.log("inside catch",e);
+            console.log("inside catch for mealNotes get");
         })
 };
 };  
@@ -52,14 +53,14 @@ export const submitfoodNotes = (userId,date,text) => {
         }).then(function(response) {
             
             if (response.data.code === 400) {
-
+                console.log("Server responds with code 400 for mealNotes post");
             } else {        
-                dispatch({ type: SET_MEAL_NOTES, payload:text })
-                Actions.home();
+                dispatch({ type: SET_MEAL_NOTES, mealNotes:text })
+                Actions.meallog();
             }
             
         }).catch((e) => {
-            console.log("inside catch",e);
+            console.log("inside catch for mealNotes post");
         })
 };
 }; 

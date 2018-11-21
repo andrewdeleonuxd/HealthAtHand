@@ -36,7 +36,10 @@ class MealLog extends Component {
         Actions.push("addfood",{item:item});
     } 
 
-    
+    // when user selects foodNotes
+    showAddFoodNotes = () => { 
+        Actions.foodnotes();
+    } 
 
     loadData = (props) => {
         data=[]; 

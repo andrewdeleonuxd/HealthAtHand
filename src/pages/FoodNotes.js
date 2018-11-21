@@ -10,7 +10,7 @@ import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 class FoodNotes extends Component {
     state = {
-     text:" "
+     text:"" 
     }
 
     componentWillMount = () => {
@@ -32,7 +32,6 @@ class FoodNotes extends Component {
     done = () => {
         ToastAndroid.show('done',3000,"TOP")
         this.props.submitfoodNotes(this.props.userId,this.props.date,this.state.text);
-        Actions.push("meallog",{type:"addfood"});
     }
 
     render = () => {
@@ -93,7 +92,7 @@ class FoodNotes extends Component {
                 <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>
                     <TouchableOpacity
                         style = {[button.touchable, {backgroundColor: colors.brandgold}]}
-                        onPress={this.showAddFoodNotes}>
+                        onPress={this.done}>
                         <View style={button.view}>
                             <Text style = {button.text}>
                                 Add Meal Notes to Log
