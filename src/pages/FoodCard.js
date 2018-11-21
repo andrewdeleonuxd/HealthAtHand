@@ -4,14 +4,10 @@ import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux'
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addfood,removefood} from '../actions';
-import _ from 'lodash';
+import _ from 'lodash'; 
 import { HaH_Header, HaH_NavBar } from '../components/common';
-
-import testResponse from '../testdata/nutrients_pizza.json'
-
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
-// change itemName to foodname
 
  
 class FoodCard extends Component {
@@ -41,7 +37,6 @@ class FoodCard extends Component {
             numCal:props.item.numCal,
             servingSize:props.item.servingSize, 
             servingSizeUnit:props.item.servingSizeUnit
-
         })  
     }
 
@@ -82,7 +77,6 @@ class FoodCard extends Component {
                 newText = newText + text[i];
             }
             else {
-                // your call back function
                 Alert.alert("please enter numbers only");
             }
         }
@@ -307,7 +301,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
         height: 50,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center', 
         elevation: 7
     },
     deleteText: {
@@ -325,8 +319,6 @@ const mapStateToProps = state => {
     return {
         foodArray: state.food.foodArray,
         mealObj: state.food.mealObj
-
-    
     };
 };
 

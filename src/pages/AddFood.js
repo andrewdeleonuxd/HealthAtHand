@@ -9,8 +9,6 @@ import { HaH_Header, HaH_NavBar } from '../components/common';
 
 import {colors, margin, padding} from '../styles/base.js'
 
-// itemName needs to be changed to foodname 
-// mealNo needs to be changed to mealName
 var data=[];
 
 class AddFood extends Component {
@@ -18,15 +16,13 @@ class AddFood extends Component {
     state = {
         showLoader:true, 
         showSearch:false, 
-        searchText:"", 
-        mealNo:""
-    }
+        searchText:""
+        }
 
     componentWillMount = () => {
-        this.props.initializemealObj(this.props.item);
+        this.props.initializemealObj(this.props.item); 
         let array= this.props.item.food;
         this.loadData(array); 
-
     }
 
 
@@ -82,21 +78,19 @@ class AddFood extends Component {
     //onadd meal post request 
     goBack = () => {
         this.props.addMealToMealLog(this.props.userId,this.props.date,this.props.mealObj);
-      //  Actions.meallog();
     }
-
+   
+    // when search button is pressed
     showFoodSearch = () => {
-        Actions.push("searchfood", {mealNo:this.props.item.mealNo, onBack:this.props.item}); 
+        Actions.push("searchfood", {mealName:this.props.item.mealName, onBack:this.props.item}); 
     }
 
+    // when entire meal is deleted
     deleteMeal = () => {
         this.props.removeMeal(this.props.userId,this.props.date,this.props.mealObj);
     }
 
-    submitEditing = () => {
-        Actions.push("searchfood");
-    }
-
+ 
     capitalize(str) {
         return str.replace(/\w\S*/g, function(txt){
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -118,7 +112,7 @@ class AddFood extends Component {
             <Icon
                 name='ios-arrow-back'
                 type='ionicon'
-                color={"white"}
+                color={"white"} 
                 onPress = {this.goBack}
                 underlayColor={"transparent"}
             />
@@ -127,7 +121,7 @@ class AddFood extends Component {
         return (
             <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
-                    text = {'Meal ' + this.props.item.mealNo}
+                    text = {'Meal ' + this.props.item.mealName}
                     right = {search}
                 />
                 <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>

@@ -1,28 +1,20 @@
 
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-
 import { Text, Image, View, FlatList, TouchableOpacity, ActivityIndicator, ToastAndroid, TextInput, StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux'
 import { Header, SearchBar, ButtonGroup, Card, ListItem, Button, Icon } from 'react-native-elements'
-import {searchResult} from '../actions';
-
+import {searchResult,SearchNut} from '../actions';
 import { HaH_Header, HaH_NavBar } from '../components/common';
-import testReponse from '../testdata/searchresult_pizza'
-
 import {colors, margin, padding, fonts} from '../styles/base.js'
 
-const BASE_URL = 'http://10.0.0.4:5000';
 
 class SearchFood extends Component{
     state = {
         choices:[],
-        totalResults:0,
-        page:1,  
-        count:0,
         showLoader:false,
         searching:false,
-        category: 0,
+        category: 0, 
         response: {}
     }
     
@@ -38,10 +30,10 @@ class SearchFood extends Component{
     }
 
 
-
+    // when item from search is selected
     onPress = (item) => {
         if(this.state.category=='Common'){
-
+            this.props.SearchNut(item.food_name);
         } else{
             let obj={
                 'id':item.nix_brand_id,
@@ -51,7 +43,7 @@ class SearchFood extends Component{
                 'servingSizeUnit':item.serving_unit
             }
             
-            Actions.push("foodcard", {item:obj});
+            Actions.push("foodcard", {item:obj,firstTime:true});
         }
     
     }
@@ -232,4 +224,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, {searchResult}) (SearchFood);
+export default connect(mapStateToProps, {searchResult,SearchNut}) (SearchFood);

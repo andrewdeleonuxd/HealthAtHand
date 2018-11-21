@@ -13,7 +13,7 @@ import SearchFood from './pages/SearchFood';
 import SearchExercise from './pages/SearchExercise';
   
 import FoodCard from './pages/FoodCard';
-import ExerciseCard from './pages/ExerciseCard';
+import ExerciseCard from './pages/ExerciseCard'; 
 
 import Home from './pages/Home';
 import Email from './pages/Email';

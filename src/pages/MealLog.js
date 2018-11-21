@@ -22,24 +22,19 @@ class MealLog extends Component {
 
     componentWillMount = () => {
 
-   this.props.initializefood(this.props.userId,this.props.date);
-        if(this.props.foodArray.length == 0){
-            this.loadData(this.props); 
-        } else{
-            this.loadData(this.props);
-        }
-
+    this.props.initializefood(this.props.userId,this.props.date);
+        this.loadData(this.props);
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
-        console.log("componentWillReceiveProps ");
         this.loadData(nextProps)
     } 
 
+    //when a perticular meal is selected
     onPress = (item) => {
         Actions.push("addfood",{item:item});
-    }
+    } 
 
     
 
@@ -78,7 +73,7 @@ class MealLog extends Component {
         Actions.home();
     }
 
-
+// when users press add new meal
     addMealPg = () => {
           let ogFoodObj = this.props.foodArray; 
           let i=1;
@@ -87,18 +82,14 @@ class MealLog extends Component {
           while(_.some(ogFoodObj, { 'mealName':i })){
               i++;
           } 
-          let newObj={'mealName':i,'cartId':cartId,'food':[]};   
-        Actions.push("addfood",{type:"addfood",item:newObj});
+            let newObj={'mealName':i,'cartId':cartId,'food':[]};   
+            Actions.push("addfood",{type:"addfood",item:newObj});
         } else{
             let newObj={'mealName':1,'cartId':cartId,'food':[]};   
             Actions.push("addfood",{type:"addfood",item:newObj});
         }              
     }
 
-
-    Complete = () => {
-        Actions.home();
-    }
 
     render = () => {
         let addMeal = (
