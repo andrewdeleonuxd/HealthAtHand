@@ -24,13 +24,14 @@ export const initializeexerciseNotes = (userId,date) => {
         }).then(function(response) {
             
             if (response.data.code === 400) {
+                console.log("Server responds with code 400 for exercise Notes get");
 
             } else {        
                 dispatch({ type: GET_EXERCISE_NOTES, payload: response.data.data })
             }
             
         }).catch((e) => {
-            console.log("inside catch",e);
+            console.log("inside catch of exercise notes get");
         })
 };
 };  
@@ -51,6 +52,7 @@ export const submitexerciseNotes = (userId,date,text) => {
         }).then(function(response) {
             
             if (response.data.code === 400) {
+                console.log("Server responds with code 400 for exercise Notes post");
 
             } else {        
                 dispatch({ type: SET_EXERCISE_NOTES, payload:text })
@@ -58,7 +60,7 @@ export const submitexerciseNotes = (userId,date,text) => {
             }
             
         }).catch((e) => {
-            console.log("inside catch",e);
+            console.log("inside catch of exercise notes post");
         })
 };
 }; 

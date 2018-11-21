@@ -69,8 +69,9 @@ class ExerciseLog extends Component {
         Actions.push("searchexercise",{type:"addexercise", onBack: this.props.item});                  
     }
 
+    //when user selects exercise Notes
     showAddExerciseNotes = () => {
-        Actions.push("exercisenotes");
+        Actions.exercisenotes();
     }
 
     render = () => {
