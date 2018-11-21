@@ -1,6 +1,6 @@
 import {FOOD_ADDED,FOOD_INITIALIZE} from '../actions/types';
 
-const INITIAL_STATE = { foodArray:[]};
+const INITIAL_STATE = { foodArray:[],mealObj:{}};
 
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
@@ -8,7 +8,7 @@ export default (state = INITIAL_STATE, action) => {
           return { ...state, foodArray:action.payload};  
           
         case FOOD_ADDED:
-          return { ...state, foodArray:action.payload};  
+          return { ...state, mealObj:action.mealObj};  
 
         default:
             return state;

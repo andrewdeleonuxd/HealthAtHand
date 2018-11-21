@@ -11,16 +11,11 @@ import { Actions } from 'react-native-router-flux';
 
 class LoginForm extends Component {
     onEmailChange(text){
-        //this.props.emailChanged(text);
-        this.props.emailChanged("shreya@gmail.com"); 
-        this.props.email = "shreya@gmail.com";
-         
+        this.props.emailChanged(text);         
     }
  
     onPasswordChange(text){
-        //this.props.passwordChanged(text);
-        this.props.passwordChanged("password");  
-        this.props.password = "password";
+        this.props.passwordChanged(text);
     }
 
     onButtonPress(){
@@ -28,7 +23,7 @@ class LoginForm extends Component {
 
         this.props.loginUser({email,password});
 
-        Actions.home();
+       // Actions.home();
     } 
 
     renderError(){

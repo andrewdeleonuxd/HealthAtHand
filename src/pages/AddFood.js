@@ -4,14 +4,14 @@ import {View, Text, FlatList, Image, TouchableHighlight, StyleSheet, TouchableOp
 import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {initializefood, removeMeal, addMealToMealLog } from '../actions';
-
+import {initializefood, removeMeal, addMealToMealLog, initializemealObj } from '../actions';
 import { HaH_Header, HaH_NavBar } from '../components/common';
 
-import {colors, margin, padding, fonts, button} from '../styles/base.js'
+import {colors, margin, padding} from '../styles/base.js'
 
+// itemName needs to be changed to foodname 
+// mealNo needs to be changed to mealName
 var data=[];
-var totalCals = 0;
 
 class AddFood extends Component {
 
@@ -23,26 +23,25 @@ class AddFood extends Component {
     }
 
     componentWillMount = () => {
-
-        this.loadData(this.props); 
+        this.props.initializemealObj(this.props.item);
+        let array= this.props.item.food;
+        this.loadData(array); 
 
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
-        console.log("componentWillReceiveProps ");
-        //this.loadData(nextProps)
-
+        let array= nextProps.mealObj.food;
+        this.loadData(array);
     } 
 
+    //happens on edit food
     onPress = (item) => {
-        Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.item.mealNo,onBack:this.props.item});
+        Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.mealObj.mealName,meal:this.props.mealObj,onBack:this.props.item});
     }
 
-    /*
-    loadData = (props) => {
+    loadData = (array) => {
        data=[]; 
-       let array=this.props.item.food;
        if(array.length>0){
             array.map((item, i) => {
 
@@ -58,7 +57,7 @@ class AddFood extends Component {
                             containerStyle = {styles.cardContainer}
                             wrapperStyle = {styles.cardWrapper}>
                             <Text style={styles.cardHeader}>
-                                {this.capitalize(item.itemName)}
+                                {this.capitalize(item.foodname)}
                             </Text>
                             <Text style={styles.cardHeader}>
                                 {item.totalCalories / item.Calories}
@@ -67,7 +66,7 @@ class AddFood extends Component {
                                 </Text>
                             </Text> 
                             <Text style={styles.cardHeader}>
-                                {this.calculateMealCal(item.totalCalories)}
+                                {item.totalCalories}
                                 <Text style={styles.servingSizeUnit}>
                                     {' cals'}
                                 </Text>
@@ -77,12 +76,12 @@ class AddFood extends Component {
                     </TouchableHighlight>
                 )
             })
-        }
-    } */
+        } 
+    } 
 
-
+    //onadd meal post request 
     goBack = () => {
-        this.props.addMealToMealLog(this.props.userId,this.props.date,this.props.foodArray);
+        this.props.addMealToMealLog(this.props.userId,this.props.date,this.props.mealObj);
       //  Actions.meallog();
     }
 
@@ -91,7 +90,7 @@ class AddFood extends Component {
     }
 
     deleteMeal = () => {
-        this.props.removeMeal(this.props.foodArray,this.props.item.mealNo,this.props.userId,this.props.date);
+        this.props.removeMeal(this.props.userId,this.props.date,this.props.mealObj);
     }
 
     submitEditing = () => {
@@ -102,13 +101,6 @@ class AddFood extends Component {
         return str.replace(/\w\S*/g, function(txt){
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
-    }
-
-    calculateMealCal(item) {
-        for(i = 0; i < item.length; i++)
-        {
-            totalCals += item[i].totalCalories
-        }
     }
 
     render = () => {
@@ -133,86 +125,42 @@ class AddFood extends Component {
         )
 
         return (
-            <View style={{flex:1}}>
+            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
-                    left = {backButton}
                     text = {'Meal ' + this.props.item.mealNo}
                     right = {search}
                 />
                 <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>
                     {
-                        (this.props.item.food.length == 0) ? <View style={{flex: 1}}></View>: 
-                        <View style={{flex: 1}}>
-                            <FlatList
-                                data={this.props.item.food}
-                                renderItem={({item}) => (
-                                    <TouchableOpacity
-                                        onPress = {() => this.onPress(item)} 
-                                        underLayColor="transparent"
-                                        style = {{padding: 7}}
-                                    > 
-                                        <Card
-                                            flexDirection = 'row' 
-                                            containerStyle = {styles.cardContainer}
-                                            wrapperStyle = {styles.cardWrapper}>
-                                            <Text style={styles.cardHeader}>
-                                                {this.capitalize(item.itemName)}
-                                            </Text>
-                                            <Text style={styles.cardHeader}>
-                                                {item.totalCalories / item.Calories}
-                                                <Text style={styles.servingSizeUnit}>
-                                                    {' ' + item.servingSize + '(s)'}
-                                                </Text>
-                                            </Text> 
-                                            <Text style={styles.cardHeader}>
-                                                {item.totalCalories}
-                                                <Text style={styles.servingSizeUnit}>
-                                                    {' cals'}
-                                                </Text>
-                                            </Text> 
-                                        </Card>
-                                    </TouchableOpacity>
-                                )}
-                                onEndReachedThreshold={0.5}
-                                onEndReached={this.endReached}
-                                keyExtractor={item => (item.itemName)}
-                            />
-                            <View style ={styles.totalCalView}>
-                                <Text style={[styles.totalCal, {fontSize: 25}]}>
-                                    Total Calories
-                                </Text>
-                                <Text style={[styles.totalCal, {fontSize: 25}]}>
-                                    {totalCals}
-                                </Text>
+                        (data.length == 0) ? <View style={{flex: 1, height:"75%"}}></View>: 
+                        <View style={{flex: 1, height:"75%"}}>
+                            <View style={{flex: 1, margin: 0}}>
+                                {data} 
                             </View>
                         </View>
-                    }
-                    
+                    }   
                     <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                         <TouchableOpacity
-                            style = {[button.touchable, {backgroundColor: 'red'}]}
+                            style = {styles.deleteButton}
                             onPress={this.deleteMeal}>
-                            <View style={button.view}>
-                                <Text style = {styles.deleteText}>
-                                    Delete Meal
-                                </Text>
-                            </View>
+                            
+                            <Text style = {styles.deleteText}>
+                                Delete Meal
+                            </Text>
                         </TouchableOpacity>
                     </View>
-                    {/*
+                    {
                         (data.length == 0) ? <View/>:
                         <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                             <TouchableOpacity
-                                style = {[button.touchable, {backgroundColor: colors.brandgold}]}
-                                onPress={this.goBack}>
-                                <View style={button.view}>
-                                    <Text style = {button.text}>
-                                        Add Meal To Log
-                                    </Text>
-                                </View>
+                                style = {styles.confirmButton}
+                                onPress = {this.goBack}>
+                                <Text style = {styles.confirmText}>
+                                    Add Meal To Log
+                                </Text>
                             </TouchableOpacity>
                         </View>
-                    */}
+                    }
                 </View>
                 <HaH_NavBar
                     selected = {2}
@@ -228,7 +176,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: fonts.primary, 
+        fontFamily: 'sans-serif-condensed', 
         color: colors.primary
     },
     cardContainer: {
@@ -246,7 +194,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontFamily: fonts.primary, 
+        fontFamily: 'sans-serif-condensed', 
         color: colors.primary,
         flex: 3
     },
@@ -254,7 +202,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'right',
-        fontFamily: fonts.primary, 
+        fontFamily: 'sans-serif-condensed', 
         color: colors.primary,
         marginRight: '10%',
         flex: 4
@@ -272,7 +220,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: fonts.primary, 
+        fontFamily: 'sans-serif-condensed', 
         color: colors.brandwhite,
         textAlignVertical: 'center',
     },
@@ -281,7 +229,7 @@ const styles = StyleSheet.create({
 	},
     servingSizeUnit: {
         fontSize: 15,
-        fontFamily: fonts.primary, 
+        fontFamily: 'sans-serif-condensed', 
         color: colors.brandgrey,
         textAlign:'right',
         alignSelf: 'flex-end',
@@ -299,24 +247,9 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: fonts.primary, 
+        fontFamily: 'sans-serif-condensed', 
         color: colors.brandwhite,
         textAlignVertical: 'center',
-    },
-    totalCalView: {
-        flexDirection: 'row',
-        paddingLeft: '12%',
-        paddingRight: '12%',
-        justifyContent: 'space-between'
-    },
-    totalCal: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        textAlign: 'left',
-        fontFamily: fonts.primary, 
-        color: colors.primary,
-        //backgroundColor: "red",
-        paddingTop: '2%',
     },
 });
 
@@ -325,8 +258,9 @@ const mapStateToProps = state => {
     return {
         foodArray: state.food.foodArray,
         userId: state.auth.userId,
-        date : state.auth.date
+        date : state.auth.date,
+        mealObj: state.food.mealObj
     };
 };
 
-export default connect(mapStateToProps, {initializefood, removeMeal, addMealToMealLog}) (AddFood);
+export default connect(mapStateToProps, {initializefood, removeMeal, addMealToMealLog, initializemealObj}) (AddFood);

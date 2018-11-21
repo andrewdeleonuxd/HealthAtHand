@@ -30,7 +30,7 @@ class SearchFood extends Component{
     }
 
     componentWillReceiveProps = (nextProps) => {
-        (this.state.category == 0) ? this.setState({response: nextProps.searchArray, choices:nextProps.searchArray.common, showLoader:false}) : this.setState({response: nextProps.searchArray, choices:nextProps.searchArray.branded, showLoader:false})
+        (this.state.category == 0) ? this.setState({response: nextProps.searchRes, choices:nextProps.searchRes.common, showLoader:false}) : this.setState({response: nextProps.searchRec, choices:nextProps.searchRec.branded, showLoader:false})
     }
     
     endReached = () => {
@@ -40,13 +40,20 @@ class SearchFood extends Component{
 
 
     onPress = (item) => {
-        Actions.push("foodcard", {
-            itemName:item.food_name,
-            category:this.state.category,
-            firstTime:true,
-            mealNo:this.props.mealNo,
-            onBack:this.props.onBack
-        });
+        if(this.state.category=='Common'){
+
+        } else{
+            let obj={
+                'id':item.nix_brand_id,
+                'foodname':item.brand_name_item_name,
+                'numCal':item.nf_calories,
+                'servingSize':item.serving_qty,
+                'servingSizeUnit':item.serving_unit
+            }
+            
+            Actions.push("foodcard", {item:obj});
+        }
+    
     }
 
     searchTextChanged = (text) => {
@@ -84,7 +91,7 @@ class SearchFood extends Component{
     updateCategory = (category) => {
         if(this.state.searching) {
             this.setState({showLoader: true});
-            (category == 0) ? this.setState({choices: this.state.response.mealName.common, category, showLoader: false}) : this.setState({choices: this.state.response.mealName.branded, category, showLoader: false})
+            (category == 0) ? this.setState({choices: this.props.searchRec.common, category, showLoader: false}) : this.setState({choices: this.props.searchRec.branded, category, showLoader: false})
         }
         else {
             this.setState({category})
@@ -221,7 +228,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         foodArray: state.food.foodArray,
-        searchArray: state.search.searchArray
+        searchRes: state.search.searchRes
     };
 };
 

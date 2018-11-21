@@ -34,7 +34,7 @@ export const loginUser = ({email, password}) => {
             url: "http://10.0.0.241:5000/login",
             headers: {},
             params:{
-                'email': email,
+                'emailId': email,
                 'password': password
                } 
         
@@ -45,7 +45,7 @@ export const loginUser = ({email, password}) => {
         
             } else {
                 let date = moment().format('YYYY-MM-DD');
-                dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data.data.userId , date:date})
+                dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data.data.userId , date:date, healthCoach:healthCoach})
                 Actions.home();
             }
         }).catch((e) => {

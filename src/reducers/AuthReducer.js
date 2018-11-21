@@ -17,6 +17,7 @@ export default (state = INITIAL_STATE, action) => {
           return { ...state, 
                     userId:action.payload,
                     date:action.date,
+                    healthCoach:action.healthCoach,
                     error: '',
                     password:'', 
                     email:'',

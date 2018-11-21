@@ -11,76 +11,66 @@ import testResponse from '../testdata/nutrients_pizza.json'
 
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
-//import NumberInput from 'rn-number-input';
+// change itemName to foodname
 
-const BASE_URL = 'http://10.0.0.4:5000';
  
 class FoodCard extends Component {
 
     state ={
         showLoader:true,
         food:{},
-        servings:"1"
+        servingSize:"1",
+        servingSizeUnit:"",
+        foodname:"",
+        id:null,
+        numCal:null
     }
 
     componentWillMount = () => {
-        const request = new Request(BASE_URL + '/nut/'  + this.props.itemName)
-        this.formData(request)
+        this.formData(this.props)
     }
 
     componentDidMount = () => {
-        {/*
-        if(this.props.firstTime){
-            this.setState({
-                Calories:5
-            })
-        } else{
-            this.setState({
-                Calories:this.props.item.Calories,
-                servingSize:this.props.item.servingSize
-            })
-        }
-        */}
     }
 
-    formData = (request)  => {
-        fetch(request)
-            .then((response) => response.json())
-            .then((responseJson)=>{
-                //console.log(responseJson)
-                if(responseJson.code == 200) {
-                    this.setState({food:responseJson.mealName.foods[0], showLoader:false})
-                } else {
-                    console.log("no data");
-                }
-            })
-            .catch((error) => {
-                console.log("error", error);
-            })
+    formData = (props)  => {
+
+        this.setState({
+            id:props.item.id,
+            foodname:props.item.foodname,
+            numCal:props.item.numCal,
+            servingSize:props.item.servingSize, 
+            servingSizeUnit:props.item.servingSizeUnit
+
+        })  
     }
 
     goBack = () => {
-        Actions.push("addfood", {item:this.props.onBack});
+        Actions.push("addfood", {item:this.props.mealObj});
     } 
 
     Add = () => {
         let obj={
-            id:this.state.food.ndb_no,
-            itemName:this.state.food.food_name,
-            totalCalories:this.state.servings * this.state.food.nf_calories,
-            Calories:this.state.food.nf_calories,
-            servingSize:this.state.food.serving_unit
+            'id':this.state.id,
+            'foodname':this.state.foodname,
+            'numCal':this.state.numCal,
+            'servingSize':this.state.servingSize,
+            'servingSizeUnit':this.state.servingSizeUnit,
+            'totalCalories':this.state.servingSize * this.state.numCal
         }
-        this.props.addfood(obj,this.props.mealNo,this.props.foodArray,this.props.firstTime);
+        this.props.addfood(obj,this.props.meal,this.props.firstTime);
     }
 
     onRemove = () => {
         let obj={
-            id:this.state.food.ndb_no,
-            itemName:this.state.food.food_name,
-            totalCalories:this.state.servings * this.state.food.nf_calories
+            'id':this.state.id,
+            'foodname':this.state.foodname,
+            'numCal':this.state.numCal,
+            'servingSize':this.state.servingSize,
+            'servingSizeUnit':this.state.servingSizeUnit,
+            'totalCalories':this.state.servingSize * this.state.numCal
         }
-        this.props.removefood(obj,this.props.mealNo,this.props.foodArray);
+        this.props.removefood(obj,this.props.meal);
     }
 
     onservingSizeChange = (text) =>{
@@ -163,7 +153,7 @@ class FoodCard extends Component {
                             containerStyle = {styles.cardContainer}
                             wrapperStyle = {styles.cardWrapper}>
                             <Text style = {styles.cardHeader}>
-                                {this.capitalize(this.state.food.food_name)}
+                                {this.capitalize(this.state.foodname)}
                             </Text>
                         </Card>
                         <View style={{flex: 1, paddingTop: '3%'}}>
@@ -172,9 +162,9 @@ class FoodCard extends Component {
                                     Serving Size
                                 </Text>
                                 <Text style={styles.servingSizeQty}>
-                                    {this.state.food.serving_qty}
+                                    {this.state.servingSize}
                                     <Text style={styles.servingSizeUnit}>
-                                        {" " + this.state.food.serving_unit}
+                                        {" " + this.state.servingSizeUnit}
                                     </Text>
                                 </Text>
                             </View>
@@ -186,7 +176,7 @@ class FoodCard extends Component {
                                     <TextInput
                                         style={styles.userInput}
                                         onChangeText={(servings) => this.check(servings)}
-                                        value={this.state.servings}
+                                        value={this.state.servingSize}
                                         underlineColorAndroid = 'rgba(0,0,0,0)'
                                         keyboardType='numeric'>
                                     </TextInput>
@@ -198,7 +188,7 @@ class FoodCard extends Component {
                                 Calories
                             </Text>
                             <Text style={[styles.userInputText, {fontSize: 35}]}>
-                                {this.state.servings * this.state.food.nf_calories}
+                                {this.state.servingSize * this.state.numCal}
                             </Text>
                         </View>
                         
@@ -330,11 +320,13 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
     },
 });
-//export default FoodCard;
 
 const mapStateToProps = state => {
     return {
-        foodArray: state.food.foodArray
+        foodArray: state.food.foodArray,
+        mealObj: state.food.mealObj
+
+    
     };
 };
 

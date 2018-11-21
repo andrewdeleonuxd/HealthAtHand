@@ -18,15 +18,14 @@ export const searchResult = (food) => {
         axios({
             method: "get",
             url: "http://10.0.0.241:5000/search",
-            headers : {'Content-type': 'application/json'},  
+            headers : {'Content-type': 'application/json'},   
             params : data  
         
         }).then(function(response) {
             
             if (response.data.code === 400) {
         
-              //  dispatch({ type: LOGIN_USER_FAIL})
-        
+                console.log("Server responded 400 for search api");        
             } else {
         
                 dispatch({ type: SEARCH_RESULT, payload: response.data.data })
@@ -35,7 +34,7 @@ export const searchResult = (food) => {
             
            
         }).catch((e) => {
-            console.log("inside catch of searchAction",e);
+            console.log("inside catch of searchAction");
         })
 };
 };    

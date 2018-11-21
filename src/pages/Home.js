@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 
 import {getCalories} from '../actions';
-import { Header, SearchBar } from 'react-native-elements';
+import { Header, SearchBar } from 'react-native-elements'; 
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
 import Drawer from 'react-native-drawer'; 
 import Communications from 'react-native-communications';

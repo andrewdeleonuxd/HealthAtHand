@@ -6,24 +6,28 @@ import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {initializefood } from '../actions';
 import { HaH_Header, HaH_NavBar } from '../components/common';
+const uuid = require('uuid/v1');
 
-import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
+import {colors, margin, padding} from '../styles/base.js'
+
+// mealNo needs to be changed to mealName
 var data=[];
-var dailyCal = 0;
 
 class MealLog extends Component {
 
-    /*
+    state = {
+
+    }
+
     componentWillMount = () => {
 
-    this.props.initializefood(this.props.userId,this.props.date);
-            if(this.props.foodArray.length == 0){
-                this.loadData(this.props); 
-            } else{
-                console.log("foodArray :", this.props.foodArray);
-                this.loadData(this.props);
-            }
+   this.props.initializefood(this.props.userId,this.props.date);
+        if(this.props.foodArray.length == 0){
+            this.loadData(this.props); 
+        } else{
+            this.loadData(this.props);
+        }
 
     }
 
@@ -32,15 +36,18 @@ class MealLog extends Component {
         console.log("componentWillReceiveProps ");
         this.loadData(nextProps)
     } 
-    */
 
     onPress = (item) => {
         Actions.push("addfood",{item:item});
     }
 
+    
+
     loadData = (props) => {
         data=[]; 
         let array=props.foodArray;
+        if(array.length>0){
+        array = array.sort((a, b) => Number(a.mealName) - Number(b.mealName));
         array.map((item, i) => { 
    
             data.push(
@@ -56,19 +63,14 @@ class MealLog extends Component {
                             containerStyle = {styles.cardContainer}
                             wrapperStyle = {styles.cardWrapper}>
                             <Text style = {styles.foodName}>
-                                Meal {item.mealNo}
-                            </Text>
-                            <Text style = {styles.cardHeader}>
-                                {this.calculateMealCal(item.food)}
-                                <Text style={styles.servingSizeUnit}>
-                                    {' cals'}
-                                </Text>
+                                Meal {item.mealName}
                             </Text>
                         </Card>
                     </View>
                 </TouchableHighlight>
             )
-        })  
+        }) 
+    } 
     } 
 
 
@@ -76,38 +78,26 @@ class MealLog extends Component {
         Actions.home();
     }
 
+
     addMealPg = () => {
-          let ogFoodObj = this.props.foodArray;
+          let ogFoodObj = this.props.foodArray; 
           let i=1;
-          console.log(ogFoodObj.length);
+          let cartId = uuid();
           if(ogFoodObj.length>0){
-          while(_.some(ogFoodObj, { 'mealNo':i })){
+          while(_.some(ogFoodObj, { 'mealName':i })){
               i++;
           } 
-          let newObj={'mealNo':i,'food':[]};   
+          let newObj={'mealName':i,'cartId':cartId,'food':[]};   
         Actions.push("addfood",{type:"addfood",item:newObj});
         } else{
-            let newObj={'mealNo':1,'food':[]};   
+            let newObj={'mealName':1,'cartId':cartId,'food':[]};   
             Actions.push("addfood",{type:"addfood",item:newObj});
         }              
-    }
-
-    showAddFoodNotes = () => {
-        Actions.push("foodnotes");
     }
 
 
     Complete = () => {
         Actions.home();
-    }
-
-    calculateMealCal(food) {
-        totalCals = 0;
-        for(i = 0; i < food.length; i++) {
-            totalCals += food[i].totalCalories;
-        }
-        dailyCal += totalCals;
-        return totalCals;
     }
 
     render = () => {
@@ -132,64 +122,30 @@ class MealLog extends Component {
         )
 
         return (
-            <View style={{flex:1}}>
+            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
                 <HaH_Header
                     text = 'Meal Log'
                     right = {addMeal}
                 />
                 {
-                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
-                    <View style = {{flex: 1}}>
-                        <FlatList
-                                data={this.props.foodArray}
-                                renderItem={({item}) => (
-                                    <TouchableOpacity
-                                        key={i}
-                                        onPress = {() => this.onPress(item)} 
-                                        underLayColor="transparent"
-                                        style = {{padding: 7}}
-                                    > 
-                                        <Card
-                                            flexDirection = 'row' 
-                                            containerStyle = {styles.cardContainer}
-                                            wrapperStyle = {styles.cardWrapper}>
-                                            <Text style = {styles.foodName}>
-                                                Meal {item.mealNo}
-                                            </Text>
-                                            <Text style = {styles.cardHeader}>
-                                                {this.calculateMealCal(item.food)}
-                                                <Text style={styles.servingSizeUnit}>
-                                                    {' cals'}
-                                                </Text>
-                                            </Text>
-                                        </Card>
-                                    </TouchableOpacity>
-                                )}
-                                onEndReachedThreshold={0.5}
-                                onEndReached={this.endReached}
-                                keyExtractor={item => (item.mealNo.toString())}
-                            />
-                        <View style ={styles.totalCalView}>
-                            <Text style={[styles.totalCal, {fontSize: 25}]}>
-                                Daily Calories
-                            </Text>
-                            <Text style={[styles.totalCal, {fontSize: 25}]}>
-                                {dailyCal.toFixed(2)}
-                            </Text>
-                        </View>
-                    </View>
-                }
-                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}> 
-                    <TouchableOpacity
-                        style = {[button.touchable, {backgroundColor: colors.brandblue}]}
-                        onPress={this.showAddFoodNotes}>
-                        <View style={button.view}>
-                            <Text style = {button.text}>
+                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> : 
+                    <View style={{flex: 1, height:"75%", paddingTop: 0}}>
+                        {data}     
+                    </View>   
+                } 
+                {
+                    (this.props.foodArray.length == 0) ? <View/> : 
+                    <View style={{padding: padding.sm}}>  
+                        <TouchableOpacity
+                            style = {styles.noteButton}
+                            onPress={this.showAddFoodNotes}>
+                            
+                            <Text style = {styles.noteText}>
                                 Meal Notes
                             </Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                        </TouchableOpacity>
+                    </View>  
+                }
                 <HaH_NavBar
                     selected = {2}
                 />
@@ -200,35 +156,26 @@ class MealLog extends Component {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        marginTop: 0,
+        padding: 1,
         elevation: 7,
-        borderRadius: 10,
-    },
-    cardHeader: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        textAlign: 'right',
-        fontFamily: fonts.primary, 
-        color: colors.primary
+        borderRadius: 10
     },
     cardWrapper: {        
-        flexDirection: 'row',
-        flex: 1,
-        marginLeft: 0,
-        justifyContent: 'space-between'
+        alignItems: 'center',
+        padding: 10,
     },
     foodName: {
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontFamily: fonts.primary, 
+        fontFamily: 'sans-serif-condensed', 
         color: colors.primary,
     },
     foodCals: {
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'right',
-        fontFamily: fonts.primary, 
+        fontFamily: 'sans-serif-condensed', 
         color: colors.primary,
         marginRight: '10%',
         flex: 4
@@ -237,7 +184,7 @@ const styles = StyleSheet.create({
         color: colors.brandwhite,
         fontSize:30, 
         fontWeight: 'bold',
-        fontFamily: fonts.primary
+        fontFamily: 'sans-serif-condensed'
     },
     noteButton: {
         backgroundColor: colors.brandblue,
@@ -248,43 +195,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         elevation: 7
     },
-    noteView: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems:'center',
-        justifyContent: 'center',
-        borderRadius: 10
-    },
     noteText: {
         flex: 1,
         fontSize: 25,
         fontWeight: 'bold',
-        textAlign: 'center',
-        fontFamily: fonts.primary, 
+        textAlign: 'center', 
+        fontFamily: 'sans-serif-condensed', 
         color: colors.brandwhite,
-        alignSelf: 'center',
-    },
-    servingSizeUnit: {
-        fontSize: 15,
-        fontFamily: fonts.primary, 
-        color: colors.brandgrey,
-        textAlign:'right',
-        alignSelf: 'flex-end',
-    },
-    totalCalView: {
-        flexDirection: 'row',
-        paddingLeft: '12%',
-        paddingRight: '12%',
-        justifyContent: 'space-between'
-    },
-    totalCal: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        textAlign: 'left',
-        fontFamily: fonts.primary, 
-        color: colors.primary,
-        //backgroundColor: "red",
-        paddingTop: '2%',
+        textAlignVertical: 'center',
     },
 });
 
