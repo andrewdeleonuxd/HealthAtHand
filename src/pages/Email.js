@@ -22,12 +22,8 @@ class Email extends Component {
     }
 
     done = () => {
-     //   ToastAndroid.show('done',3000,"TOP")
-     Communications.email(['abcd@gmail.com'],null,null,this.state.subject,this.state.body);
+     Communications.email([this.props.healthCoachId],null,null,this.state.subject,this.state.body);
      this.props.submitMessage(this.props.userId,this.props.date,this.state.subject,this.state.body);
-
-   //  Actions.home();
-
     }
 
     render = () => {
@@ -136,7 +132,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         userId: state.auth.userId,
-        date: state.auth.date
+        date: state.auth.date,
+        healthCoachId: state.auth.healthCoach
         };
 };
 

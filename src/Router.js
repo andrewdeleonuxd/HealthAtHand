@@ -21,7 +21,7 @@ import Notification from './pages/Notification';
 import FoodNotes from './pages/FoodNotes';
 import ExerciseNotes from './pages/ExerciseNotes';
 import Report from './pages/Report';
-
+ 
 
 const RouterComponent = () => { 
     return(

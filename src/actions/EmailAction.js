@@ -3,7 +3,6 @@ import axios from 'axios';
 import _ from 'lodash';
 
 export const submitMessage = (userId,date,subject,messagebody) => {
-    return (dispatch) => {  
 
         axios({
             method: "post",
@@ -13,21 +12,22 @@ export const submitMessage = (userId,date,subject,messagebody) => {
                 'userId':userId,
                 'date':date,
                 'subject': subject,
-                'messagebody':messagebody
+                'emailBody':messagebody
             }
         
         }).then(function(response) {
             
             if (response.data.code === 400) {
+                console.log("Server responds with code 400 for email post");
 
             } else {        
                 Actions.home();
             }
             
         }).catch((e) => {
-            console.log("inside catch",e);
+            console.log("inside catch of email post");
         })
-};
+
 }; 
 
 
