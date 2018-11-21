@@ -54,9 +54,10 @@ export const submitexerciseNotes = (userId,date,text) => {
             if (response.data.code === 400) {
                 console.log("Server responds with code 400 for exercise Notes post");
 
-            } else {        
+            } else {  
                 dispatch({ type: SET_EXERCISE_NOTES, payload:text })
-                Actions.home();
+                Actions.home();      
+
             }
             
         }).catch((e) => {

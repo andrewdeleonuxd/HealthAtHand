@@ -139,12 +139,13 @@ export const initializefood = (userId,date) => {
                 'cartId':meal.cartId,
                 'food':array
             }
-            Actions.push("addfood", {item:finalObj});
 
             dispatch({
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
+            Actions.push("addfood", {item:finalObj});
+
 
         } else{
             let array=[];
@@ -156,12 +157,13 @@ export const initializefood = (userId,date) => {
                 'cartId':meal.cartId,
                 'food':array
             }
-            Actions.push("addfood", {item:finalObj});
 
             dispatch({
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
+            Actions.push("addfood", {item:finalObj});
+
         }
     }
     }
@@ -177,12 +179,13 @@ export const initializefood = (userId,date) => {
             'cartId':meal.cartId,
             'food':array
         }
-        Actions.push("addfood", {item:finalObj});
 
         dispatch({
             type: FOOD_ADDED,
             mealObj:finalObj
         });
+        Actions.push("addfood", {item:finalObj});
+
     }
     }
 
