@@ -23,8 +23,8 @@ class ReportCard extends React.Component {
 
 	state = {
 		curWeight: "",
-		userWeightState: [],
-		shownData: {},
+		userWeightState: [], 
+		shownData: {}, 
 		category: 0,
 		shownColor: false,
 		hasNoData: true,
@@ -32,10 +32,10 @@ class ReportCard extends React.Component {
 	}
 	
 	componentWillMount = () => {
-		this.props.report(this.props.userId,this.props.date);
+		this.props.report(this.props.userId);
 	 }
 
-	componentWillMount = (nextProps) => {
+	componentWillReceiveProps = (nextProps) => {
 		this.setState({
 			userWeight: this.reformat(nextProps.reportData),
 			curWeight: this.reformat(nextProps.reportData)[this.reformat(nextProps.reportData).length - 1].weight.toString(),
@@ -413,7 +413,8 @@ const mapStateToProps = (state) => {
 	return {
 		foodArray: state.food.foodArray,
 		userId: state.auth.userId,
-        date : state.auth.date 
+		date : state.auth.date,
+		reportData: state.report.reportData 
     };
 };
 
