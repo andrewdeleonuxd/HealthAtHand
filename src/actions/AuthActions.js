@@ -30,7 +30,7 @@ export const passwordChanged = (text) => {
 export const loginUser = ({email, password}) => { 
     return (dispatch) => {  
         axios({
-            method: "get",
+            method: "get", 
             url: "http://10.0.0.241:5000/login",
             headers: {},
             params:{
@@ -46,7 +46,7 @@ export const loginUser = ({email, password}) => {
             } else {
                 let date = moment().format('YYYY-MM-DD');
                 dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data.data.userId , date:date, healthCoach:healthCoach})
-                Actions.home();
+                Actions.push("home", {userId:response.data.data.userId,date:date});
             }
         }).catch((e) => {
             console.log("inside catch");
