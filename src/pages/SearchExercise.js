@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import axios from 'axios';
 import { Text, Image, View, FlatList, TouchableOpacity, ActivityIndicator, ToastAndroid, TextInput, StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux'
 import { Header, SearchBar, ButtonGroup, Card, ListItem, Button, Icon } from 'react-native-elements';
