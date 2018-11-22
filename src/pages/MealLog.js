@@ -23,12 +23,12 @@ class MealLog extends Component {
     componentWillMount = () => {
 
     this.props.initializefood(this.props.userId,this.props.date);
-        this.loadData(this.props);
+    //this.loadData(this.props);
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
-        this.loadData(nextProps)
+    //this.loadData(nextProps)
     } 
 
     //when a perticular meal is selected
@@ -117,30 +117,64 @@ class MealLog extends Component {
         )
 
         return (
-            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+            <View style={{flex:1}}>
                 <HaH_Header
                     text = 'Meal Log'
                     right = {addMeal}
                 />
                 {
-                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> : 
-                    <View style={{flex: 1, height:"75%", paddingTop: 0}}>
-                        {data}     
-                    </View>   
-                } 
-                {
-                    (this.props.foodArray.length == 0) ? <View/> : 
-                    <View style={{padding: padding.sm}}>  
-                        <TouchableOpacity
-                            style = {styles.noteButton}
-                            onPress={this.showAddFoodNotes}>
-                            
-                            <Text style = {styles.noteText}>
+                    (props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
+                    <View style = {{flex: 1}}>
+                        <FlatList
+                                data={props.foodArray}
+                                renderItem={({item}) => (
+                                    <TouchableOpacity
+                                        key={i}
+                                        onPress = {() => this.onPress(item)} 
+                                        underLayColor="transparent"
+                                        style = {{padding: 7}}
+                                    > 
+                                        <Card
+                                            flexDirection = 'row' 
+                                            containerStyle = {styles.cardContainer}
+                                            wrapperStyle = {styles.cardWrapper}>
+                                            <Text style = {styles.foodName}>
+                                                Meal {item.mealNo}
+                                            </Text>
+                                            <Text style = {styles.cardHeader}>
+                                                {this.calculateMealCal(item.food)}
+                                                <Text style={styles.servingSizeUnit}>
+                                                    {' cals'}
+                                                </Text>
+                                            </Text>
+                                        </Card>
+                                    </TouchableOpacity>
+                                )}
+                                onEndReachedThreshold={0.5}
+                                onEndReached={this.endReached}
+                                keyExtractor={item => (item.mealNo.toString())}
+                            />
+                        <View style ={styles.totalCalView}>
+                            <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                Daily Calories
+                            </Text>
+                            <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                {dailyCal.toFixed(2)}
+                            </Text>
+                        </View>
+                    </View>
+                }
+                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}> 
+                    <TouchableOpacity
+                        style = {[button.touchable, {backgroundColor: colors.brandblue}]}
+                        onPress={this.showAddFoodNotes}>
+                        <View style={button.view}>
+                            <Text style = {button.text}>
                                 Meal Notes
                             </Text>
-                        </TouchableOpacity>
-                    </View>  
-                }
+                        </View>
+                    </TouchableOpacity>
+                </View>
                 <HaH_NavBar
                     selected = {2}
                 />
