@@ -125,7 +125,7 @@ export const removeexercise = (obj,userId,date) => {
     return (dispatch) => {  
         axios({
             method: "get", 
-            url: "http://10.0.0.241:5000/exerlog",
+            url: "http://10.0.0.241:5000/exercise",
             headers : {'Content-type': 'application/json'}, 
             params : {
                 'exercise': text

@@ -14,12 +14,14 @@ class SearchExercise extends Component {
         searchText:""
     }
 
-    componentWillMount = () => {
-    }
-
-    componentWillReceiveProps = (nextProps) => {
-        if(nextProps.SearchResult.length>0){
-            this.setState({showLoader:false})
+    componentDidUpdate(prevProps) {
+        if(this.props.SearchResult != null && this.props.SearchResult != prevProps.SearchResult)
+        {
+            if(this.props.SearchResult.length != 0)
+            {
+                console.log(this.props.SearchResult)
+                this.setState({showLoader:false})
+            }
         }
     }
 
@@ -55,6 +57,12 @@ class SearchExercise extends Component {
         });
     }
 
+    findThumbnail(thumb) {
+        if(thumb != null) {
+            return {uri: thumb}
+        }
+    }
+
     render() {
         return (
             <View style = {{flex: 1}}>
@@ -76,14 +84,17 @@ class SearchExercise extends Component {
                                 renderItem={({item}) => (
                                     <TouchableOpacity
                                         
-                                        style = {{paddingBottom: 7}}
+                                        style = {{paddingTop: 7, paddingBottom: 7}}
                                         onPress = {() => this.onPress(item)}
                                         underLayColor="transparent"
                                     >
                                         <Card
                                             containerStyle = {styles.cardContainer}
                                             wrapperStyle = {styles.cardWrapper}>
-                                        
+                                            <Image
+                                                style={{width: 30, height: 30}}
+                                                source={this.findThumbnail(item.photo.thumb)}
+                                            />
                                             <Text style = {styles.cardHeader}>
                                                {this.capitalize(item.name)} 
                                             </Text>

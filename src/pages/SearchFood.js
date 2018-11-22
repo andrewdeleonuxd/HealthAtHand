@@ -75,9 +75,6 @@ class SearchFood extends Component{
         if(thumb != null) {
             return {uri: thumb}
         }
-        else {
-            return {uri: "https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png"}
-        }
     }
 
     updateCategory = (category) => {
