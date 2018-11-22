@@ -27,7 +27,7 @@ const RouterComponent = () => {
     return(
         <Router >
             <Scene key="root" >
-                <Scene key="login" component={LoginForm} hideNavBar={true}/>  
+                <Scene key="login" component={LoginForm} hideNavBar={true} initial/>  
                 <Scene key="home" component={Home} hideNavBar={true}  />
                 <Scene key="articleinfo" component = {ArticleInfo} hideNavBar={true} />
                 <Scene key="meallog" component = {MealLog} hideNavBar={true} />
@@ -42,7 +42,7 @@ const RouterComponent = () => {
                 <Scene key="email" component = {Email} hideNavBar={true} />
                 <Scene key="foodnotes" component = {FoodNotes} hideNavBar={true} />
                 <Scene key="exercisenotes" component = {ExerciseNotes} hideNavBar={true} />
-                <Scene key="report" component = {Report} hideNavBar={true} initial/>
+                <Scene key="report" component = {Report} hideNavBar={true} />
             </Scene>
  
         </Router>    

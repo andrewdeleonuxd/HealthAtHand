@@ -45,7 +45,7 @@ export const loginUser = ({email, password}) => {
         
             } else {
                 let date = moment().format('YYYY-MM-DD');
-                dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data.data.userId , date:date, healthCoach:healthCoach})
+                dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data.data.userId , date:date, healthCoach:response.data.data.healthCoach})
                 Actions.push("login");
             }
         }).catch((e) => {

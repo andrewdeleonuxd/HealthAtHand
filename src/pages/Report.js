@@ -48,8 +48,8 @@ class ReportCard extends React.Component {
 		}
 	  }
 
-	componentDidMount = () => {
-		this.props.report(1);
+	componentWillMount = () => {
+		this.props.report(this.props.userId);
 	}
 
 	reformat(data)
