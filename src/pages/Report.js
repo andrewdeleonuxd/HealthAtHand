@@ -17,68 +17,67 @@ import Moment from 'moment';
 
 import testResponse from '../testdata/report.json'
 
-const today = new Date();
+const userWeight = [];
+const today = Moment.utc(Moment().format('YYYY-MM-DD'));
 
 class ReportCard extends React.Component {
 
 	state = {
 		curWeight: "",
-		userWeightState: [], 
-		shownData: {}, 
+		userWeightState: userWeight,
+		shownData: {},
 		category: 0,
 		shownColor: false,
-		hasNoData: true,
-		userWeight: []
+		hasNoData: true
 	}
-	
-	componentWillMount = () => {
-		this.props.report(this.props.userId);
-	 }
 
-	componentWillReceiveProps = (nextProps) => {
-		this.setState({
-			userWeight: this.reformat(nextProps.reportData),
-			curWeight: this.reformat(nextProps.reportData)[this.reformat(nextProps.reportData).length - 1].weight.toString(),
-			userWeightState: this.changeDomain(this.reformat(nextProps.reportData))
-		});
-	}
+	componentDidUpdate(prevProps) {
+		if (this.props.reportData !== prevProps.reportData) {
+			if(this.props.reportData.length != 0)
+			{
+				userWeight = this.props.reportData;
+				for(i = 0; i < userWeight.length; i++)
+				{
+					userWeight[i].date = new Date(this.props.reportData[i].date)
+				}
+				this.setState({
+					curWeight: userWeight[userWeight.length - 1].weight.toString(),
+					userWeightState: this.changeDomain(userWeight, this.state.category)
+				});
+			}
+		}
+	  }
 
 	componentDidMount = () => {
-		today.setHours(0,0,0,0);
-		if(this.props.reportData != undefined)
-		{
-			for(i = 0; i < this.props.reportData.length; i++)
-			{
-				this.props.reportData.date = new Date(this.props.reportData[i].date)
-			}
-			this.setState({
-				userWeight: this.reformat(this.props.reportData),
-				curWeight: this.reformat(this.props.reportData)[this.reformat(this.props.reportData).length - 1].weight.toString(),
-				userWeightState: this.changeDomain(this.reformat(this.props.reportData))
-			});
-		}
-	}
-	
-	reformat(userWeight)
-	{
-		for(i = 0; i < userWeight; i++)
-		{
-			userWeight.date = new Date(userWeight[i].date)
-		}
+		this.props.report(1);
 	}
 
-	changeDomain(userWeight, category) {
-		min = Moment(new Date()).subtract(8, 'day');
-		max = new Date();
+	reformat(data)
+	{
+		for(i = 0; i < data; i++)
+		{
+			data[i].date = new Date(data[i].date)
+		}
+		return data;
+	}
+
+	changeDomain(weights, category) {
+		min = today;
+		max = Moment(today).add(1, 'd');
+		
+		if(category == 0)
+		{
+			min = Moment(today).subtract(7,'d')
+		}
 		if(category == 1)
 		{
-			min = Moment(new Date()).subtract(1, 'month');
+			min = Moment(today).subtract(1,'M')
 		}
 		else if(category == 2)
 		{
-			min = Moment(new Date()).subtract(1, 'year');
+			min = Moment(today).subtract(1, 'Y')
 		}
-		dates = userWeight.filter(
+		dates = weights.filter(
 			function(each) {
 				return Moment(each.date).isBetween(min, max);
 			}
@@ -95,15 +94,15 @@ class ReportCard extends React.Component {
 	}
 
 	addWeight = () => {
-		if(this.state.userWeight[this.state.userWeight.length - 1].date != today)
+		if(Moment(userWeight[userWeight.length - 1].date).isSame(today, 'day'))
 		{			
-			this.state.userWeight.push({"date": today, "weight": parseInt(this.state.curWeight)})
+			userWeight[userWeight.length - 1].weight = parseInt(this.state.curWeight);		
 		}
 		else
 		{
-			this.state.userWeight[this.state.userWeight.length - 1].weight = parseInt(this.state.curWeight);
+			userWeight.push({"weight": parseInt(this.state.curWeight), "date": today.toDate()});
 		}
-		this.setState({userWeightState: this.changeDomain(this.state.userWeight, this.state.category), shownData: this.state.userWeight[this.state.userWeight.length - 1]})
+		this.setState({userWeightState: this.changeDomain(userWeight, this.state.category)})
 	}
 
 	checkString(weightString) {
@@ -121,9 +120,7 @@ class ReportCard extends React.Component {
 		return {color: chosen};
 	}
 
-	setShownWeight = (d) => {
-		//console.log(d)
-		
+	setShownWeight = (d) => {		
 		if(d == null) {
 			this.setState({shownData: {date: this.state.userWeightState[this.state.userWeightState.length-1].date, weight: this.state.curWeight}, shownColor: false});
 		}
@@ -137,7 +134,7 @@ class ReportCard extends React.Component {
 	}
 	
     updateCategory = (category) => {
-        this.setState({category, userWeightState: this.changeDomain(this.state.userWeight, category), showLoader: false})
+        this.setState({category, userWeightState: this.changeDomain(userWeight, category), showLoader: false})
     }
 
 	render() {
@@ -183,16 +180,12 @@ class ReportCard extends React.Component {
 								domainPadding={{y: 5}}
 								containerComponent = {	
 														<VictoryCursorContainer
-															//defaultCursorValue={{x: 7}}
 															cursorDimension ="x"
 															onCursorChange={(d) => (this.setShownWeight(d))}
 														/>
 													}
-								animate={{duration: 500, easing: "poly"}}
+								animate={{duration: 200, easing: "poly"}}
 								>
-								{/*<VictoryAxis 
-									//tickFormat={this.state.userWeightState.date}
-												/>*/}
 								<VictoryLine
 									style={{
 										data:{
@@ -372,7 +365,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: colors.brandgrey,
 		borderRadius: 10
-		//backgroundColor: 'red'
 	},
 	categoryContainer: {
         height: 50,
@@ -406,7 +398,6 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
 	}
 });
-
 
 const mapStateToProps = (state) => {
     
