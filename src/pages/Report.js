@@ -18,7 +18,7 @@ import Moment from 'moment';
 import testResponse from '../testdata/report.json'
 
 const userWeight = [];
-const today = new Date();
+const today = Moment.utc(Moment().format('YYYY-MM-DD'));
 
 class ReportCard extends React.Component {
 
@@ -31,29 +31,25 @@ class ReportCard extends React.Component {
 		hasNoData: true
 	}
 
-	componentWillMount = () => {
-		this.props.report(1);
-		
-	}
-
-	
-	componentWillReceiveProps = (nextProps) => {
-		userWeight = testResponse.report_card;
-		console.log("WILL RECEIVE")
-		today.setHours(0,0,0,0);
-		
-		if(userWeight.length != 0)
-		{
-			userWeight = this.reformat(userWeight);
-			this.setState({
-				curWeight: userWeight[userWeight.length - 1].weight.toString(),
-				userWeightState: this.changeDomain(userWeight)
-			});
+	componentDidUpdate(prevProps) {
+		if (this.props.reportData !== prevProps.reportData) {
+			if(this.props.reportData.length != 0)
+			{
+				userWeight = this.props.reportData;
+				for(i = 0; i < userWeight.length; i++)
+				{
+					userWeight[i].date = new Date(this.props.reportData[i].date)
+				}
+				this.setState({
+					curWeight: userWeight[userWeight.length - 1].weight.toString(),
+					userWeightState: this.changeDomain(userWeight, this.state.category)
+				});
+			}
 		}
-	}
+	  }
 
 	componentDidMount = () => {
-		console.log("MOUNTED")
+		this.props.report(1);
 	}
 
 	reformat(data)
@@ -65,18 +61,23 @@ class ReportCard extends React.Component {
 		return data;
 	}
 
-	changeDomain(dates, category) {
-		min = Moment(new Date()).subtract(8, 'day');
-		max = new Date();
+	changeDomain(weights, category) {
+		min = today;
+		max = Moment(today).add(1, 'd');
+		
+		if(category == 0)
+		{
+			min = Moment(today).subtract(7,'d')
+		}
 		if(category == 1)
 		{
-			min = Moment(new Date()).subtract(1, 'month');
+			min = Moment(today).subtract(1,'M')
 		}
 		else if(category == 2)
 		{
-			min = Moment(new Date()).subtract(1, 'year');
+			min = Moment(today).subtract(1, 'Y')
 		}
-		dates = dates.filter(
+		dates = weights.filter(
 			function(each) {
 				return Moment(each.date).isBetween(min, max);
 			}
@@ -89,18 +90,17 @@ class ReportCard extends React.Component {
 		else {
 			this.state.hasNoData = true;
 		}
-		console.log(dates)
 		return dates;
 	}
 
 	addWeight = () => {
-		if(userWeight[userWeight.length - 1].date != today)
+		if(Moment(userWeight[userWeight.length - 1].date).isSame(today, 'day'))
 		{			
-			userWeight.push({"date": today, "weight": parseInt(this.state.curWeight)})
+			userWeight[userWeight.length - 1].weight = parseInt(this.state.curWeight);		
 		}
 		else
 		{
-			userWeight[userWeight.length - 1].weight = parseInt(this.state.curWeight);
+			userWeight.push({"weight": parseInt(this.state.curWeight), "date": today.toDate()});
 		}
 		this.setState({userWeightState: this.changeDomain(userWeight, this.state.category)})
 	}
@@ -120,9 +120,7 @@ class ReportCard extends React.Component {
 		return {color: chosen};
 	}
 
-	setShownWeight = (d) => {
-		console.log(d)
-		
+	setShownWeight = (d) => {		
 		if(d == null) {
 			this.setState({shownData: {date: this.state.userWeightState[this.state.userWeightState.length-1].date, weight: this.state.curWeight}, shownColor: false});
 		}
@@ -182,16 +180,12 @@ class ReportCard extends React.Component {
 								domainPadding={{y: 5}}
 								containerComponent = {	
 														<VictoryCursorContainer
-															//defaultCursorValue={{x: 7}}
 															cursorDimension ="x"
 															onCursorChange={(d) => (this.setShownWeight(d))}
 														/>
 													}
-								animate={{duration: 500, easing: "poly"}}
+								animate={{duration: 200, easing: "poly"}}
 								>
-								{/*<VictoryAxis 
-									//tickFormat={this.state.userWeightState.date}
-												/>*/}
 								<VictoryLine
 									style={{
 										data:{
@@ -371,7 +365,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: colors.brandgrey,
 		borderRadius: 10
-		//backgroundColor: 'red'
 	},
 	categoryContainer: {
         height: 50,
