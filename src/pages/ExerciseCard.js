@@ -1,21 +1,22 @@
 import React,{Component} from 'react';
-import {View, TextInput, Picker, ActivityIndicator, Text, ScrollView,Alert} from 'react-native';
+import {View, TextInput, Picker, ActivityIndicator, Text,  StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addexercise,removeexercise} from '../actions';
 import NumericInput,{ calcSize } from 'react-native-numeric-input';
+import { HaH_Header, HaH_NavBar } from '../components/common';
+import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 
 class ExerciseCard extends Component { 
 
     state ={
         showLoader:false,
-        intensity:"1",
+        intensity:"Low",
         exName:"",
         exid:null,
-        duration:"1",
-        numeric:"1"
+        duration:"10",
     }
 
     componentWillMount = () => {
@@ -93,20 +94,21 @@ class ExerciseCard extends Component {
           this.props.removeexercise(obj,this.props.userId,this.props.date);
     }
 
-    onDurationChange = (text) =>{
-        let newText = '';
-        let numbers = '0123456789';
+    capitalize(str) {
+        return str.replace(/\w\S*/g, function(txt){
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
 
-        for (var i=0; i < text.length; i++) {
-            if(numbers.indexOf(text[i]) > -1 ) {
-                newText = newText + text[i];
-            }
-            else {
-                Alert.alert("please enter numbers only");
-            }
-        }
-        this.setState({ duration:newText });   
-      }
+    titleLabel() {
+        (this.props.firstTime == true) ? label = "Add Exercise" : label = "Edit Exercise"
+        return label
+    }
+
+    confirmLabel() {
+        (this.props.firstTime == true) ? label = "Add Exercise to Log" : label = "Confirm Changes"
+        return label
+    }
         
 
     render = () => {
@@ -131,80 +133,211 @@ class ExerciseCard extends Component {
             />
         )
 
-
         return (
-            <ScrollView>
-                <Header
-                    outerContainerStyles={{height:60,backgroundColor:"#0F084B"}}
-                    leftComponent={backButton}
-                    centerComponent={{ text: "Add Exercise", style: { color: '#fff',fontSize:15 }}}
-                    rightComponent={check}
-                />
-                {
-                    (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff" /> : 
-                    <ScrollView style={{backgroundColor:"white", height:"100%"}}>
-
-                                <Card>
-                                       <Text style={{
-                                         color: "maroon",
-                                         fontSize: 15,
-                                         marginBottom: 5
-                                     }}>{this.state.exName}</Text>
-                                 </Card>
-                               
-                                 <Card flexDirection='column'>
-                                        <Text style={{
-                                            color: "maroon",
-                                            fontSize: 15,
-                                            marginBottom: 5, 
-                                        }}>intensity</Text>
-                                        <Picker selectedValue={this.state.intensity} onValueChange={value => this.setState({intensity:value})} >
-                                            <Picker.Item label="1" value="1" />
-                                            <Picker.Item label="2" value="2" />
-                                            <Picker.Item label="3" value="3" />
-                                            <Picker.Item label="4" value="4" />
-                                            <Picker.Item label="5" value="5" />
-                                        </Picker>    
-                                 </Card>
-                              
-
-                                <Card style={{ flex:1,height:40,flexDirection: 'row',alignItems: 'center'}}>
-                                <Text style={{
-                                            color: "maroon",
-                                            fontSize: 15,
-                                            flex:1
-                                        }}>Duration</Text>
-                                <TextInput  
-                                     keyboardType = 'numeric'
-                                     style={{  color:'#000',
-                                     paddingRight:5,
-                                     paddingLeft:5,
-                                     fontSize:15,
-                                     lineHeight:23,
-                                     flex:2}}
-                                     onChangeText={this.onDurationChange.bind(this)}
-                                     value={this.state.duration}
-                                     />
-                
-                                </Card>
-                                                         
-                                 <Card>
-                                    <Button
-                                    title='Remove' 
-                                    disabled={this.props.firstTime}
-                                    backgroundColor="blue"
-                                    onPress={this.onRemove}
-                                    />
-                                 </Card> 
-                               
-                    </ScrollView>
-                     
-                }
-            </ScrollView>
+            <View style = {{flex: 1}}>
+            <HaH_Header
+                left = {backButton}
+                text = {this.titleLabel()}
+            />
+            <View style = {{flex: 1}}>
+            {
+                (this.state.showLoader == true) ? <ActivityIndicator size="large" color="#0000ff" /> : 
+                <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>
+                    <Card
+                        containerStyle = {styles.cardContainer}
+                        wrapperStyle = {styles.cardWrapper}>
+                        <Text style = {styles.cardHeader}>
+                            {this.capitalize(this.state.exName)}
+                        </Text>
+                    </Card>
+                    <View style={{flex: 1, paddingTop: '3%'}}>
+                        <View style={styles.userInputs}>
+                            <Text style={styles.userInputText}>
+                                Duration
+                                <Text style={styles.servingSizeUnit}>
+                                    {" (min)"}
+                                </Text>
+                            </Text>
+                            <View style = {{height: 40, backgroundColor: colors.brandgrey, borderRadius: 7, alignItems: 'center', justifyContent: 'center'}}>
+                                <Picker
+                                    style={{height: 40, width: 130, marginRight: 0}}
+                                    itemStyle =  {{fontSize: 25, fontFamily: fonts.primary, color: colors.brandblue, textAlign:'right', alignSelf: "flex-end", justifyContent: 'flex-end', padding: 0, width: 60}}
+                                    selectedValue={this.state.duration}
+                                    onValueChange={value => this.setState({duration:value})}>
+                                    <Picker.Item label="10" value="10" />
+                                    <Picker.Item label="20" value="20" />
+                                    <Picker.Item label="30" value="30" />
+                                    <Picker.Item label="40" value="40" />
+                                    <Picker.Item label="50" value="50" />
+                                    <Picker.Item label="60" value="60" />
+                                    <Picker.Item label="70" value="70" />
+                                    <Picker.Item label="80" value="80" />
+                                    <Picker.Item label="90" value="90" />
+                                    <Picker.Item label="100" value="100" />
+                                    <Picker.Item label="110" value="110" />
+                                    <Picker.Item label="120" value="120" />
+                                    <Picker.Item label="130" value="130" />
+                                    <Picker.Item label="140" value="140" />
+                                    <Picker.Item label="150" value="150" />
+                                    <Picker.Item label="160" value="160" />
+                                    <Picker.Item label="170" value="170" />
+                                    <Picker.Item label="180" value="180" />
+                                    <Picker.Item label="190" value="190" />
+                                    <Picker.Item label="200" value="200" />
+                                    <Picker.Item label="210" value="210" />
+                                    <Picker.Item label="220" value="220" />
+                                    <Picker.Item label="230" value="230" />
+                                    <Picker.Item label="240" value="240" />
+                                </Picker>     
+                            </View>
+                        </View>
+                        <View style={styles.userInputs}>
+                            <Text style={styles.userInputText}>
+                                Intensity
+                            </Text>
+                            <View style = {{height: 40, backgroundColor: colors.brandgrey, borderRadius: 7, alignItems: 'center', justifyContent: 'center'}}>
+                                <Picker
+                                    style={{height: 40, width: 130, marginRight: 0}}
+                                    itemStyle =  {{fontSize: 25, fontFamily: fonts.primary, color: colors.brandblue, textAlign:'right', alignSelf: "flex-end", justifyContent: 'flex-end', padding: 0, width: 60}}
+                                    selectedValue={this.state.intensity}
+                                    onValueChange={value => this.setState({intensity:value})}>
+                                    <Picker.Item label="Low" value="Low" />
+                                    <Picker.Item label="Medium" value="Medium" />
+                                    <Picker.Item label="High" value="High" />
+                                </Picker>              
+                            </View>
+                        </View>                            
+                    </View>                    
+                    {
+                        (this.props.firstTime == true) ? <View/>:
+                        <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                            <TouchableOpacity
+                                style = {[button.touchable, {backgroundColor: 'red'}]}
+                                onPress={this.onRemove}>
+                                <View style={button.view}>
+                                    <Text style = {styles.deleteText}>
+                                        Delete Exercise
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    }
+                    <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                        <TouchableOpacity
+                            style = {[button.touchable, {backgroundColor: colors.brandgold}]}
+                            onPress = {this.Add}>
+                            <View style={button.view}>
+                                <Text style = {styles.confirmText}>
+                                    {this.confirmLabel()}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            }
+            </View>
+            <HaH_NavBar
+                selected={2}
+            />
+        </View>
         )
     }
 }
 
+const styles = StyleSheet.create({
+    cardHeader: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
+        color: colors.primary
+    },
+    cardContainer: {
+        padding: 4,
+        elevation: 7,
+        borderRadius: 10
+    },
+    cardWrapper: {        
+        alignItems: 'center'
+    },
+    userInputs: {
+        flexDirection: 'row',
+        paddingLeft: '8%',
+        paddingRight: '8%',
+        justifyContent: 'space-between',
+        paddingBottom: '1%'
+    },
+    userInputText: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        //backgroundColor: "red",
+        paddingTop: '2%',
+    },
+    servingSizeQty: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: fonts.primary, 
+        color: colors.brandblue,
+        textAlign:'right',
+        alignSelf: 'flex-end',
+    },
+    servingSizeUnit: {
+        fontSize: 15,
+        fontFamily: fonts.primary, 
+        color: colors.brandgrey,
+        textAlign:'right',
+        alignSelf: 'flex-end',
+    },
+    userInput: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'right',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        paddingLeft: 35,
+        paddingRight: 10,
+        justifyContent: 'center',
+        
+        //backgroundColor: "red",
+    },
+    confirmButton: {
+		backgroundColor: colors.brandgold,
+		borderRadius: 10,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 7,
+    },
+    confirmText: {
+        flex: 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
+        color: colors.brandwhite,
+        textAlignVertical: 'center',
+    },
+    deleteButton: {
+		backgroundColor: 'red',
+		borderRadius: 10,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center', 
+        elevation: 7
+    },
+    deleteText: {
+        flex: 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
+        color: colors.brandwhite,
+        textAlignVertical: 'center',
+    },
+});
 
 const mapStateToProps = state => {
     return {
