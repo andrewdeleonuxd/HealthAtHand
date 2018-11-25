@@ -4,11 +4,15 @@ import { Header, Icon , SearchBar, Button } from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
 import { Constants, Calendar, Permissions } from 'expo';
 import { HaH_Header, HaH_NavBar } from '../components/common';
+import Moment from 'moment';
 
 import {colors, margin, padding, button} from '../styles/base.js'
 
 const emails = [
     {
+        read: 0,
+        author: "Dr.J",
+        subject: "Thanks!",
         body: "Thanks for setting up that date for to discuss your new dietary plans. I'll see you on the 20th.",
         date_sent: '2018-11-14',
         calendar_event: {
@@ -18,10 +22,13 @@ const emails = [
         }
     },
     {
+        read: 1,
+        author: "Dr.J",
+        subject: "Setting up appointment",
         body: "Hey Amanda, let's set up a date for to discuss your new dietary plans. How does the 20th sound?",
         date_sent: '2018-11-13',
         calendar_event: {}
-    }
+    },
 ]
 
 class Notification extends Component {
@@ -29,8 +36,12 @@ class Notification extends Component {
         emailList: emails
     }
 
+    showEmail = (item) => {
+        Actions.push("email", {email: item})
+    }
+
     showEmail = () => {
-        Actions.push("email")
+        Actions.push("email", {email: null})
     }
 
     myCalendar = () => {
@@ -107,7 +118,6 @@ class Notification extends Component {
             <View style={{flex:1}}>
                 <HaH_Header
                     text = "Messenger"
-                    left = {backButton}
                 />
                 <View style={styles.container}>
                     <FlatList
@@ -115,13 +125,23 @@ class Notification extends Component {
                         renderItem={({item}) => (
                             <TouchableOpacity
                                 style = {styles.email}
-                                onPress={() => this.myCalendar()}>
+                                onPress={() => this.showEmail(item)}>
                                 <View style = {{padding: 10}}>
-                                    <Text style = {styles.body}>
-                                        {this.truncate.apply(item.body, [35, true])}
+                                {   
+                                    item.read == 0 ?
+                                    <Text style = {[styles.subject, {color: colors.brandgold}]}>
+                                        {this.truncate.apply(item.subject, [35, true])}
+                                    </Text>
+                                    :
+                                    <Text style = {[styles.subject, {color: colors.brandblue}]}>
+                                        {this.truncate.apply(item.subject, [35, true])}
+                                    </Text>
+                                }
+                                    <Text>
+                                        {Moment(item.date_sent).format('Do MMM YY')}
                                     </Text>
                                     <Text>
-                                        {item.date_sent}
+                                        {item.author}
                                     </Text>
                                 </View>
                             </TouchableOpacity>
@@ -132,7 +152,7 @@ class Notification extends Component {
                 <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>
                     <TouchableOpacity
                         style = {[button.touchable, {backgroundColor: colors.brandblue}]}
-                        onPress={this.showEmail}>
+                        onPress={this.showNewMessage}>
                         <View style={button.view}>
                             <Text style = {button.text}>
                                 Create New Message
@@ -149,7 +169,7 @@ class Notification extends Component {
 }
 
 const styles = StyleSheet.create({
-    body: {
+    subject: {
         fontSize: 25,
         fontWeight: 'bold',
         fontFamily: 'sans-serif-condensed', 
@@ -160,8 +180,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     email: {
-        flex: 1, 
-        height: 75,
+        flex: 1,
         borderBottomWidth: 2,
         borderBottomColor: colors.brandgrey
     }
