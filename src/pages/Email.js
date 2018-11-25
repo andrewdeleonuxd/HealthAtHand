@@ -13,17 +13,26 @@ import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 class Email extends Component {
     state = {
-        subject:"",
-        body:""
+        email: null,
+        writable: 0
+    }
+
+    componentWillMount() {
+        this.setState({email: this.props.email, writeable: this.props.writeable})
     }
 
     goBack = () => {
-        Actions.push("notificationz")
+        Actions.push("notification")
     }
 
     done = () => {
      Communications.email([this.props.healthCoachId],null,null,this.state.subject,this.state.body);
      this.props.submitMessage(this.props.userId,this.props.date,this.state.subject,this.state.body);
+    }
+    
+    title() {
+        this.state.writeable == 1 ? title = "New Message" :  title = "From " + this.state.email.author
+        return title;
     }
 
     render = () => {
@@ -51,49 +60,72 @@ class Email extends Component {
             <View style={{flex:1}}>
                 <HaH_Header
                     left = {backButton}
-                    text = {'New Message'}
+                    text = {this.title()}
                 />
-             
-                <View style = {{flex: 1, padding: 10}}>
-                    <Card
-                        containerStyle = {styles.cardContainer1}
-                        wrapperStyle = {styles.cardWrapper}>
-                        <TextInput
-                            style={styles.noteText}
-                            placeholder="Enter the subject!"
-                            onChangeText={(text) => this.setState({text})}
-                            multiline = {true}
-                            textAlignVertical= 'top'
-                            maxLength = {400}
-                        />
-                    </Card>
-                    <Card
-                        containerStyle = {styles.cardContainer2}
-                        wrapperStyle = {styles.cardWrapper}>
-                        <TextInput
-                            style={styles.noteText}
-                            placeholder="Enter your message!"
-                            onChangeText={(text) => this.setState({text})}
-                            multiline = {true}
-                            textAlignVertical= 'top'
-                            maxLength = {400}
-                        />
-                    </Card>
-                </View>
-                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>
-                    <TouchableOpacity
-                        style = {[button.touchable, {backgroundColor: colors.brandgold}]}
-                        onPress={this.showAddFoodNotes}>
-                        <View style={button.view}>
-                            <Text style = {button.text}>
-                                Send Message
-                            </Text>
+
+                {
+                    this.state.writeable == 0 ?
+                    <View style = {{flex: 1}}>
+                        <View style = {{flex: 1, padding: 10}}>
+                            <Card
+                                containerStyle = {styles.cardContainer1}
+                                wrapperStyle = {styles.cardWrapper}>
+                                <Text style={styles.noteText}>
+                                    {this.state.email.subject}
+                                </Text>
+                            </Card>
+                            <Card
+                                containerStyle = {styles.cardContainer2}
+                                wrapperStyle = {styles.cardWrapper}>
+                                <Text style={styles.noteText}>
+                                    {this.state.email.body}
+                                </Text>
+                            </Card>
                         </View>
-                    </TouchableOpacity>
-                </View>
+                    </View>
+                    :
+                    <View style = {{flex: 1}}>
+                        <View style = {{flex: 1, padding: 10}}>
+                            <Card
+                                containerStyle = {styles.cardContainer1}
+                                wrapperStyle = {styles.cardWrapper}>
+                                <TextInput
+                                    style={styles.noteText}
+                                    placeholder="Enter the subject!"
+                                    onChangeText={(text) => this.setState({text})}
+                                    multiline = {true}
+                                    textAlignVertical= 'top'
+                                    maxLength = {400}
+                                />
+                            </Card>
+                            <Card
+                                containerStyle = {styles.cardContainer2}
+                                wrapperStyle = {styles.cardWrapper}>
+                                <TextInput
+                                    style={styles.noteText}
+                                    placeholder="Enter your message!"
+                                    onChangeText={(text) => this.setState({text})}
+                                    multiline = {true}
+                                    textAlignVertical= 'top'
+                                    maxLength = {400}
+                                />
+                            </Card>
+                        </View>
+                        <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>
+                            <TouchableOpacity
+                                style = {[button.touchable, {backgroundColor: colors.brandgold}]}
+                                onPress={this.showAddFoodNotes}>
+                                <View style={button.view}>
+                                    <Text style = {button.text}>
+                                        Send Message
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                }
                 <HaH_NavBar
-                    selected = {2}
-                />
+                    selected = {5}/>
             </View>
         )
     }
@@ -114,7 +146,7 @@ const styles = StyleSheet.create({
     },
     cardWrapper: {
         flex: 1,
-        padding: 20,
+        padding: 10
     },
     noteText: {
         flex: 1,
