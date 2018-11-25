@@ -4,7 +4,8 @@ import _ from 'lodash';
 
 import {
     GET_MEAL_NOTES,
-    SET_MEAL_NOTES 
+    SET_MEAL_NOTES,
+    UPDATE_MEAL_NOTES
        
        } from './types';
 
@@ -34,12 +35,12 @@ export const initializefoodNotes = (userId,date) => {
         }).catch((e) => {
             console.log("inside catch for mealNotes get");
         })
-};
+    };
 };  
 
 export const submitfoodNotes = (userId,date,text) => {
     return (dispatch) => {  
-
+        console.log(userId + " " + date + " " + text)
         axios({
             method: "post",
             url: "http://10.0.0.241:5000/mealnotes",
@@ -62,7 +63,34 @@ export const submitfoodNotes = (userId,date,text) => {
         }).catch((e) => {
             console.log("inside catch for mealNotes post");
         })
-};
+    };
 }; 
 
+export const updatefoodNotes = (userId,date,text) => {
+    return (dispatch) => {  
+        console.log(userId + " " + date + " " + text)
+        axios({
+            method: "put",
+            url: "http://10.0.0.241:5000/mealnotes",
+            headers : {'Content-type': 'application/json'}, 
+            data : {
+                'userId':userId,
+                'date':date,
+                'note': text
+            }
+        
+        }).then(function(response) {
+            
+            if (response.data.code === 400) {
+                console.log("Server responds with code 400 for mealNotes put");
+            } else {        
+                dispatch({ type: UPDATE_MEAL_NOTES, mealNotes:text })
+                Actions.meallog();
+            }
+            
+        }).catch((e) => {
+            console.log("inside catch for mealNotes put");
+        })
+    };
+}; 
 

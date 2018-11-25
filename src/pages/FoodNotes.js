@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {connect} from 'react-redux';
 import {View, TextInput,ToastAndroid, FlatList, Image, TouchableHighlight, ScrollView, StyleSheet, TouchableOpacity, Text} from 'react-native'
 import { Header, Icon , SearchBar, Card, Button} from 'react-native-elements';
-import {initializefoodNotes,submitfoodNotes } from '../actions';
+import {initializefoodNotes,submitfoodNotes, updatefoodNotes} from '../actions';
 import {Actions} from 'react-native-router-flux'
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
@@ -10,19 +10,20 @@ import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 class FoodNotes extends Component {
     state = {
-     text:"" 
+        text:"",
+        update: false
     }
 
     componentWillMount = () => {
+        this.setState({update:false})
         this.props.initializefoodNotes(this.props.userId,this.props.date);
     }
-     
-    componentWillReceiveProps = (nextProps) => { 
-           this.setState({text:nextProps.mealNotes});
-    }
-
-    componentDidMount = () => {
-        this.setState({text: this.props.mealNotes});
+    
+    componentDidUpdate(prevProps) {
+        if(this.props.mealNotes != prevProps.mealNotes) {
+            console.log(this.props.mealNotes[0].note)
+            this.setState({text: this.props.mealNotes[0].note, update: true})
+        }
     }
 
     goBack = () => {
@@ -30,8 +31,18 @@ class FoodNotes extends Component {
     }
 
     done = () => {
-        ToastAndroid.show('done',3000,"TOP")
-        this.props.submitfoodNotes(this.props.userId,this.props.date,this.state.text);
+        if(this.state.update == false) {
+            this.props.submitfoodNotes(this.props.userId,this.props.date,this.state.text);
+        }
+        else {
+            this.props.updatefoodNotes(this.props.userId,this.props.date,this.state.text)
+        }
+    }
+
+    buttonTitle() {
+        title = ""
+        this.state.update == false ? title = "Add Note" : title = "Update Note"
+        return title;
     }
 
     render = () => {
@@ -59,7 +70,7 @@ class FoodNotes extends Component {
             <View style={{flex:1}}>
                 <HaH_Header
                     left = {backButton}
-                    text = {'Add Meal Notes'}
+                    text = {'Meal Notes'}
                 />
              
                 <View style = {{flex: 1, padding: 10}}>   
@@ -67,7 +78,7 @@ class FoodNotes extends Component {
                         containerStyle = {styles.cardContainer}
                         wrapperStyle = {styles.cardWrapper}>
                         {
-                            this.state.text == "" ? 
+                            this.state.update == false ? 
                             <TextInput
                                 style={styles.noteText}
                                 placeholder="Enter your thoughts on your calorie intake today!"
@@ -79,7 +90,7 @@ class FoodNotes extends Component {
                             :
                             <TextInput
                                 style={styles.noteText}
-                                placeholder={this.state.text}
+                                defaultValue={this.state.text}
                                 onChangeText={(text) => this.setState({text})}
                                 multiline = {true}
                                 textAlignVertical= 'top'
@@ -95,7 +106,7 @@ class FoodNotes extends Component {
                         onPress={this.done}>
                         <View style={button.view}>
                             <Text style = {button.text}>
-                                Add Meal Notes to Log
+                                {this.buttonTitle()}
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -136,6 +147,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, {initializefoodNotes,submitfoodNotes}) (FoodNotes);
-
-
+export default connect(mapStateToProps, {initializefoodNotes,submitfoodNotes, updatefoodNotes}) (FoodNotes);

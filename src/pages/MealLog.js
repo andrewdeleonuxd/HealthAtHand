@@ -9,7 +9,7 @@ import { HaH_Header, HaH_NavBar } from '../components/common';
 const uuid = require('uuid/v1');
 
 
-import {colors, margin, padding} from '../styles/base.js'
+import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 // mealNo needs to be changed to mealName
 var data=[];
@@ -40,7 +40,7 @@ class MealLog extends Component {
     showAddFoodNotes = () => { 
         Actions.foodnotes();
     } 
-
+/*
     loadData = (props) => {
         data=[]; 
         let array=props.foodArray;
@@ -70,7 +70,7 @@ class MealLog extends Component {
         }) 
     } 
     } 
-
+*/
 
     goBack = () => {
         Actions.home();
@@ -123,10 +123,10 @@ class MealLog extends Component {
                     right = {addMeal}
                 />
                 {
-                    (props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
+                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
                     <View style = {{flex: 1}}>
                         <FlatList
-                                data={props.foodArray}
+                                data={this.props.foodArray}
                                 renderItem={({item}) => (
                                     <TouchableOpacity
                                         key={i}

@@ -34,6 +34,8 @@ export const GET_MEAL_NOTES = "get_meal_notes";
 
 export const SET_MEAL_NOTES = "set_meal_notes";
 
+export const UPDATE_MEAL_NOTES = "update_meal_notes";
+
 export const EXERCISE_SEARCH_RESULT = 'exercise_search_result';
 
 
