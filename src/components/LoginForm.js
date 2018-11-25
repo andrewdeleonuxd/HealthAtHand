@@ -1,8 +1,8 @@
 import React , {Component } from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {  Header, Tile  } from 'react-native-elements';
-import {Card, CardSection, Input, Button, Spinner} from './common';
+import {HaH_Header} from './common';
+import {Card, CardSection, Input, Spinner} from 'react-native-elements'
 import {emailChanged, passwordChanged, loginUser } from '../actions'; 
 
 import {colors, fonts, padding, dimensions, margin} from '../styles/base.js'
@@ -51,15 +51,17 @@ class LoginForm extends Component {
            return<Spinner size="large"/> 
         } else {
             return(
-                <View style = {styles.signInView}>
-                    <Button
-                        objStyle = {styles.signInButton}
-                        textStyle = {styles.signInText}
-                        onButtonPress={this.onButtonPress.bind(this)}
-                        title='Sign in'>
-                        Sign in
-                    </Button>
-                </View>
+                <TouchableOpacity           
+                    style = {{paddingBottom: 7}}
+                    onPress = {this.onButtonPress.bind(this)}
+                    underLayColor="transparent">
+                    <Card
+                        containerStyle = {styles.signInContainer}>
+                        <Text style = {styles.signInText}>
+                            Sign in
+                        </Text>
+                    </Card>
+                </TouchableOpacity>
             );
         }
     }
@@ -67,37 +69,31 @@ class LoginForm extends Component {
     render(){
         return(
             <View style = {{flex: 1}}>
-                <Header
-                    outerContainerStyles={{ height:60,backgroundColor: colors.secondary }}
-                    centerComponent={{ text: "HAH Login", style: { color: '#fff', fontSize: fonts.md}}}
-                />
-                <View
-                    style = {styles.blankSpace}
-                />
+                <HaH_Header
+                    text = "Health On Hand">
+                </HaH_Header>
                 <View style = {styles.loginInput}>
-                    <Card style = {styles.loginCards}>
-                        <CardSection>
-                            <Input
-                                label="Email"
-                                placeholder="Email" 
-                                placeholderTextColor = '#000'
-                                onChangeText={this.onEmailChange.bind(this)}
-                                value={this.props.email}/>
-                        </CardSection>   
-                        <CardSection>
-                            <Input
-                                secureTextEntry
-                                label="Password"
-                                placeholder="Password"
-                                placeholderTextColor = '#000'
-                                onChangeText={this.onPasswordChange.bind(this)}
-                                value={this.props.password}/>
-                        </CardSection>                
-                    </Card>
+                    <View
+                        style = {styles.loginContainer}>
+                        <Input
+                            underlineColorAndroid='rgba(0,0,0,0)'
+                            placeholder="Email" 
+                            placeholderTextColor = '#000'
+                            onChangeText={this.onEmailChange.bind(this)}
+                            value={this.props.email}/>
+                    </View>   
+                    <View
+                        style = {styles.loginContainer}>
+                        <Input
+                            underlineColorAndroid='rgba(0,0,0,0)'
+                            secureTextEntry
+                            placeholder="Password"
+                            placeholderTextColor = '#000'
+                            onChangeText={this.onPasswordChange.bind(this)}
+                            value={this.props.password}/>
+                    </View>
                     {this.renderError()}
                     {this.renderButton()}
-                </View>
-                <View style = {styles.header2}>
                 </View>
             </View>   
         );
@@ -105,6 +101,29 @@ class LoginForm extends Component {
 }
 
 const styles = {
+    cardHeader: {
+        flex: 3,
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        textAlign:'left',
+        marginRight: 25,
+        alignSelf: 'center',
+        paddingLeft: 15
+    },
+    loginContainer: {
+        marginTop: 0,
+        elevation: 7,
+        backgroundColor: colors.brandwhite,
+        borderColor: colors.brandblue,
+        borderWidth: 1
+    },
+    cardWrapper: {
+        flexDirection: 'row',
+        flex: 1,
+        marginLeft: 0
+    },
     blankSpace:{
         backgroundColor: colors.primary,
         flex: 4
@@ -135,8 +154,11 @@ const styles = {
         //headerText: "Health on Hand"
     },
     loginInput:{
-        flex: 3,
-        backgroundColor: colors.primary,
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: colors.brandblue,
+        paddingLeft: '2%',
+        paddingRight: '2%'
     },
     loginCards:{
         marginLeft: margin.md,
@@ -146,10 +168,7 @@ const styles = {
         backgroundColor: colors.tertiary
     },
     signInButton:{
-        marginTop: margin.md,
-        marginLeft: margin.md,
-        marginRight: margin.md,
-        marginBottom: margin.md,
+        height: 60,
         borderRadius: 5,
         borderWidth: 1,
         backgroundColor: colors.secondary,
@@ -159,6 +178,7 @@ const styles = {
         fontSize: fonts.md,
         fontWeight: '600',
         color: '#fff',
+        textAlign: 'center'
     },
     signInView:{
         //flex: 1,
@@ -169,6 +189,11 @@ const styles = {
     signInError:{
         borderWidth: 0,
         backgroundColor: colors.tertiary
+    },
+    signInContainer:{
+        backgroundColor: colors.brandgold,
+        borderRadius: 10,
+        borderColor: colors.brandgold
     }
 };
 
