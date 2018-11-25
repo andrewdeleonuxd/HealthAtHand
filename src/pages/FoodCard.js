@@ -215,7 +215,7 @@ class FoodCard extends Component {
                 }
                 </View>
                 <HaH_NavBar
-                    selected={2}
+                    selected={3}
                 />
             </View>
         )

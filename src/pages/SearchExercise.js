@@ -101,7 +101,7 @@ class SearchExercise extends Component {
                                         </Card>
                                     </TouchableOpacity>
                                 )}
-                                keyExtractor={item => item.exName}
+                                keyExtractor={item => item.name}
                             />
                         </View>
                     }
