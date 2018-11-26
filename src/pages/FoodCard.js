@@ -23,20 +23,24 @@ class FoodCard extends Component {
     }
 
     componentWillMount = () => {
+        console.log("inside compo will mount");
         this.formData(this.props)
     }
 
-    componentDidMount = () => {
+    componentWillReceiveProps = (nextProps) => {
+        console.log("inside compo will receive prop mount");
+        this.formData(nextProps)
     }
 
     formData = (props)  => {
 
         this.setState({
+            showLoader:false,
             id:props.item.id,
             foodname:props.item.foodname,
             numCal:props.item.numCal,
-            servingSize:props.item.servingSize, 
-            servingSizeUnit:props.item.servingSizeUnit
+            servingSize:""+props.item.servingSize, 
+            servingSizeUnit:""+props.item.servingSizeUnit
         })  
     }
 
@@ -49,9 +53,9 @@ class FoodCard extends Component {
             'id':this.state.id,
             'foodname':this.state.foodname,
             'numCal':this.state.numCal,
-            'servingSize':this.state.servingSize,
-            'servingSizeUnit':this.state.servingSizeUnit,
-            'totalCalories':this.state.servingSize * this.state.numCal
+            'servingSize':""+this.state.servingSize,
+            'servingSizeUnit':""+this.state.servingSizeUnit,
+            'totalCalories':parseInt(this.state.servingSize) * parseInt(this.state.numCal)
         }
         this.props.addfood(obj,this.props.meal,this.props.firstTime);
     }
@@ -61,9 +65,9 @@ class FoodCard extends Component {
             'id':this.state.id,
             'foodname':this.state.foodname,
             'numCal':this.state.numCal,
-            'servingSize':this.state.servingSize,
-            'servingSizeUnit':this.state.servingSizeUnit,
-            'totalCalories':this.state.servingSize * this.state.numCal
+            'servingSize':""+this.state.servingSize,
+            'servingSizeUnit':""+this.state.servingSizeUnit,
+            'totalCalories':parseInt(this.state.servingSize) * parseInt(this.state.numCal)
         }
         this.props.removefood(obj,this.props.meal);
     }
@@ -169,7 +173,7 @@ class FoodCard extends Component {
                                 <View style={{backgroundColor: colors.brandgrey, paddingLeft: 5, paddingTop: 0, padding: 2, borderRadius: 10}}>
                                     <TextInput
                                         style={styles.userInput}
-                                        onChangeText={(servings) => this.check(servings)}
+                                        onChangeText={(servings) => this.check(parseInt(servings))}
                                         value={this.state.servingSize}
                                         underlineColorAndroid = 'rgba(0,0,0,0)'
                                         keyboardType='numeric'>

@@ -20,7 +20,7 @@ export const searchResult = (food) => {
             params : data  
         
         }).then(function(response) {
-            console.log("response for search food :", response.data.code);
+//console.log("response for search food :", response.data.code);
             if (response.data.code === 400) {
         
                 console.log("Server responded 400 for search api");        
@@ -37,7 +37,7 @@ export const searchResult = (food) => {
 };  
 
 export const SearchNut = (food) => {
-      
+    return (dispatch) => {  
         let data = {'food': food}
 
         axios({
@@ -52,6 +52,8 @@ export const SearchNut = (food) => {
         
                 console.log("Server responded 400 for search api nutrition end point");        
             } else {
+                
+
                 let item=response.data.data.foods[0];
                 let obj={
                     'id':item.ndb_no,
@@ -60,6 +62,7 @@ export const SearchNut = (food) => {
                     'servingSize':item.serving_qty,
                     'servingSizeUnit':item.serving_unit
                 }
+                console.log("I am here :",obj);
                 Actions.push("foodcard", {item:obj,firstTime:true});
             }
             
@@ -67,6 +70,6 @@ export const SearchNut = (food) => {
         }).catch((e) => {
             console.log("inside catch of searchAction nutrition end point");
         })
-
+    }
 }; 
 

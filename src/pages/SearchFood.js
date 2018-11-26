@@ -32,7 +32,7 @@ class SearchFood extends Component{
 
     // when item from search is selected
     onPress = (item) => {
-        if(this.state.category=='Common'){
+        if(this.state.category==0){
             this.props.SearchNut(item.food_name);
         } else{
             let obj={
