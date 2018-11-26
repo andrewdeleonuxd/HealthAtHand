@@ -29,7 +29,6 @@ export const initializeExercise = (userId,date) => {
             
                     console.log("Server responds with code 400 for exercise get");
                 } else {
-
                     dispatch({ type: EXERCISE_INITIALIZE, payload: response.data.data })
                 }
                 

@@ -38,7 +38,7 @@ class SearchExercise extends Component {
         let obj={
             "exid":id,
             "exName":item.name,
-            "duration":item.duration_min,
+            "duration":"10",
             "intensity":"Low"
         }
         Actions.push("exercisecard",{item:obj,firstTime:true,onBack:this.props.onBack});

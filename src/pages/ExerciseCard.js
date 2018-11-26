@@ -20,13 +20,18 @@ class ExerciseCard extends Component {
     }
 
     componentWillMount = () => {
+        console.log("I am hererrerereeeeeeeee");
         if(this.props.firstTime){
-            this.setState({showLoader:true});
+            this.setState({showLoader:true,
+                intensity:this.props.item.intensity,
+                duration:""+this.props.item.duration,
+                exName:this.props.item.exName,
+                exid:this.props.item.exid});
         } else{
             this.setState({
                 showLoader:true,
                 intensity:this.props.item.intensity,
-                duration:this.props.item.duration,
+                duration:""+this.props.item.duration,
                 exName:this.props.item.exName,
                 exid:this.props.item.exid
             });
@@ -40,15 +45,18 @@ class ExerciseCard extends Component {
         if(this.props.firstTime){
             this.setState({
                 showLoader:false,
-                exName:this.props.item.exName 
+                intensity:this.state.intensity,
+                duration:""+this.state.duration,
+                exName:this.state.exName,
+                exid:this.state.exid
             })
         } else{
             this.setState({
                 showLoader:false,
-                exName: this.props.item.exName,
-                exid:this.props.item.exid,
-                intensity:this.props.item.intensity,
-                duration:this.props.item.duration
+                exName: this.state.exName,
+                exid:this.state.exid,
+                intensity:this.state.intensity,
+                duration:""+this.state.duration
             })
         }
       
@@ -63,10 +71,10 @@ class ExerciseCard extends Component {
     Add = () => {
         if(this.props.firstTime){
         let obj={
-            exid:this.props.item.exid,
-            exName:this.props.item.exName ,
-            intensity:this.props.item.intensity,
-            duration:this.props.item.duration 
+            exid:this.state.exid,
+            exName:this.state.exName ,
+            intensity:this.state.intensity,
+            duration:this.state.duration 
         }
 
         console.log("I am here ##########");
@@ -79,6 +87,7 @@ class ExerciseCard extends Component {
                 intensity:this.state.intensity,
                 duration:this.state.duration 
             }
+            console.log("Before sending obj is :",obj);
             
               this.props.addexercise(obj,this.props.firstTime,this.props.userId,this.props.date);
         }

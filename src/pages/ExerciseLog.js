@@ -31,6 +31,7 @@ class ExerciseLog extends Component {
 
     // when existing exercise is edited
     onPress = (item) => {
+        console.log("values i get from database :",item);
         Actions.push("exercisecard",{item:item,firstTime:false});
     }
 
