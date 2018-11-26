@@ -22,13 +22,13 @@ class AddFood extends Component {
     componentWillMount = () => {
         this.props.initializemealObj(this.props.item); 
         let array= this.props.item.food;
-        this.loadData(array); 
+        //this.loadData(array); 
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
         let array= nextProps.mealObj.food;
-        this.loadData(array);
+        //this.loadData(array);
     } 
 
     //happens on edit food
@@ -36,6 +36,7 @@ class AddFood extends Component {
         Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.mealObj.mealName,meal:this.props.mealObj,onBack:this.props.item});
     }
 
+    /*
     loadData = (array) => {
        data=[]; 
        if(array.length>0){
@@ -74,6 +75,7 @@ class AddFood extends Component {
             })
         } 
     } 
+    */
 
     //onadd meal post request 
     goBack = () => {
@@ -82,7 +84,8 @@ class AddFood extends Component {
    
     // when search button is pressed
     showFoodSearch = () => {
-        Actions.push("searchfood", {mealName:this.props.item.mealName, onBack:this.props.item}); 
+        Actions.push("searchfood", {
+            mealName:this.props.item.mealName, onBack:this.props.item}); 
     }
 
     // when entire meal is deleted
@@ -90,6 +93,12 @@ class AddFood extends Component {
         this.props.removeMeal(this.props.userId,this.props.date,this.props.mealObj);
     }
 
+    calculateMealCal(item) {
+        for(i = 0; i < item.length; i++)
+        {
+            totalCals += item[i].totalCalories
+        }
+    }
  
     capitalize(str) {
         return str.replace(/\w\S*/g, function(txt){
@@ -119,19 +128,58 @@ class AddFood extends Component {
         )
 
         return (
-            <View style={{flex:1, marginTop: Expo.Constants.statusBarHeight}}>
+            <View style={{flex:1}}>
                 <HaH_Header
                     text = {'Meal ' + this.props.item.mealName}
                     right = {search}
                 />
                 <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>
-                    {
-                        (data.length == 0) ? <View style={{flex: 1, height:"75%"}}></View>: 
-                        <View style={{flex: 1, height:"75%"}}>
-                            <View style={{flex: 1, margin: 0}}>
-                                {data} 
-                            </View>
+                {
+                    (this.props.item.food.length == 0) ? <View style={{flex: 1}}></View>: 
+                    <View style={{flex: 1}}>
+                        <FlatList
+                            data={this.props.item.food}
+                            renderItem={({item}) => (
+                                <TouchableOpacity
+                                    onPress = {() => this.onPress(item)} 
+                                    underLayColor="transparent"
+                                    style = {{padding: 7}}
+                                > 
+                                    <Card
+                                        flexDirection = 'row' 
+                                        containerStyle = {styles.cardContainer}
+                                        wrapperStyle = {styles.cardWrapper}>
+                                        <Text style={styles.cardHeader}>
+                                            {this.capitalize(item.itemName)}
+                                        </Text>
+                                        <Text style={styles.cardHeader}>
+                                            {item.totalCalories / item.Calories}
+                                            <Text style={styles.servingSizeUnit}>
+                                                {' ' + item.servingSize + '(s)'}
+                                            </Text>
+                                        </Text> 
+                                        <Text style={styles.cardHeader}>
+                                            {item.totalCalories}
+                                            <Text style={styles.servingSizeUnit}>
+                                                {' cals'}
+                                            </Text>
+                                        </Text> 
+                                    </Card>
+                                </TouchableOpacity>
+                            )}
+                            onEndReachedThreshold={0.5}
+                            onEndReached={this.endReached}
+                            keyExtractor={item => (item.itemName)}
+                        />
+                        <View style ={styles.totalCalView}>
+                            <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                Total Calories
+                            </Text>
+                            <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                {totalCals}
+                            </Text>
                         </View>
+                    </View>
                     }   
                     <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                         <TouchableOpacity
@@ -170,7 +218,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary
     },
     cardContainer: {
@@ -188,7 +236,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
         flex: 3
     },
@@ -196,7 +244,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'right',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
         marginRight: '10%',
         flex: 4
@@ -214,7 +262,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandwhite,
         textAlignVertical: 'center',
     },
@@ -223,7 +271,7 @@ const styles = StyleSheet.create({
 	},
     servingSizeUnit: {
         fontSize: 15,
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandgrey,
         textAlign:'right',
         alignSelf: 'flex-end',
@@ -241,9 +289,23 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.brandwhite,
         textAlignVertical: 'center',
+    },
+    totalCalView: {
+        flexDirection: 'row',
+        paddingLeft: '12%',
+        paddingRight: '12%',
+        justifyContent: 'space-between'
+    },
+    totalCal: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        paddingTop: '2%',
     },
 });
 
