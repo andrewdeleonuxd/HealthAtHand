@@ -36,6 +36,12 @@ export const SET_MEAL_NOTES = "set_meal_notes";
 
 export const UPDATE_MEAL_NOTES = "update_meal_notes";
 
+export const GET_EXERCISE_NOTES = "get_exercise_notes";
+
+export const SET_EXERCISE_NOTES = "set_exercise_notes";
+
+export const UPDATE_EXERCISE_NOTES = "update_exercise_notes";
+
 export const EXERCISE_SEARCH_RESULT = 'exercise_search_result';
 
 

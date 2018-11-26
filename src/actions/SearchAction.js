@@ -13,7 +13,7 @@ export const searchResult = (food) => {
         let data = {'food': food}
         axios({
             method: "get",
-            url: "http://10.0.0.241:5000/search",
+            url: "http://150.212.218.194:5000/search",
             headers : {'Content-type': 'application/json'},    
             params : data  
         
@@ -40,7 +40,7 @@ export const SearchNut = (food) => {
 
         axios({
             method: "get",
-            url: "http://10.0.0.241:5000/nut",
+            url: "http://150.212.218.194:5000/nut",
             headers : {'Content-type': 'application/json'},   
             params : data  
         

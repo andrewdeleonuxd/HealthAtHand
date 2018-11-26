@@ -15,7 +15,7 @@ export const initializeExercise = (userId,date) => {
         return (dispatch) => {  
             axios({
                 method: "get", 
-                url: "http://10.0.0.241:5000/exerlog",
+                url: "http://150.212.218.194:5000/exerlog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
@@ -43,7 +43,7 @@ export const initializeExercise = (userId,date) => {
             if(firstTime){
                 axios({
                     method: "put", 
-                    url: "http://10.0.0.241:5000/exerlog",
+                    url: "http://150.212.218.194:5000/exerlog",
                     headers : {'Content-type': 'application/json'}, 
                     data : {
                         'userId': userId,
@@ -68,7 +68,7 @@ export const initializeExercise = (userId,date) => {
             } else{
                 axios({
                     method: "post", 
-                    url: "http://10.0.0.241:5000/exerlog",
+                    url: "http://150.212.218.194:5000/exerlog",
                     headers : {'Content-type': 'application/json'}, 
                     data : {
                         'userId': userId,
@@ -98,7 +98,7 @@ export const removeexercise = (obj,userId,date) => {
         
     axios({
         method: "delete", 
-        url: "http://10.0.0.241:5000/exerlog",
+        url: "http://150.212.218.194:5000/exerlog",
         headers : {'Content-type': 'application/json'},  
         data : {
             'userId': userId,
@@ -125,7 +125,7 @@ export const removeexercise = (obj,userId,date) => {
     return (dispatch) => {  
         axios({
             method: "get", 
-            url: "http://10.0.0.241:5000/exercise",
+            url: "http://150.212.218.194:5000/exercise",
             headers : {'Content-type': 'application/json'}, 
             params : {
                 'exercise': text

@@ -12,7 +12,7 @@ export const getCalories = (userId,date) => {
         return (dispatch) => {    
             axios({ 
                 method: "get",
-                url: "http://10.0.0.241:5000/dashboard", 
+                url: "http://150.212.218.194:5000/dashboard", 
                 headers : {'Content-type': 'application/json'}, 
                 params : { 
                     'userId': userId,
@@ -40,7 +40,7 @@ export const initializefood = (userId,date) => {
         return (dispatch) => {  
             axios({
                 method: "get", 
-                url: "http://10.0.0.241:5000/meallog",
+                url: "http://150.212.218.194:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
@@ -65,7 +65,7 @@ export const initializefood = (userId,date) => {
     export const addMealToMealLog = (userId,date,mealObj) => {
             axios({
                 method: "post", 
-                url: "http://10.0.0.241:5000/meallog",
+                url: "http://150.212.218.194:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 data : {
                     'userId': userId,
@@ -93,7 +93,7 @@ export const initializefood = (userId,date) => {
     export const removeMeal = (userId,date,mealObj) => {
             axios({
                 method: "delete", 
-                url: "http://10.0.0.241:5000/meallog",
+                url: "http://150.212.218.194:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
