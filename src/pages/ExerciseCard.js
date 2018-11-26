@@ -69,6 +69,8 @@ class ExerciseCard extends Component {
             duration:this.props.item.duration 
         }
 
+        console.log("I am here ##########");
+
         this.props.addexercise(obj,this.props.firstTime,this.props.userId,this.props.date);
         } else{
             let obj={

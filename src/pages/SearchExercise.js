@@ -5,6 +5,7 @@ import { Text, Image, View, FlatList, TouchableOpacity, ActivityIndicator, Toast
 import { Actions } from 'react-native-router-flux'
 import { Header, SearchBar, ButtonGroup, Card, ListItem, Button, Icon } from 'react-native-elements';
 import {searchExercise} from '../actions';
+const uuid = require('uuid/v1');
 import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts} from '../styles/base.js'
 
@@ -19,7 +20,7 @@ class SearchExercise extends Component {
         {
             if(this.props.SearchResult.length != 0)
             {
-                console.log(this.props.SearchResult)
+                console.log(this.props.SearchResult) 
                 this.setState({showLoader:false})
             }
         }
@@ -32,11 +33,13 @@ class SearchExercise extends Component {
     // on selecting perticular item from exercise search result
     onPress = (item) => {
         // on instance item is the obj that we get from search result
+        let id = uuid();
+        id = id.split("-").join("");
         let obj={
-            "exid":item.tag_id,
+            "exid":id,
             "exName":item.name,
             "duration":item.duration_min,
-            "intensity":"1"
+            "intensity":"Low"
         }
         Actions.push("exercisecard",{item:obj,firstTime:true,onBack:this.props.onBack});
     }

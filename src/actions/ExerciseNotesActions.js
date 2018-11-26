@@ -14,7 +14,7 @@ export const initializeexerciseNotes = (userId,date) => {
 
         axios({
             method: "get",
-            url: "http://10.0.0.241:5000/exercisenotes",
+            url: "http://150.212.218.194:5000/exercisenotes",
             headers : {'Content-type': 'application/json'}, 
             params : {
                 'userId':userId,
@@ -41,7 +41,7 @@ export const submitexerciseNotes = (userId,date,text) => {
 
         axios({
             method: "post",
-            url: "http://10.0.0.241:5000/exercisenotes",
+            url: "http://150.212.218.194:5000/exercisenotes",
             headers : {'Content-type': 'application/json'}, 
             data : {
                 'userId':userId,

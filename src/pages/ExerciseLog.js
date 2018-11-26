@@ -18,12 +18,14 @@ class ExerciseLog extends Component {
     }
 
     componentWillMount = () => {
+        console.log("inside com will mount");
         this.props.initializeExercise(this.props.userId,this.props.date);
         this.loadData(this.props);
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
+        console.log("indise receive props");
         this.loadData(nextProps)
     } 
 
@@ -62,7 +64,7 @@ class ExerciseLog extends Component {
 
     goBack = () => {
         Actions.home();
-    }
+    } 
 
     // when user wants to add new exercise
     addExercisePg = () => {

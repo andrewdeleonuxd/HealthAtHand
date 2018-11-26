@@ -15,7 +15,7 @@ export const initializefoodNotes = (userId,date) => {
 
         axios({
             method: "get",
-            url: "http://10.0.0.241:5000/mealnotes",
+            url: "http://150.212.218.194:5000/mealnotes",
             headers : {'Content-type': 'application/json'}, 
             params : {
                 'userId':userId,
@@ -43,7 +43,7 @@ export const submitfoodNotes = (userId,date,text) => {
         console.log(userId + " " + date + " " + text)
         axios({
             method: "post",
-            url: "http://10.0.0.241:5000/mealnotes",
+            url: "http://150.212.218.194:5000/mealnotes",
             headers : {'Content-type': 'application/json'}, 
             data : {
                 'userId':userId,
@@ -71,7 +71,7 @@ export const updatefoodNotes = (userId,date,text) => {
         console.log(userId + " " + date + " " + text)
         axios({
             method: "put",
-            url: "http://10.0.0.241:5000/mealnotes",
+            url: "http://150.212.218.194:5000/mealnotes",
             headers : {'Content-type': 'application/json'}, 
             data : {
                 'userId':userId,

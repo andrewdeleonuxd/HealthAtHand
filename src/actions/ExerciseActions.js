@@ -15,7 +15,7 @@ export const initializeExercise = (userId,date) => {
         return (dispatch) => {  
             axios({
                 method: "get", 
-                url: "http://10.0.0.241:5000/exerlog",
+                url: "http://150.212.218.194:5000/exerlog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
@@ -40,20 +40,23 @@ export const initializeExercise = (userId,date) => {
     };  
 
     export const addexercise = (obj,firstTime,userId,date) => {
+        return (dispatch) => { 
             if(firstTime){
+
+                console.log("obj is :",obj, "userId ");
+
                 axios({
-                    method: "put", 
-                    url: "http://10.0.0.241:5000/exerlog",
+                    method: "post", 
+                    url: "http://150.212.218.194:5000/exerlog",
                     headers : {'Content-type': 'application/json'}, 
                     data : {
                         'userId': userId,
                         'date': date,
                         'exercise': obj
                        } 
-    
+                           
                 
                 }).then(function(response) {
-                    
                     if (response.data.code === 400) {
                         console.log("Server responded with code 400 for exercise put");
     
@@ -62,13 +65,15 @@ export const initializeExercise = (userId,date) => {
                     }
                     
                 }).catch((e) => {
-                    console.log("inside catch put of addexercise");
+                    console.log("inside catch post of addexercise",e);
                 }) 
 
             } else{
+                console.log("inside put");
+                console.log("obj is :",obj);
                 axios({
-                    method: "post", 
-                    url: "http://10.0.0.241:5000/exerlog",
+                    method: "put", 
+                    url: "http://150.212.218.194:5000/exerlog",
                     headers : {'Content-type': 'application/json'}, 
                     data : {
                         'userId': userId,
@@ -87,20 +92,21 @@ export const initializeExercise = (userId,date) => {
                     }
                     
                 }).catch((e) => {
-                    console.log("inside catch post of addexercise");
+                    console.log("inside catch put of addexercise");
                 })  
             }
         
     }
+}
     
     
 export const removeexercise = (obj,userId,date) => {
-        
+    return (dispatch) => {    
     axios({
         method: "delete", 
-        url: "http://10.0.0.241:5000/exerlog",
+        url: "http://150.212.218.194:5000/exerlog",
         headers : {'Content-type': 'application/json'},  
-        data : {
+        params : {
             'userId': userId,
             'date': date, 
             'exid': obj.exid
@@ -116,16 +122,17 @@ export const removeexercise = (obj,userId,date) => {
         }
         
     }).catch((e) => {
-        console.log("inside catch delete of addexercise");
+        console.log("inside catch delete of addexercise",e);
     }) 
-     
+} 
  };
+
 
  export const searchExercise = (text) => {
     return (dispatch) => {  
         axios({
             method: "get", 
-            url: "http://10.0.0.241:5000/exercise",
+            url: "http://150.212.218.194:5000/exercise",
             headers : {'Content-type': 'application/json'}, 
             params : {
                 'exercise': text
