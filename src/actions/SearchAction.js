@@ -3,14 +3,16 @@ import axios from 'axios';
 import _ from 'lodash';
 
 import {
-        REPORT_RESPONSE 
+        
+        SEARCH_RESULT 
        
        } from './types';
 
 
 export const searchResult = (food) => {
     return (dispatch) => {  
-        let data = {'food': food}
+       let data = {'food': food}
+        console.log("data is :",food);
         axios({
             method: "get",
             url: "http://150.212.218.194:5000/search",
@@ -18,18 +20,18 @@ export const searchResult = (food) => {
             params : data  
         
         }).then(function(response) {
-            
+            console.log("response for search food :", response.data.code);
             if (response.data.code === 400) {
         
                 console.log("Server responded 400 for search api");        
             } else {
-        
+                
                 dispatch({ type: SEARCH_RESULT, payload: response.data.data })
             }
             
            
         }).catch((e) => {
-            console.log("inside catch of searchAction");
+            console.log("inside catch of searchAction",e);
         })
 };
 };  
