@@ -19,7 +19,8 @@ class FoodCard extends Component {
         servingSizeUnit:"",
         foodname:"",
         id:null,
-        numCal:null
+        numCal:null,
+        servings:"1"
     }
 
     componentWillMount = () => {
@@ -39,8 +40,9 @@ class FoodCard extends Component {
             id:props.item.id,
             foodname:props.item.foodname,
             numCal:props.item.numCal,
-            servingSize:""+props.item.servingSize, 
-            servingSizeUnit:""+props.item.servingSizeUnit
+            servingSize:props.item.servingSize, 
+            servingSizeUnit:props.item.servingSizeUnit,
+            servings:props.item.servingSize
         })  
     }
 
@@ -55,7 +57,7 @@ class FoodCard extends Component {
             'numCal':this.state.numCal,
             'servingSize':""+this.state.servingSize,
             'servingSizeUnit':""+this.state.servingSizeUnit,
-            'totalCalories':parseInt(this.state.servingSize) * parseInt(this.state.numCal)
+            'totalCalories': this.state.servings * this.state.numCal
         }
         this.props.addfood(obj,this.props.meal,this.props.firstTime);
     }
@@ -67,7 +69,7 @@ class FoodCard extends Component {
             'numCal':this.state.numCal,
             'servingSize':""+this.state.servingSize,
             'servingSizeUnit':""+this.state.servingSizeUnit,
-            'totalCalories':parseInt(this.state.servingSize) * parseInt(this.state.numCal)
+            'totalCalories': this.state.servings * this.state.numCal
         }
         this.props.removefood(obj,this.props.meal);
     }
@@ -173,8 +175,8 @@ class FoodCard extends Component {
                                 <View style={{backgroundColor: colors.brandgrey, paddingLeft: 5, paddingTop: 0, padding: 2, borderRadius: 10}}>
                                     <TextInput
                                         style={styles.userInput}
-                                        onChangeText={(servings) => this.check(parseInt(servings))}
-                                        value={this.state.servingSize}
+                                        onChangeText={(servings) => this.check(servings)}
+                                        value={"" + this.state.servings}
                                         underlineColorAndroid = 'rgba(0,0,0,0)'
                                         keyboardType='numeric'>
                                     </TextInput>
@@ -186,7 +188,7 @@ class FoodCard extends Component {
                                 Calories
                             </Text>
                             <Text style={[styles.userInputText, {fontSize: 35}]}>
-                                {this.state.servingSize * this.state.numCal}
+                                {this.state.servings * this.state.numCal}
                             </Text>
                         </View>
                         
@@ -219,7 +221,7 @@ class FoodCard extends Component {
                 }
                 </View>
                 <HaH_NavBar
-                    selected={3}
+                    selected={2}
                 />
             </View>
         )
@@ -253,7 +255,6 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontFamily: fonts.primary, 
         color: colors.primary,
-        //backgroundColor: "red",
         paddingTop: '2%',
     },
     servingSizeQty: {

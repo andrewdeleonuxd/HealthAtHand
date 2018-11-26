@@ -7,7 +7,7 @@ import {Actions} from 'react-native-router-flux';
 import {initializefood, removeMeal, addMealToMealLog, initializemealObj } from '../actions';
 import { HaH_Header, HaH_NavBar } from '../components/common';
 
-import {colors, margin, padding} from '../styles/base.js'
+import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
 
