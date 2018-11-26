@@ -86,7 +86,7 @@ export const updateexerciseNotes = (userId,date,text) => {
                 console.log("Server responds with code 400 for exerciseNotes put");
             } else {        
                 dispatch({ type: UPDATE_EXERCISE_NOTES, exerciseNotes:text })
-                Actions.meallog();
+                Actions.exerciselog();
             }
             
         }).catch((e) => {

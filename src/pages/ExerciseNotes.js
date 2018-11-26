@@ -22,8 +22,9 @@ class ExerciseNotes extends Component {
      
     componentDidUpdate(prevProps) {
         if(this.props.exerciseNotes != prevProps.exerciseNotes) {
-            console.log(this.props.exerciseNotes[0].note)
-            this.setState({text: this.props.exerciseNotes[0].note, update: true})
+            if(this.props.exerciseNotes != undefined) {
+                this.setState({text: this.props.exerciseNotes[0].note, update: true})
+            }
         }
     }
 
@@ -78,14 +79,25 @@ class ExerciseNotes extends Component {
                     <Card
                         containerStyle = {styles.cardContainer}
                         wrapperStyle = {styles.cardWrapper}>
-                        <TextInput
-                            style={styles.noteText}
-                            placeholder="Enter your thoughts on your fitness activity today!"
-                            onChangeText={(text) => this.setState({text})}
-                            multiline = {true}
-                            textAlignVertical= 'top'
-                            maxLength = {400}
-                        />
+                        {
+                            this.state.update == false ? 
+                            <TextInput
+                                style={styles.noteText}
+                                placeholder="Enter your thoughts on your fitness activity today!"
+                                onChangeText={(text) => this.setState({text})}
+                                multiline = {true}
+                                maxLength = {400}
+                            />
+                            :
+                            <TextInput
+                                style={styles.noteText}
+                                defaultValue={this.state.text}
+                                onChangeText={(text) => this.setState({text})}
+                                multiline = {true}
+                                textAlignVertical= 'top'
+                                maxLength = {400}
+                            />
+                        }
                     </Card>
                 </View>
                 <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>
@@ -94,7 +106,7 @@ class ExerciseNotes extends Component {
                         onPress={this.done}>
                         <View style={button.view}>
                             <Text style = {button.text}>
-                                Add Exercise Notes to Log
+                                {this.buttonTitle()}
                             </Text>
                         </View>
                     </TouchableOpacity>
