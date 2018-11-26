@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {View, TextInput,ToastAndroid, FlatList, Image, TouchableHighlight, ScrollView, StyleSheet, TouchableOpacity, Text} from 'react-native'
 import { Header, Icon , SearchBar, Card } from 'react-native-elements';
-import {initializeexerciseNotes,submitexerciseNotes } from '../actions';
+import {initializeexerciseNotes,submitexerciseNotes,updateexerciseNotes } from '../actions';
 import {Actions} from 'react-native-router-flux'
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
@@ -10,15 +10,21 @@ import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 class ExerciseNotes extends Component {
     state = {
-        text:" " 
+        text:"",
+        update: false
     }
 
     componentWillMount = () => {
+        this.setState({update:false})
+        console.log(this.props.userId + this.props.date);
         this.props.initializeexerciseNotes(this.props.userId,this.props.date);
     }
      
-    componentWillReceiveProps = (nextProps) => { 
-           this.setState({text:nextProps.exerciseNotes});
+    componentDidUpdate(prevProps) {
+        if(this.props.exerciseNotes != prevProps.exerciseNotes) {
+            console.log(this.props.exerciseNotes[0].note)
+            this.setState({text: this.props.exerciseNotes[0].note, update: true})
+        }
     }
 
     goBack = () => {
@@ -26,9 +32,18 @@ class ExerciseNotes extends Component {
     }
 
     done = () => {
-        ToastAndroid.show('done',3000,"TOP")
-        this.props.submitexerciseNotes(this.props.userId,this.props.date,this.state.text);
-        Actions.exerciselog();
+        if(this.state.update == false) {
+            this.props.submitexerciseNotes(this.props.userId,this.props.date,this.state.text);
+        }
+        else {
+            this.props.updateexerciseNotes(this.props.userId,this.props.date,this.state.text)
+        }
+    }
+
+    buttonTitle() {
+        title = ""
+        this.state.update == false ? title = "Add Note" : title = "Update Note"
+        return title;
     }
 
     render = () => {
@@ -56,7 +71,7 @@ class ExerciseNotes extends Component {
             <View style={{flex:1}}>
                 <HaH_Header
                     left = {backButton}
-                    text = {'Add Exercise Notes'}
+                    text = {'Exercise Notes'}
                 />
             
                 <View style = {{flex: 1, padding: 10}}>   
@@ -121,4 +136,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, {initializeexerciseNotes,submitexerciseNotes}) (ExerciseNotes);
+export default connect(mapStateToProps, {initializeexerciseNotes,submitexerciseNotes, updateexerciseNotes}) (ExerciseNotes);
