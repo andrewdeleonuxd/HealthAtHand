@@ -22,14 +22,13 @@ class MealLog extends Component {
     }
 
     componentWillMount = () => {
-
-    this.props.initializefood(this.props.userId,this.props.date);
-        this.loadData(this.props);
+        this.props.initializefood(this.props.userId,this.props.date);
+        //this.loadData(this.props);
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
-        this.loadData(nextProps)
+        //this.loadData(nextProps)
     } 
 
     //when a perticular meal is selected

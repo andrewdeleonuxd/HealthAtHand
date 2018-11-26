@@ -59,7 +59,7 @@ class FoodCard extends Component {
             'servingSizeUnit':""+this.state.servingSizeUnit,
             'totalCalories': this.state.servings * this.state.numCal
         }
-        this.props.addfood(obj,this.props.meal,this.props.firstTime);
+        this.props.addfood(obj,this.props.mealObj,this.props.firstTime);
     }
 
     onRemove = () => {
@@ -71,7 +71,7 @@ class FoodCard extends Component {
             'servingSizeUnit':""+this.state.servingSizeUnit,
             'totalCalories': this.state.servings * this.state.numCal
         }
-        this.props.removefood(obj,this.props.meal);
+        this.props.removefood(obj,this.props.mealObj);
     }
 
     onservingSizeChange = (text) =>{

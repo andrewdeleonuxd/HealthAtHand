@@ -10,26 +10,37 @@ import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
+var total = 0;
 
 class AddFood extends Component {
 
     state = {
         showLoader:true, 
         showSearch:false, 
-        searchText:""
-        }
+        searchText:"",
+        totalCals: "0"
+    }
 
     componentWillMount = () => {
         this.props.initializemealObj(this.props.item); 
         let array= this.props.item.food;
+        
         //this.loadData(array); 
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
         let array= nextProps.mealObj.food;
+        
         //this.loadData(array);
-    } 
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.mealObj != prevProps.mealObj) {
+            this.calculateMealCal(this.props.mealObj.food)
+        }
+       
+    }
 
     //happens on edit food
     onPress = (item) => {
@@ -85,7 +96,9 @@ class AddFood extends Component {
     // when search button is pressed
     showFoodSearch = () => {
         Actions.push("searchfood", {
-            mealName:this.props.item.mealName, onBack:this.props.item}); 
+            mealName:this.props.item.mealName,
+            onBack:this.props.item
+        }); 
     }
 
     // when entire meal is deleted
@@ -96,8 +109,9 @@ class AddFood extends Component {
     calculateMealCal(item) {
         for(i = 0; i < item.length; i++)
         {
-            totalCals += item[i].totalCalories
+            total += item[i].numCal
         }
+        this.setState({totalCals: "" + total});
     }
  
     capitalize(str) {
@@ -150,12 +164,12 @@ class AddFood extends Component {
                                         containerStyle = {styles.cardContainer}
                                         wrapperStyle = {styles.cardWrapper}>
                                         <Text style={styles.cardHeader}>
-                                            {this.capitalize(item.itemName)}
+                                            {this.capitalize(item.foodname)}
                                         </Text>
                                         <Text style={styles.cardHeader}>
-                                            {item.totalCalories / item.Calories}
+                                            {item.totalCalories / item.numCal}
                                             <Text style={styles.servingSizeUnit}>
-                                                {' ' + item.servingSize + '(s)'}
+                                                {' ' + item.servingSizeUnit + '(s)'}
                                             </Text>
                                         </Text> 
                                         <Text style={styles.cardHeader}>
@@ -176,7 +190,7 @@ class AddFood extends Component {
                                 Total Calories
                             </Text>
                             <Text style={[styles.totalCal, {fontSize: 25}]}>
-                                {totalCals}
+                                {this.state.totalCals}
                             </Text>
                         </View>
                     </View>
@@ -192,7 +206,7 @@ class AddFood extends Component {
                         </TouchableOpacity>
                     </View>
                     {
-                        (data.length == 0) ? <View/>:
+                        (this.props.item.food.length == 0) ? <View/>:
                         <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                             <TouchableOpacity
                                 style = {styles.confirmButton}

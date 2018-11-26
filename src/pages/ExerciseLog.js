@@ -35,6 +35,12 @@ class ExerciseLog extends Component {
         Actions.push("exercisecard",{item:item,firstTime:false});
     }
 
+    capitalize(str) {
+        return str.replace(/\w\S*/g, function(txt){
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
+
     loadData = (props) => {
         data=[]; 
         let array=props.exerciseArray;
@@ -52,7 +58,7 @@ class ExerciseLog extends Component {
                             containerStyle = {styles.cardContainer}
                             wrapperStyle = {styles.cardWrapper}>
                             <Text style = {styles.foodName}>
-                                {item.exName}
+                                {this.capitalize(item.exName)}
                             </Text>
                         </Card>
                     </View>
