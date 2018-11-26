@@ -22,7 +22,7 @@ class SearchFood extends Component{
     }
 
     componentWillReceiveProps = (nextProps) => {
-        (this.state.category == 0) ? this.setState({response: nextProps.searchRes, choices:nextProps.searchRes.common, showLoader:false}) : this.setState({response: nextProps.searchRec, choices:nextProps.searchRec.branded, showLoader:false})
+        (this.state.category == 0) ? this.setState({response: nextProps.searchRes, choices:nextProps.searchRes.common, showLoader:false}) : this.setState({response: nextProps.searchRes, choices:nextProps.searchRes.branded, showLoader:false})
     }
     
     endReached = () => {
@@ -79,8 +79,9 @@ class SearchFood extends Component{
 
     updateCategory = (category) => {
         if(this.state.searching) {
+            console.log(this.props.searchRec)
             this.setState({showLoader: true});
-            (category == 0) ? this.setState({choices: this.props.searchRec.common, category, showLoader: false}) : this.setState({choices: this.props.searchRec.branded, category, showLoader: false})
+            (category == 0) ? this.setState({choices: this.props.searchRes.common, category, showLoader: false}) : this.setState({choices: this.props.searchRes.branded, category, showLoader: false})
         }
         else {
             this.setState({category})
