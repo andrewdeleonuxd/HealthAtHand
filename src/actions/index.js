@@ -4,4 +4,5 @@ export * from './ExerciseActions';
 export * from './ReportActions';
 export * from './SearchAction';
 export * from './FoodNotesActions';
+export * from './ExerciseNotesActions';
 

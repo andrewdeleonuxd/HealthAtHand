@@ -13,6 +13,7 @@ import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 // mealNo needs to be changed to mealName
 var data=[];
+var dailyCal = 0;
 
 class MealLog extends Component {
 
@@ -74,6 +75,15 @@ class MealLog extends Component {
 
     goBack = () => {
         Actions.home();
+    }
+
+    calculateMealCal(food) {
+        totalCals = 0;
+        for(i = 0; i < food.length; i++) {
+            totalCals += food[i].totalCalories;
+        }
+        dailyCal += totalCals;
+        return totalCals;
     }
 
 // when users press add new meal
