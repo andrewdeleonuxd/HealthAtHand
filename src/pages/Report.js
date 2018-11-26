@@ -11,7 +11,7 @@ import { Card, ListItem, Button, Icon, ButtonGroup } from 'react-native-elements
 import { VictoryLine, VictoryLabel, VictoryGroup, VictoryAxis, VictoryVoronoiContaine, VictoryCursorContainer } from "victory-native";
 
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
-import {report} from '../actions';
+import {report, reportPost, reportPut} from '../actions';
 import { HaH_Header, HaH_NavBar } from '../components/common/index.js';
 import Moment from 'moment';
 
@@ -96,16 +96,20 @@ class ReportCard extends React.Component {
 	addWeight = () => {
 		if(Moment(userWeight[userWeight.length - 1].date).isSame(today, 'day'))
 		{			
-			userWeight[userWeight.length - 1].weight = parseInt(this.state.curWeight);		
+			userWeight[userWeight.length - 1].weight = parseInt(this.state.curWeight);
+			this.props.reportPut(this.props.userId,this.state.curWeight);		
 		}
 		else
 		{
 			userWeight.push({"weight": parseInt(this.state.curWeight), "date": today.toDate()});
+			this.props.reportPost(this.props.userId,this.state.curWeight);
 		}
+
 		this.setState({userWeightState: this.changeDomain(userWeight, this.state.category)})
+		
 	}
 
-	checkString(weightString) {
+	checkString(weightString) { 
 		if(this.isWholeNumber(weightString) || weightString == ''){
             this.setState({curWeight: weightString})
         }
@@ -410,4 +414,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, {report}) (ReportCard);
+export default connect(mapStateToProps, {report, reportPost, reportPut}) (ReportCard);

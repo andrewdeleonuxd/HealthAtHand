@@ -60,7 +60,7 @@ export const initializeExercise = (userId,date) => {
                         console.log("Server responded with code 400 for exercise put");
     
                     } else {
-                        Actions.exerciselog();
+                       // Actions.exerciselog();
                     }
                     
                 }).catch((e) => {
@@ -87,7 +87,7 @@ export const initializeExercise = (userId,date) => {
                         console.log("Server responded with code 400 for exercise post");
     
                     } else {
-                        Actions.exerciselog();
+                      //  Actions.exerciselog();
                     }
                     
                 }).catch((e) => {
