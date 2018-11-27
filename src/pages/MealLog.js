@@ -85,6 +85,12 @@ class MealLog extends Component {
         return totalCals;
     }
 
+    capitalize(str) {
+        return str.replace(/\w\S*/g, function(txt){
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
+
 // when users press add new meal
     addMealPg = () => {
           let ogFoodObj = this.props.foodArray; 
@@ -138,7 +144,6 @@ class MealLog extends Component {
                                 data={this.props.foodArray}
                                 renderItem={({item}) => (
                                     <TouchableOpacity
-                                        key={i}
                                         onPress = {() => this.onPress(item)} 
                                         underLayColor="transparent"
                                         style = {{padding: 7}}
@@ -148,7 +153,7 @@ class MealLog extends Component {
                                             containerStyle = {styles.cardContainer}
                                             wrapperStyle = {styles.cardWrapper}>
                                             <Text style = {styles.foodName}>
-                                                {this.capitalize(item.food.foodname)}
+                                                {this.capitalize(item.mealName)}
                                             </Text>
                                             <Text style = {styles.cardHeader}>
                                                 {this.calculateMealCal(item.food)}
@@ -161,7 +166,7 @@ class MealLog extends Component {
                                 )}
                                 onEndReachedThreshold={0.5}
                                 onEndReached={this.endReached}
-                                keyExtractor={item => (item.mealNo.toString())}
+                                keyExtractor={item => (item.food.foodname)}
                             />
                         <View style ={styles.totalCalView}>
                             <Text style={[styles.totalCal, {fontSize: 25}]}>

@@ -22,24 +22,19 @@ class AddFood extends Component {
     }
 
     componentWillMount = () => {
-        this.props.initializemealObj(this.props.item); 
-        let array= this.props.item.food;
+        this.props.initializemealObj(this.props.mealObj); 
+        this.setState({showLoader: false})
+        this.calculateMealCal(this.props.foodArray)
+        //let array= this.props.mealObj.food;
         
         //this.loadData(array); 
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
-        let array= nextProps.mealObj.food;
+        //let array= nextProps.mealObj.food;
         
         //this.loadData(array);
-    }
-
-    componentDidUpdate(prevProps) {
-        if(this.props.mealObj != prevProps.mealObj) {
-            this.calculateMealCal(this.props.mealObj.food)
-        }
-       
     }
 
     //happens on edit food
@@ -96,8 +91,8 @@ class AddFood extends Component {
     // when search button is pressed
     showFoodSearch = () => {
         Actions.push("searchfood", {
-            mealName:this.props.item.mealName,
-            onBack:this.props.item
+            mealName:this.props.mealObj.mealName,
+            onBack:this.props.mealObj
         }); 
     }
 
@@ -118,6 +113,11 @@ class AddFood extends Component {
         return str.replace(/\w\S*/g, function(txt){
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
+    }
+
+    title() {
+        this.state.showLoader == true ? title = "Meal" : title = "Meal: " + this.props.item.mealName;
+        return title;
     }
 
     render = () => {
@@ -144,12 +144,13 @@ class AddFood extends Component {
         return (
             <View style={{flex:1}}>
                 <HaH_Header
-                    text = {'Meal ' + this.props.item.mealName}
+                    //text = {'Meal ' + this.props.mealObj.mealName}
+                    text = {this.title()}
                     right = {search}
                 />
                 <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>
                 {
-                    (this.props.item.food.length == 0) ? <View style={{flex: 1}}></View>: 
+                    (this.state.showLoader == true) ? <View style={{flex: 1}}></View>: 
                     <View style={{flex: 1}}>
                         <FlatList
                             data={this.props.item.food}
@@ -206,7 +207,7 @@ class AddFood extends Component {
                         </TouchableOpacity>
                     </View>
                     {
-                        (this.props.item.food.length == 0) ? <View/>:
+                        (this.props.item.length == 0) ? <View/>:
                         <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                             <TouchableOpacity
                                 style = {styles.confirmButton}

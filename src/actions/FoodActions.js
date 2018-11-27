@@ -12,7 +12,7 @@ export const getCalories = (userId,date) => {
         return (dispatch) => {    
             axios({ 
                 method: "get",
-                url: "http://150.212.218.194:5000/dashboard", 
+                url: "http://150.212.200.141:5000/dashboard", 
                 headers : {'Content-type': 'application/json'}, 
                 params : { 
                     'userId': userId,
@@ -40,7 +40,7 @@ export const initializefood = (userId,date) => {
         return (dispatch) => {  
             axios({
                 method: "get", 
-                url: "http://150.212.218.194:5000/meallog",
+                url: "http://150.212.200.141:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
@@ -63,9 +63,10 @@ export const initializefood = (userId,date) => {
     };
 
     export const addMealToMealLog = (userId,date,mealObj) => {
+        return (dispatch) => { 
             axios({
                 method: "post", 
-                url: "http://150.212.218.194:5000/meallog",
+                url: "http://150.212.200.141:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 data : {
                     'userId': userId,
@@ -86,19 +87,20 @@ export const initializefood = (userId,date) => {
                 
             }).catch((e) => {
                 console.log("inside catch of post method of add meal");
-            })              
-     
+            })
+        };      
     };
 
     export const removeMeal = (userId,date,mealObj) => {
+        return(dispatch) => {
             axios({
                 method: "delete", 
-                url: "http://150.212.218.194:5000/meallog",
+                url: "http://150.212.200.141:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
                     'date': date,
-                    'cartId':mealObj.cartId
+                    'cartId':mealObj.cartid
                    } 
 
             
@@ -115,8 +117,8 @@ export const initializefood = (userId,date) => {
             }).catch((e) => {
                 console.log("inside catch of delete method of add meal");
             })  
-
-    }
+        };
+    };
 
     
     export const initializemealObj = (mealObj) => {
