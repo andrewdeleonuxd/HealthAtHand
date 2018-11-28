@@ -15,7 +15,7 @@ export const initializeexerciseNotes = (userId,date) => {
 
         axios({
             method: "get",
-            url: "http://150.212.200.141:5000/exernotes",
+            url: "http://150.212.217.144:5000/exernotes",
             headers : {'Content-type': 'application/json'}, 
             params : {
                 'userId':userId,
@@ -42,7 +42,7 @@ export const submitexerciseNotes = (userId,date,text) => {
 
         axios({
             method: "post",
-            url: "http://150.212.200.141:5000/exernotes",
+            url: "http://150.212.217.144:5000/exernotes",
             headers : {'Content-type': 'application/json'}, 
             data : {
                 'userId':userId,
@@ -57,7 +57,7 @@ export const submitexerciseNotes = (userId,date,text) => {
 
             } else {  
                 dispatch({ type: SET_EXERCISE_NOTES, payload:text })
-                Actions.home();      
+                Actions.exerciselog();
 
             }
             
@@ -72,7 +72,7 @@ export const updateexerciseNotes = (userId,date,text) => {
         console.log(userId + " " + date + " " + text)
         axios({
             method: "put",
-            url: "http://150.212.200.141:5000/exernotes",
+            url: "http://150.212.217.144:5000/exernotes",
             headers : {'Content-type': 'application/json'}, 
             data : {
                 'userId':userId,

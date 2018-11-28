@@ -93,7 +93,7 @@ class Home extends Component {
     }
 
     logout = () => {
-        Actions.push("login");
+        Actions.login();
     }
 
     email = () => {
