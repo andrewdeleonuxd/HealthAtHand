@@ -133,7 +133,7 @@ export const initializefood = (userId,date) => {
     export const addfood = (foodobj,meal,firstTime) => {
         return (dispatch) => {
         if(firstTime){
-            let array=[];
+            let array=meal.food;
             let finalObj={};
             array.push(foodobj);
             finalObj={
