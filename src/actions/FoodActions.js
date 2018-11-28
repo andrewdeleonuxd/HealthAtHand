@@ -175,7 +175,7 @@ export const initializefood = (userId,date) => {
 
         let array=[];
         let finalObj={};
-        array = _.reject(meal.food, function(item) { return foodobj.id === item.id; });
+        array = _.reject(meal.food, function(item) { return item.id === foodObj.id; });
         finalObj={
             'mealName':meal.mealName,
             'cartId':meal.cartId,
