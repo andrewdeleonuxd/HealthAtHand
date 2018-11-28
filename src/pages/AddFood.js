@@ -18,7 +18,7 @@ class AddFood extends Component {
         showLoader:true,  
         showSearch:false, 
         searchText:"",
-        totalCals: "0"
+        totalCals: 0
     }
 
     componentWillMount = () => {
@@ -40,7 +40,7 @@ class AddFood extends Component {
     componentDidUpdate(prevProps) {
         if(this.props.mealObj != prevProps.mealObj)
         {
-            this.calculateMealCal(this.props.mealObj)
+            
         }
     }
 
@@ -52,6 +52,9 @@ class AddFood extends Component {
     
     loadData = (array) => {
         data=array;
+        if(data != undefined && data.length != 0) {
+            this.calculateMealCal(array)
+        }
         /*
        data=[]; 
        if(array.length>0){
@@ -111,12 +114,13 @@ class AddFood extends Component {
         this.props.removeMeal(this.props.userId,this.props.date,this.props.mealObj);
     }
 
-    calculateMealCal(item) {
-        for(i = 0; i < item.food.length; i++)
+    calculateMealCal(food) {
+        total = 0;
+        for(i = 0; i < food.length; i++)
         {
-            total += item.food[i].totalCalories
+            total += food[i].totalCalories
         }
-        this.setState({totalCals: "" + total});
+        this.setState({totalCals: "" + total.toFixed(2)});
     }
  
     capitalize(str) {

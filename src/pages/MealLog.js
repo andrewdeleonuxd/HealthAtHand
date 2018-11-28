@@ -14,11 +14,12 @@ import {colors, margin, padding, fonts, button} from '../styles/base.js'
 // mealNo needs to be changed to mealName
 var data=[];
 var dailyCal = 0;
+var total = 0;
 
 class MealLog extends Component {
 
     state = {
-
+        totalCals: 0
     }
 
     componentWillMount = () => {
@@ -29,7 +30,13 @@ class MealLog extends Component {
 
     componentWillReceiveProps = (nextProps) => { 
         this.loadData(nextProps)
-    } 
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.foodArray != prevProps.foodArray) {
+            this.calculateLogCal(this.props.foodArray)
+        }
+    }
 
     //when a perticular meal is selected
     onPress = (item) => {
@@ -81,13 +88,25 @@ class MealLog extends Component {
         Actions.home();
     }
 
-    calculateMealCal(food) {
-        totalCals = 0;
-        for(i = 0; i < food.length; i++) {
-            totalCals += food[i].totalCalories;
+    calculateLogCal(meal) {
+        total = 0;
+        for(i = 0; i < meal.length; i++)
+        {
+            for(j = 0; j < meal[i].food.length; j++)
+            {
+                total += meal[i].food[j].totalCalories
+            }
         }
-        dailyCal += totalCals;
-        return totalCals;
+        this.setState({totalCals: "" + total.toFixed(2)});
+    }
+
+    calculateMealCal(food) {
+        mealTotal = 0;
+        for(i = 0; i < food.length; i++)
+        {
+            mealTotal += food[i].totalCalories
+        }
+        return mealTotal;
     }
 
     capitalize(str) {
@@ -171,7 +190,7 @@ class MealLog extends Component {
                                 Daily Calories
                             </Text>
                             <Text style={[styles.totalCal, {fontSize: 25}]}>
-                                {dailyCal.toFixed(2)}
+                                {this.state.totalCals}
                             </Text>
                         </View>
                     </View>
