@@ -98,20 +98,13 @@ class MealLog extends Component {
 
 // when users press add new meal
     addMealPg = () => {
-          let ogFoodObj = this.props.foodArray; 
-          let i=1;
-          let cartId = uuid();
-          cartId = cartId.split("-").join("");
-          if(ogFoodObj.length>0){
-          while(_.some(ogFoodObj, { 'mealName':i })){
-              i++;
-          } 
-            let newObj={'mealName':i,'cartId':cartId,'food':[]};   
-            Actions.push("addfood",{type:"addfood",item:newObj});
-        } else{
-            let newObj={'mealName':1,'cartId':cartId,'food':[]};   
-            Actions.push("addfood",{type:"addfood",item:newObj});
-        }              
+        let ogFoodObj = this.props.foodArray; 
+        let i=1;
+        let cartId = uuid();
+        cartId = cartId.split("-").join("");
+        let newObj={'mealName':"Meal " + (ogFoodObj.length + 1),'cartId':cartId,'food':[]};   
+        Actions.push("addfood",{type:"addfood",item:newObj});
+                  
     }
 
 

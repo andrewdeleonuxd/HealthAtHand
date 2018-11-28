@@ -101,7 +101,7 @@ class AddFood extends Component {
     // when search button is pressed
     showFoodSearch = () => {
         Actions.push("searchfood", {
-            mealName:this.props.mealObj.mealName,
+            mealObj:this.props.mealObj,
             onBack:this.props.mealObj
         }); 
     }
@@ -155,7 +155,7 @@ class AddFood extends Component {
             <View style={{flex:1}}>
                 <HaH_Header
                     //text = {'Meal ' + this.props.mealObj.mealName}
-                    text = {this.title()}
+                    text = {this.props.mealObj.mealName}
                     right = {search}
                 />
                 <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>
