@@ -15,7 +15,7 @@ var total = 0;
 class AddFood extends Component {
 
     state = {
-        showLoader:true, 
+        showLoader:true,  
         showSearch:false, 
         searchText:"",
         totalCals: "0"
@@ -25,16 +25,16 @@ class AddFood extends Component {
         this.props.initializemealObj(this.props.mealObj); 
         this.setState({showLoader: false})
         this.calculateMealCal(this.props.foodArray)
-        //let array= this.props.mealObj.food;
+        let array= this.props.mealObj.food;
         
-        //this.loadData(array); 
+        this.loadData(array); 
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
-        //let array= nextProps.mealObj.food;
+        let array= nextProps.mealObj.food;
         
-        //this.loadData(array);
+        this.loadData(array);
     }
 
     //happens on edit food
@@ -42,8 +42,10 @@ class AddFood extends Component {
         Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.mealObj.mealName,meal:this.props.mealObj,onBack:this.props.item});
     }
 
-    /*
+    
     loadData = (array) => {
+        data=array;
+        /*
        data=[]; 
        if(array.length>0){
             array.map((item, i) => {
@@ -79,9 +81,10 @@ class AddFood extends Component {
                     </TouchableHighlight>
                 )
             })
-        } 
+        }
+        */ 
     } 
-    */
+    
 
     //onadd meal post request 
     goBack = () => {
@@ -153,7 +156,7 @@ class AddFood extends Component {
                     (this.state.showLoader == true) ? <View style={{flex: 1}}></View>: 
                     <View style={{flex: 1}}>
                         <FlatList
-                            data={this.props.item.food}
+                            data={data}
                             renderItem={({item}) => (
                                 <TouchableOpacity
                                     onPress = {() => this.onPress(item)} 
@@ -318,7 +321,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontFamily: fonts.primary, 
+        fontFamily: fonts.primary,  
         color: colors.primary,
         paddingTop: '2%',
     },

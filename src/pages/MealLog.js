@@ -23,12 +23,12 @@ class MealLog extends Component {
 
     componentWillMount = () => {
         this.props.initializefood(this.props.userId,this.props.date);
-        //this.loadData(this.props);
+        this.loadData(this.props);
     }
 
 
     componentWillReceiveProps = (nextProps) => { 
-        //this.loadData(nextProps)
+        this.loadData(nextProps)
     } 
 
     //when a perticular meal is selected
@@ -41,7 +41,10 @@ class MealLog extends Component {
         Actions.foodnotes();
     } 
 
+    
     loadData = (props) => {
+        data=props.foodArray;
+        /*
         data=[]; 
         let array=props.foodArray;
         if(array.length>0){
@@ -65,11 +68,13 @@ class MealLog extends Component {
                             </Text>
                         </Card>
                     </View>
-                </TouchableHighlight>
+                </TouchableHighlight> 
             )
         }) 
     } 
+    */
     } 
+    
 
 
     goBack = () => {
@@ -141,7 +146,7 @@ class MealLog extends Component {
                     (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
                     <View style = {{flex: 1}}>
                         <FlatList
-                                data={this.props.foodArray}
+                                data={data}
                                 renderItem={({item}) => (
                                     <TouchableOpacity
                                         onPress = {() => this.onPress(item)} 
@@ -236,7 +241,7 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        elevation: 7
+        elevation: 7 
     },
     noteText: {
         flex: 1,
