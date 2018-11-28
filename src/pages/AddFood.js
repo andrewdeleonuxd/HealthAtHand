@@ -17,7 +17,7 @@ class AddFood extends Component {
     state = {
         showLoader:true,  
         showSearch:false, 
-        searchText:"",
+        searchText:"", 
         totalCals: 0
     }
 
@@ -101,7 +101,7 @@ class AddFood extends Component {
 
     //onadd meal post request 
     goBack = () => {
-        this.props.addMealToMealLog(this.props.userId,this.props.date,this.props.mealObj);
+        this.props.addMealToMealLog(this.props.userId,this.props.date,this.props.mealObj,this.props.call,this.state.totalCals);
     }
    
     // when search button is pressed

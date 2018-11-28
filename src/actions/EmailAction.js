@@ -6,9 +6,9 @@ export const submitMessage = (userId,date,subject,messagebody) => {
 
         axios({
             method: "post",
-            url: "http://150.212.217.144:5000/email",
+            url: "http://150.212.200.141:5000/email",
             headers : {'Content-type': 'application/json'}, 
-            data : {
+            data : { 
                 'userId':userId,
                 'date':date,
                 'subject': subject,

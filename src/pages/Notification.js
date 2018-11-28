@@ -41,7 +41,7 @@ class Notification extends Component {
     }
 
     showNewMessage = () => {
-        Actions.push("email", {email: null, writeable: 1})
+        Actions.push("email", {email: {}, writeable: 1})
     }
 
     myCalendar = () => {

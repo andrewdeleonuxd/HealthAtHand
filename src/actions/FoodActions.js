@@ -62,16 +62,17 @@ export const initializefood = (userId,date) => {
      };
     };
 
-    export const addMealToMealLog = (userId,date,mealObj) => {
+    export const addMealToMealLog = (userId,date,mealObj,call,totalCal) => {
         return (dispatch) => { 
             axios({
-                method: "post", 
+                method: call, 
                 url: "http://150.212.217.144:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 data : {
                     'userId': userId,
                     'date': date,
-                    'mealData':mealObj
+                    'mealData':mealObj,
+                    'cartCal':totalCal
                    } 
 
             

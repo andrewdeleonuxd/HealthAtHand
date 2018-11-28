@@ -13,25 +13,49 @@ import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 class Email extends Component {
     state = {
-        email: null,
-        writable: 0
+        writable: 0,
+        subject:"",
+        body:""
+
     }
 
     componentWillMount() {
-        this.setState({email: this.props.email, writeable: this.props.writeable})
+        if(this.props.writeable == 0){
+            this.setState({subject:this.props.email.subject, writeable: this.props.writeable, body:this.props.email.body})  
+        } else{
+            this.setState({writeable: this.props.writeable})
+        }
     }
+
+    subjectChange(text) {
+            
+            this.setState({subject:text}) 
+        
+    }
+
+    bodyChange(text) {
+            
+        this.setState({body:text}) 
+    
+}
 
     goBack = () => {
         Actions.push("notification")
-    }
+    } 
 
     done = () => {
      Communications.email([this.props.healthCoachId],null,null,this.state.subject,this.state.body);
      this.props.submitMessage(this.props.userId,this.props.date,this.state.subject,this.state.body);
     }
+
+    showAddFoodNotes = () => {
+        Communications.email([this.props.healthCoachId],null,null,this.state.subject,this.state.body);
+     this.props.submitMessage(this.props.userId,this.props.date,this.state.subject,this.state.body);
+   //  Actions.home();
+    }
     
     title() {
-        this.state.writeable == 1 ? title = "New Message" :  title = "From " + this.state.email.author
+        this.state.writeable == 1 ? title = "New Message" :  title = "From " + this.props.email.author
         return title;
     }
 
@@ -71,14 +95,14 @@ class Email extends Component {
                                 containerStyle = {styles.cardContainer1}
                                 wrapperStyle = {styles.cardWrapper}>
                                 <Text style={styles.noteText}>
-                                    {this.state.email.subject}
+                                    {this.state.subject}
                                 </Text>
                             </Card>
                             <Card
                                 containerStyle = {styles.cardContainer2}
                                 wrapperStyle = {styles.cardWrapper}>
                                 <Text style={styles.noteText}>
-                                    {this.state.email.body}
+                                    {this.state.body}
                                 </Text>
                             </Card>
                         </View>
@@ -92,7 +116,8 @@ class Email extends Component {
                                 <TextInput
                                     style={styles.noteText}
                                     placeholder="Enter the subject!"
-                                    onChangeText={(text) => this.setState({text})}
+                                    onChangeText={(text) => this.subjectChange(text)}
+                                    value={"" + this.state.subject}
                                     multiline = {true}
                                     textAlignVertical= 'top'
                                     maxLength = {400}
@@ -104,7 +129,8 @@ class Email extends Component {
                                 <TextInput
                                     style={styles.noteText}
                                     placeholder="Enter your message!"
-                                    onChangeText={(text) => this.setState({text})}
+                                    onChangeText={(text) => this.bodyChange(text)}
+                                    value={"" + this.state.body}
                                     multiline = {true}
                                     textAlignVertical= 'top'
                                     maxLength = {400}

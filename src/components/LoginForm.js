@@ -10,6 +10,17 @@ import { } from 'react-native'
 import { Actions } from 'react-native-router-flux';
 
 class LoginForm extends Component {
+    constructor(props) {
+        super(props);
+        this.onHandleBackButton = this.handleBackButton.bind(this);
+    
+    }
+
+    handleBackButton() {
+        console.log("on back button press***************");
+        Actions.login();
+    }
+
     componentWillReceiveProps = (nextProps) => {
         
        if(nextProps.userId != null){
