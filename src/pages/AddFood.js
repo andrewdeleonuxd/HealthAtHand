@@ -55,6 +55,9 @@ class AddFood extends Component {
         if(data != undefined && data.length != 0) {
             this.calculateMealCal(array)
         }
+        else{
+            this.setState({totalCals: 0})
+        }
         /*
        data=[]; 
        if(array.length>0){

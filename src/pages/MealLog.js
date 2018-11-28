@@ -216,26 +216,35 @@ class MealLog extends Component {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        padding: 1,
+        marginTop: 0,
         elevation: 7,
-        borderRadius: 10
+        borderRadius: 10,
+    },
+    cardHeader: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'right',
+        fontFamily: fonts.primary, 
+        color: colors.primary
     },
     cardWrapper: {        
-        alignItems: 'center',
-        padding: 10,
+        flexDirection: 'row',
+        flex: 1,
+        marginLeft: 0,
+        justifyContent: 'space-between'
     },
     foodName: {
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
     },
     foodCals: {
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'right',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary,
         marginRight: '10%',
         flex: 4
@@ -244,7 +253,7 @@ const styles = StyleSheet.create({
         color: colors.brandwhite,
         fontSize:30, 
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed'
+        fontFamily: fonts.primary
     },
     noteButton: {
         backgroundColor: colors.brandblue,
@@ -253,16 +262,45 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        elevation: 7 
+        elevation: 7
+    },
+    noteView: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent: 'center',
+        borderRadius: 10
     },
     noteText: {
         flex: 1,
         fontSize: 25,
         fontWeight: 'bold',
-        textAlign: 'center', 
-        fontFamily: 'sans-serif-condensed', 
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
         color: colors.brandwhite,
-        textAlignVertical: 'center',
+        alignSelf: 'center',
+    },
+    servingSizeUnit: {
+        fontSize: 15,
+        fontFamily: fonts.primary, 
+        color: colors.brandgrey,
+        textAlign:'right',
+        alignSelf: 'flex-end',
+    },
+    totalCalView: {
+        flexDirection: 'row',
+        paddingLeft: '12%',
+        paddingRight: '12%',
+        justifyContent: 'space-between'
+    },
+    totalCal: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        //backgroundColor: "red",
+        paddingTop: '2%',
     },
 });
 
