@@ -22,9 +22,9 @@ class AddFood extends Component {
     }
 
     componentWillMount = () => {
-        this.props.initializemealObj(this.props.mealObj); 
+        this.props.initializemealObj(this.props.item); 
         this.setState({showLoader: false})
-        this.calculateMealCal(this.props.foodArray)
+        //
         //let array= this.props.mealObj.food;
         
         //this.loadData(array); 
@@ -37,9 +37,16 @@ class AddFood extends Component {
         //this.loadData(array);
     }
 
+    componentDidUpdate(prevProps) {
+        if(this.props.mealObj != prevProps.mealObj)
+        {
+            this.calculateMealCal(this.props.mealObj)
+        }
+    }
+
     //happens on edit food
     onPress = (item) => {
-        Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.mealObj.mealName,meal:this.props.mealObj,onBack:this.props.item});
+        Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.mealObj.mealName,meal:this.props.mealObj,onBack:this.props.mealObj});
     }
 
     /*
@@ -102,9 +109,9 @@ class AddFood extends Component {
     }
 
     calculateMealCal(item) {
-        for(i = 0; i < item.length; i++)
+        for(i = 0; i < item.food.length; i++)
         {
-            total += item[i].numCal
+            total += item.food[i].totalCalories
         }
         this.setState({totalCals: "" + total});
     }
@@ -116,7 +123,7 @@ class AddFood extends Component {
     }
 
     title() {
-        this.state.showLoader == true ? title = "Meal" : title = "Meal: " + this.props.item.mealName;
+        this.state.showLoader == true ? title = "Meal" : title = "Meal: " + this.props.mealObj.mealName;
         return title;
     }
 
@@ -153,7 +160,7 @@ class AddFood extends Component {
                     (this.state.showLoader == true) ? <View style={{flex: 1}}></View>: 
                     <View style={{flex: 1}}>
                         <FlatList
-                            data={this.props.item.food}
+                            data={this.props.mealObj.food}
                             renderItem={({item}) => (
                                 <TouchableOpacity
                                     onPress = {() => this.onPress(item)} 
@@ -207,7 +214,7 @@ class AddFood extends Component {
                         </TouchableOpacity>
                     </View>
                     {
-                        (this.props.item.length == 0) ? <View/>:
+                        (this.props.mealObj.length == 0) ? <View/>:
                         <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                             <TouchableOpacity
                                 style = {styles.confirmButton}
