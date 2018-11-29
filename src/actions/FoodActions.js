@@ -72,7 +72,7 @@ export const initializefood = (userId,date) => {
                     'userId': userId,
                     'date': date,
                     'mealData':mealObj,
-                    'cartCal':totalCal
+                    'cartCal': parseInt(totalCal)
                    } 
 
             
@@ -101,7 +101,7 @@ export const initializefood = (userId,date) => {
                 params : {
                     'userId': userId,
                     'date': date,
-                    'cartId':mealObj.cartid
+                    'cartId':mealObj.cartId
                    } 
 
             
@@ -147,7 +147,7 @@ export const initializefood = (userId,date) => {
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
-            Actions.push("addfood", {item:finalObj});
+            Actions.push("addfood", {item:finalObj, call:"post"});
 
 
         } else{
@@ -165,7 +165,7 @@ export const initializefood = (userId,date) => {
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
-            Actions.push("addfood", {item:finalObj});
+            Actions.push("addfood", {item:finalObj, call:"put"});
 
         }
     }
