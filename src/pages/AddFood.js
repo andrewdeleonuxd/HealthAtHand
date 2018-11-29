@@ -4,7 +4,7 @@ import {View, Text, FlatList, Image, TouchableHighlight, StyleSheet, TouchableOp
 import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {initializefood, removeMeal, addMealToMealLog, initializemealObj } from '../actions';
+import {initializefood, removeMeal, addMealToMealLog, initializemeal } from '../actions';
 import { HaH_Header, HaH_NavBar } from '../components/common';
 
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
@@ -18,11 +18,12 @@ class AddFood extends Component {
         showLoader:true,  
         showSearch:false, 
         searchText:"", 
-        totalCals: 0
+        totalCals: 0,
+        call: "put"
     }
 
     componentWillMount = () => {
-        this.props.initializemealObj(this.props.item); 
+        this.props.initializemeal(this.props.item, this.props.call);
         this.setState({showLoader: false})
     
         let array= this.props.mealObj.food;
@@ -38,15 +39,11 @@ class AddFood extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.mealObj != prevProps.mealObj)
-        {
-            
-        }
     }
 
     //happens on edit food
     onPress = (item) => {
-        Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.mealObj.mealName,meal:this.props.mealObj,onBack:this.props.mealObj});
+        Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.mealObj.mealName,meal:this.props.mealObj,onBack:this.props.mealObj,call:this.props.call});
     }
 
     
@@ -108,7 +105,8 @@ class AddFood extends Component {
     showFoodSearch = () => {
         Actions.push("searchfood", {
             mealObj:this.props.mealObj,
-            onBack:this.props.mealObj
+            onBack:this.props.mealObj,
+            call:this.props.call
         }); 
     }
 
@@ -351,4 +349,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, {initializefood, removeMeal, addMealToMealLog, initializemealObj}) (AddFood);
+export default connect(mapStateToProps, {initializefood, removeMeal, addMealToMealLog, initializemeal}) (AddFood);

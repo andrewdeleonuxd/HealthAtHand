@@ -15,7 +15,7 @@ export const searchResult = (food) => {
         console.log("data is :",food);
         axios({
             method: "get",
-            url: "http://150.212.217.144:5000/search",
+            url: "http://10.0.0.4:5000/search",
             headers : {'Content-type': 'application/json'},    
             params : data  
         
@@ -36,13 +36,13 @@ export const searchResult = (food) => {
 };
 };  
 
-export const SearchNut = (food) => {
+export const SearchNut = (food, call) => {
     return (dispatch) => {  
         let data = {'food': food}
 
         axios({
             method: "get",
-            url: "http://150.212.217.144:5000/nut",
+            url: "http://10.0.0.4:5000/nut",
             headers : {'Content-type': 'application/json'},   
             params : data  
         
@@ -63,7 +63,7 @@ export const SearchNut = (food) => {
                     'servingSizeUnit':item.serving_unit
                 }
                 console.log("I am here :",obj);
-                Actions.push("foodcard", {item:obj,firstTime:true});
+                Actions.push("foodcard", {item:obj,firstTime:true,call:call});
             }
             
            

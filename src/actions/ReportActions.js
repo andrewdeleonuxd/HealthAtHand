@@ -13,7 +13,7 @@ export const report = (userId) => {
 
         axios({
             method: "get",
-            url: "http://150.212.217.144:5000/report",
+            url: "http://10.0.0.4:5000/report",
             headers : {'Content-type': 'application/json'}, 
             params : {
                 'userId':userId
@@ -38,7 +38,7 @@ export const reportPost = (userId,weight) => {
 
         axios({
             method: "post",
-            url: "http://150.212.217.144:5000/report",
+            url: "http://10.0.0.4:5000/report",
             headers : {'Content-type': 'application/json'}, 
             data : {
                 'userId':userId,
@@ -64,7 +64,7 @@ export const reportPut = (userId,weight) => {
 
         axios({
             method: "put",
-            url: "http://150.212.217.144:5000/report",
+            url: "http://10.0.0.4:5000/report",
             headers : {'Content-type': 'application/json'}, 
             data : {
                 'userId':userId,

@@ -40,7 +40,7 @@ class MealLog extends Component {
 
     //when a perticular meal is selected
     onPress = (item) => {
-        Actions.push("addfood",{item:item,call:"put"});
+        Actions.push("addfood",{item:item, call:"put"});
     } 
 
     // when user selects foodNotes
@@ -122,7 +122,7 @@ class MealLog extends Component {
         let cartId = uuid();
         cartId = cartId.split("-").join("");
         let newObj={'mealName':"Meal " + (ogFoodObj.length + 1),'cartId':cartId,'food':[]};   
-        Actions.push("addfood",{type:"addfood",item:newObj,call:"post"});
+        Actions.push("addfood",{type:"addfood",item:newObj, call:"post"});
                   
     }
 

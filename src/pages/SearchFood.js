@@ -33,7 +33,7 @@ class SearchFood extends Component{
     // when item from search is selected
     onPress = (item) => {
         if(this.state.category==0){
-            this.props.SearchNut(item.food_name);
+            this.props.SearchNut(item.food_name, this.props.call);
         } else{
             let obj={
                 'id':item.nix_brand_id,
@@ -43,7 +43,7 @@ class SearchFood extends Component{
                 'servingSizeUnit':item.serving_unit
             }
             
-            Actions.push("foodcard", {item:obj,firstTime:true});
+            Actions.push("foodcard", {item:obj,firstTime:true,call:this.props.call});
         }
     
     }

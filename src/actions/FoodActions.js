@@ -12,7 +12,7 @@ export const getCalories = (userId,date) => {
         return (dispatch) => {    
             axios({ 
                 method: "get",
-                url: "http://150.212.217.144:5000/dashboard", 
+                url: "http://10.0.0.4:5000/dashboard", 
                 headers : {'Content-type': 'application/json'}, 
                 params : { 
                     'userId': userId,
@@ -40,7 +40,7 @@ export const initializefood = (userId,date) => {
         return (dispatch) => {  
             axios({
                 method: "get", 
-                url: "http://150.212.217.144:5000/meallog",
+                url: "http://10.0.0.4:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
@@ -66,7 +66,7 @@ export const initializefood = (userId,date) => {
         return (dispatch) => { 
             axios({
                 method: call, 
-                url: "http://150.212.217.144:5000/meallog",
+                url: "http://10.0.0.4:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 data : {
                     'userId': userId,
@@ -96,7 +96,7 @@ export const initializefood = (userId,date) => {
         return(dispatch) => {
             axios({
                 method: "delete", 
-                url: "http://150.212.217.144:5000/meallog",
+                url: "http://10.0.0.4:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
@@ -122,16 +122,17 @@ export const initializefood = (userId,date) => {
     };
 
     
-    export const initializemealObj = (mealObj) => {
+    export const initializemeal = (mealObj, call) => {
         return (dispatch) => {
             dispatch({
                 type: FOOD_ADDED,
-                mealObj:mealObj
+                mealObj:mealObj,
+                call:call
             });
         }    
     }
 
-    export const addfood = (foodobj,meal,firstTime) => {
+    export const addfood = (foodobj,meal,firstTime,call) => {
         return (dispatch) => {
         if(firstTime){
             let array=meal.food;
@@ -147,7 +148,7 @@ export const initializefood = (userId,date) => {
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
-            Actions.push("addfood", {item:finalObj, call:"post"});
+            Actions.push("addfood", {item:finalObj, call: call});
 
 
         } else{
@@ -165,13 +166,13 @@ export const initializefood = (userId,date) => {
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
-            Actions.push("addfood", {item:finalObj, call:"put"});
+            Actions.push("addfood", {item:finalObj, call: "put"});
 
         }
     }
     }
 
-    export const removefood = (foodObj,meal) => {
+    export const removefood = (foodObj,meal,call) => {
         return (dispatch) => {  
 
         let array=[];
@@ -187,7 +188,7 @@ export const initializefood = (userId,date) => {
             type: FOOD_ADDED,
             mealObj:finalObj
         });
-        Actions.push("addfood", {item:finalObj});
+        Actions.push("addfood", {item:finalObj, call:call});
 
     }
     }

@@ -15,7 +15,7 @@ export const initializeExercise = (userId,date) => {
         return (dispatch) => {  
             axios({
                 method: "get", 
-                url: "http://150.212.217.144:5000/exerlog",
+                url: "http://10.0.0.4:5000/exerlog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
@@ -46,7 +46,7 @@ export const initializeExercise = (userId,date) => {
 
                 axios({
                     method: "post", 
-                    url: "http://150.212.217.144:5000/exerlog",
+                    url: "http://10.0.0.4:5000/exerlog",
                     headers : {'Content-type': 'application/json'}, 
                     data : {
                         'userId': userId,
@@ -57,7 +57,7 @@ export const initializeExercise = (userId,date) => {
                 
                 }).then(function(response) {
                     if (response.data.code === 400) {
-                        console.log("Server responded with code 400 for exercise put");
+                        console.log("Server responded with code 400 for exercise post");
     
                     } else {
                         Actions.exerciselog();
@@ -72,7 +72,7 @@ export const initializeExercise = (userId,date) => {
                 console.log("obj is :",obj);
                 axios({
                     method: "put", 
-                    url: "http://150.212.217.144:5000/exerlog",
+                    url: "http://10.0.0.4:5000/exerlog",
                     headers : {'Content-type': 'application/json'}, 
                     data : {
                         'userId': userId,
@@ -84,7 +84,7 @@ export const initializeExercise = (userId,date) => {
                 }).then(function(response) {
                     
                     if (response.data.code === 400) {
-                        console.log("Server responded with code 400 for exercise post");
+                        console.log("Server responded with code 400 for exercise put");
     
                     } else {
                         Actions.exerciselog();
@@ -103,7 +103,7 @@ export const removeexercise = (obj,userId,date) => {
     return (dispatch) => {    
     axios({
         method: "delete", 
-        url: "http://150.212.217.144:5000/exerlog",
+        url: "http://10.0.0.4:5000/exerlog",
         headers : {'Content-type': 'application/json'},  
         params : {
             'userId': userId,
@@ -131,7 +131,7 @@ export const removeexercise = (obj,userId,date) => {
     return (dispatch) => {  
         axios({
             method: "get", 
-            url: "http://150.212.217.144:5000/exercise",
+            url: "http://10.0.0.4:5000/exercise",
             headers : {'Content-type': 'application/json'}, 
             params : {
                 'exercise': text
