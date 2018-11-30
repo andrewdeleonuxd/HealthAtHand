@@ -198,7 +198,7 @@ class MealLog extends Component {
                 }
                 {
                     (this.state.changeCalendar == false) ?
-                    <View style = {{flex: 1}}>
+                    <View style = {{flex: 1, paddingBottom: '4%'}}>
                     {
                         (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
                         <View style = {{flex: 1}}>
@@ -238,17 +238,22 @@ class MealLog extends Component {
                                     {this.state.totalCals}
                                 </Text>
                             </View>
-                            <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}> 
-                                <TouchableOpacity
-                                    style = {[button.touchable, {backgroundColor: colors.brandblue}]}
-                                    onPress={this.showAddFoodNotes}>
-                                    <View style={button.view}>
-                                        <Text style = {button.text}>
-                                            Meal Notes
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
+                            {
+                                this.state.date == this.props.date ?
+                                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%'}}> 
+                                    <TouchableOpacity
+                                        style = {[button.touchable, {backgroundColor: colors.brandblue}]}
+                                        onPress={this.showAddFoodNotes}>
+                                        <View style={button.view}>
+                                            <Text style = {button.text}>
+                                                Meal Notes
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                                :
+                                <View/>
+                            }
                         </View>
                     }
                     </View>
