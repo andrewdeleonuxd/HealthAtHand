@@ -5,16 +5,21 @@ import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {initializeExercise} from '../actions';
+import CalendarPicker from 'react-native-calendar-picker';
+import Moment from 'moment';
 
 import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 var data=[];
+var total = 0;
 
 class ExerciseLog extends Component { 
 
     state = {
-
+        totalDuration: 0,
+        date: this.props.date,
+        changeCalendar: false
     }
 
     componentWillMount = () => {
@@ -27,12 +32,19 @@ class ExerciseLog extends Component {
     componentWillReceiveProps = (nextProps) => { 
         console.log("indise receive props");
         this.loadData(nextProps)
-    } 
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.exerciseArray != prevProps.exerciseArray) {
+            this.calculateLogDur(this.props.exerciseArray)
+        }
+    }
 
     // when existing exercise is edited
     onPress = (item) => {
-        console.log("values i get from database :",item);
-        Actions.push("exercisecard",{item:item,firstTime:false});
+        if(this.state.date == this.props.date) {
+            Actions.push("exercisecard",{item:item,firstTime:false, viewOnly:false});
+        }
     }
 
     capitalize(str) {
@@ -42,8 +54,8 @@ class ExerciseLog extends Component {
     }
 
     loadData = (props) => {
-        data=[]; 
-        let array=props.exerciseArray;
+        data=props.exerciseArray;
+        /*
         if(array.length>0){
         array.map((item, i) => {
             data.push(
@@ -66,6 +78,7 @@ class ExerciseLog extends Component {
             )
         })
     }
+    */
     } 
 
 
@@ -81,6 +94,29 @@ class ExerciseLog extends Component {
     //when user selects exercise Notes
     showAddExerciseNotes = () => {
         Actions.exercisenotes();
+    }
+
+    calculateLogDur(exercise) {
+        total = 0;
+        for(i = 0; i < exercise.length; i++)
+        {
+            total += exercise[i].duration
+        }
+        this.setState({totalDuration: "" + total.toFixed(2)});
+    }
+
+    changingDate = () => {
+        this.state.changeCalendar == false ? this.setState({changeCalendar: true}) : this.setState({changeCalendar: false})
+    }
+
+    onDateChange(date) {
+        this.setState({date: date, changeCalendar: false});
+        this.props.initializeExercise(this.props.userId, date)
+    }
+
+    coloredDate() {
+        this.state.date == this.props.date ? style = styles.date1 : style = styles.date2
+        return style
     }
 
     render = () => { 
@@ -111,22 +147,96 @@ class ExerciseLog extends Component {
                     right = {addExercise}
                 />
                 {
-                    (this.props.exerciseArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> : 
-                    <View style={{flex: 1, height:"75%", paddingTop: 0}}>
-                        {data}     
-                    </View>    
+                    this.state.date == this.props.date ?
+                    <View style = {{backgroundColor: colors.brandwhite, height: 50, justifyContent: 'center', alignItems: 'center', opacity: 0.8, borderBottomColor: colors.brandgrey}}>
+                        <TouchableOpacity
+                            onPress={() => this.changingDate()}>
+                                <Text style={styles.date1}>
+                                    {Moment(this.state.date).format('MMM Do YYYY')}
+                                </Text>                            
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    <View style = {{backgroundColor: colors.brandgrey, height: 50, justifyContent: 'center', alignItems: 'center', opacity: 0.8}}>
+                        <TouchableOpacity
+                            onPress={() => this.changingDate()}>
+                                <Text style={styles.date2}>
+                                    {Moment(this.state.date).format('MMM Do YYYY')}
+                                </Text>
+                        </TouchableOpacity>
+                    </View>
                 }
-                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}>  
-                    <TouchableOpacity
-                        style = {[button.touchable, {backgroundColor: colors.brandblue}]}
-                        onPress={this.showAddExerciseNotes}>
-                        <View style={button.view}>
-                            <Text style = {button.text}>
-                                Exercise Notes
-                            </Text>
+                {
+                    (this.state.changeCalendar == false) ?
+                    <View style = {{flex: 1, paddingBottom: '4%'}}>
+                    {
+                        (this.props.exerciseArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> : 
+                        <View style = {{flex: 1}}>
+                            <FlatList
+                                data={data}
+                                renderItem={({item}) => (
+                                    <TouchableOpacity
+                                        onPress = {() => this.onPress(item)} 
+                                        underLayColor="transparent"
+                                        style = {{padding: 7}}
+                                    > 
+                                        <Card
+                                            flexDirection = 'row' 
+                                            containerStyle = {styles.cardContainer}
+                                            wrapperStyle = {styles.cardWrapper}>
+                                            <Text style = {styles.foodName}>
+                                                {this.capitalize(item.exName)}
+                                            </Text>
+                                            <Text style = {styles.cardHeader}>
+                                                {item.duration}
+                                                <Text style={styles.servingSizeUnit}>
+                                                    {' min'}
+                                                </Text>
+                                            </Text>
+                                        </Card>
+                                    </TouchableOpacity>
+                                )}
+                                onEndReachedThreshold={0.5}
+                                onEndReached={this.endReached}
+                                keyExtractor={item => (item.exName)}
+                            />
+                            <View style ={styles.totalCalView}>
+                                <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                    Daily Exercise
+                                </Text>
+                                <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                    {this.state.totalDuration}
+                                </Text>
+                            </View>
+                            {
+                                    this.state.date == this.props.date ?
+                                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%'}}>  
+                                    <TouchableOpacity
+                                        style = {[button.touchable, {backgroundColor: colors.brandblue}]}
+                                        onPress={this.showAddExerciseNotes}>
+                                        <View style={button.view}>
+                                            <Text style = {button.text}>
+                                                Exercise Notes
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                                :
+                                <View/>
+                            }
                         </View>
-                    </TouchableOpacity>
-                </View>
+                    }
+                    </View>
+                    :
+                    <View style = {{flex: 1, paddingTop: 5}}>
+                        <CalendarPicker
+                            onDateChange={(date) => this.onDateChange(Moment(date).format('YYYY-MM-DD'))}
+                            todayBackgroundColor={colors.brandgold}
+                            todayTextStyle={{color: colors.brandwhite}}
+                            customDatesStyles={[{date: this.state.date, style: {backgroundColor: colors.brandblue}, textStyle: {color: colors.brandwhite}}]}
+                        />
+                    </View>
+                }
                 <HaH_NavBar
                     selected = {3}
                 />
@@ -137,16 +247,25 @@ class ExerciseLog extends Component {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        padding: 1,
+        marginTop: 0,
         elevation: 7,
-        borderRadius: 10
+        borderRadius: 10,
+    },
+    cardHeader: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'right',
+        fontFamily: fonts.primary, 
+        color: colors.primary
     },
     cardWrapper: {        
-        alignItems: 'center',
-        padding: 10,
+        flexDirection: 'row',
+        flex: 1,
+        marginLeft: 0,
+        justifyContent: 'space-between'
     },
     foodName: {
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'left',
         fontFamily: fonts.primary, 
@@ -191,6 +310,35 @@ const styles = StyleSheet.create({
         fontFamily: fonts.primary, 
         color: colors.brandwhite,
         alignSelf: 'center',
+    },
+    date1: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
+        color: colors.brandgold
+    },
+    date2: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
+        color: colors.brandblue
+    },
+    totalCalView: {
+        flexDirection: 'row',
+        paddingLeft: '12%',
+        paddingRight: '12%',
+        justifyContent: 'space-between'
+    },
+    totalCal: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontFamily: fonts.primary, 
+        color: colors.primary,
+        //backgroundColor: "red",
+        paddingTop: '2%',
     },
 });
 
