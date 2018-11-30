@@ -166,7 +166,7 @@ export const initializefood = (userId,date) => {
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
-            Actions.push("addfood", {item:finalObj, call: "put"});
+            Actions.push("addfood", {item:finalObj, call: call});
 
         }
     }
