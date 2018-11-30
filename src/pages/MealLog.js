@@ -5,10 +5,11 @@ import { Card, Header, Icon , SearchBar, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {initializefood } from '../actions';
-import { HaH_Header, HaH_NavBar } from '../components/common';
+import CalendarPicker from 'react-native-calendar-picker';
+import Moment from 'moment';
 const uuid = require('uuid/v1');
 
-
+import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
 // mealNo needs to be changed to mealName
@@ -17,9 +18,10 @@ var dailyCal = 0;
 var total = 0;
 
 class MealLog extends Component {
-
     state = {
-        totalCals: 0
+        totalCals: 0,
+        date: this.props.date,
+        changeCalendar: false
     }
 
     componentWillMount = () => {
@@ -40,7 +42,12 @@ class MealLog extends Component {
 
     //when a perticular meal is selected
     onPress = (item) => {
-        Actions.push("addfood",{item:item, call:"put"});
+        if(this.state.date == this.props.date) {
+            Actions.push("addfood",{item:item, call:"put"});
+        }
+        else {
+            console.log("deactivate food cards in add food, view only")
+        }
     } 
 
     // when user selects foodNotes
@@ -126,6 +133,20 @@ class MealLog extends Component {
                   
     }
 
+    changingDate = () => {
+        this.state.changeCalendar == false ? this.setState({changeCalendar: true}) : this.setState({changeCalendar: false})
+    }
+
+    onDateChange(date) {
+        this.setState({date: date, changeCalendar: false});
+        this.props.initializefood(this.props.userId, date)
+    }
+
+    coloredDate() {
+        this.state.date == this.props.date ? style = styles.date1 : style = styles.date2
+        return style
+    }
+
 
     render = () => {
         let addMeal = (
@@ -154,58 +175,93 @@ class MealLog extends Component {
                     text = 'Meal Log'
                     right = {addMeal}
                 />
+                
                 {
-                    (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
-                    <View style = {{flex: 1}}>
-                        <FlatList
-                                data={data}
-                                renderItem={({item}) => (
-                                    <TouchableOpacity
-                                        onPress = {() => this.onPress(item)} 
-                                        underLayColor="transparent"
-                                        style = {{padding: 7}}
-                                    > 
-                                        <Card
-                                            flexDirection = 'row' 
-                                            containerStyle = {styles.cardContainer}
-                                            wrapperStyle = {styles.cardWrapper}>
-                                            <Text style = {styles.foodName}>
-                                                {this.capitalize(item.mealName)}
-                                            </Text>
-                                            <Text style = {styles.cardHeader}>
-                                                {this.calculateMealCal(item.food)}
-                                                <Text style={styles.servingSizeUnit}>
-                                                    {' cals'}
-                                                </Text>
-                                            </Text>
-                                        </Card>
-                                    </TouchableOpacity>
-                                )}
-                                onEndReachedThreshold={0.5}
-                                onEndReached={this.endReached}
-                                keyExtractor={item => (item.food.foodname)}
-                            />
-                        <View style ={styles.totalCalView}>
-                            <Text style={[styles.totalCal, {fontSize: 25}]}>
-                                Daily Calories
-                            </Text>
-                            <Text style={[styles.totalCal, {fontSize: 25}]}>
-                                {this.state.totalCals}
-                            </Text>
-                        </View>
+                    this.state.date == this.props.date ?
+                    <View style = {{backgroundColor: colors.brandwhite, height: 50, justifyContent: 'center', alignItems: 'center', opacity: 0.8, borderBottomColor: colors.brandgrey}}>
+                        <TouchableOpacity
+                            onPress={() => this.changingDate()}>
+                                <Text style={styles.date1}>
+                                    {Moment(this.state.date).format('MMM Do YYYY')}
+                                </Text>                            
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    <View style = {{backgroundColor: colors.brandgrey, height: 50, justifyContent: 'center', alignItems: 'center', opacity: 0.8}}>
+                        <TouchableOpacity
+                            onPress={() => this.changingDate()}>
+                                <Text style={styles.date2}>
+                                    {Moment(this.state.date).format('MMM Do YYYY')}
+                                </Text>
+                        </TouchableOpacity>
                     </View>
                 }
-                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}> 
-                    <TouchableOpacity
-                        style = {[button.touchable, {backgroundColor: colors.brandblue}]}
-                        onPress={this.showAddFoodNotes}>
-                        <View style={button.view}>
-                            <Text style = {button.text}>
-                                Meal Notes
-                            </Text>
+                {
+                    (this.state.changeCalendar == false) ?
+                    <View style = {{flex: 1}}>
+                    {
+                        (this.props.foodArray.length == 0) ? <View style={{flex: 1, height:"75%"}}></View> :
+                        <View style = {{flex: 1}}>
+                            <FlatList
+                                    data={data}
+                                    renderItem={({item}) => (
+                                        <TouchableOpacity
+                                            onPress = {() => this.onPress(item)} 
+                                            underLayColor="transparent"
+                                            style = {{padding: 7}}
+                                        > 
+                                            <Card
+                                                flexDirection = 'row' 
+                                                containerStyle = {styles.cardContainer}
+                                                wrapperStyle = {styles.cardWrapper}>
+                                                <Text style = {styles.foodName}>
+                                                    {this.capitalize(item.mealName)}
+                                                </Text>
+                                                <Text style = {styles.cardHeader}>
+                                                    {this.calculateMealCal(item.food)}
+                                                    <Text style={styles.servingSizeUnit}>
+                                                        {' cals'}
+                                                    </Text>
+                                                </Text>
+                                            </Card>
+                                        </TouchableOpacity>
+                                    )}
+                                    onEndReachedThreshold={0.5}
+                                    onEndReached={this.endReached}
+                                    keyExtractor={item => (item.food.foodname)}
+                                />
+                            <View style ={styles.totalCalView}>
+                                <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                    Daily Calories
+                                </Text>
+                                <Text style={[styles.totalCal, {fontSize: 25}]}>
+                                    {this.state.totalCals}
+                                </Text>
+                            </View>
+                            <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '4%'}}> 
+                                <TouchableOpacity
+                                    style = {[button.touchable, {backgroundColor: colors.brandblue}]}
+                                    onPress={this.showAddFoodNotes}>
+                                    <View style={button.view}>
+                                        <Text style = {button.text}>
+                                            Meal Notes
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </TouchableOpacity>
-                </View>
+                    }
+                    </View>
+                    :
+                    <View style = {{flex: 1, paddingTop: 5}}>
+                        <CalendarPicker
+                            onDateChange={(date) => this.onDateChange(Moment(date).format('YYYY-MM-DD'))}
+                            todayBackgroundColor={colors.brandgold}
+                            todayTextStyle={{color: colors.brandwhite}}
+                            customDatesStyles={[{date: this.state.date, style: {backgroundColor: colors.brandblue}, textStyle: {color: colors.brandwhite}}]}
+                        />
+                    </View>
+                }
                 <HaH_NavBar
                     selected = {2}
                 />
@@ -301,6 +357,20 @@ const styles = StyleSheet.create({
         color: colors.primary,
         //backgroundColor: "red",
         paddingTop: '2%',
+    },
+    date1: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
+        color: colors.brandgold
+    },
+    date2: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: fonts.primary, 
+        color: colors.brandblue
     },
 });
 
