@@ -5,9 +5,42 @@ import {Actions} from 'react-native-router-flux';
 import { Card, Header, Icon, Button } from 'react-native-elements';
 import {addexercise,removeexercise} from '../actions';
 import NumericInput,{ calcSize } from 'react-native-numeric-input';
+import RNPickerSelect from 'react-native-picker-select';
 import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts, button} from '../styles/base.js'
 
+var items1 = [
+    {label:"10", value:"10"},
+    {label:"20", value:"20"},
+    {label:"30", value:"30"},
+    {label:"40", value:"40"},
+    {label:"50", value:"50"},
+    {label:"60", value:"60"},
+    {label:"70", value:"70"},
+    {label:"80", value:"80"},
+    {label:"90", value:"90"},
+    {label:"100", value:"100"},
+    {label:"110", value:"110"},
+    {label:"120", value:"120"},
+    {label:"130", value:"130"},
+    {label:"140", value:"140"},
+    {label:"150", value:"150"},
+    {label:"160", value:"160"},
+    {label:"170", value:"170"},
+    {label:"180", value:"180"},
+    {label:"190", value:"190"},
+    {label:"200", value:"200"},
+    {label:"210", value:"210"},
+    {label:"220", value:"220"},
+    {label:"230", value:"230"},
+    {label:"240", value:"240"},
+]
+
+var items2 = [
+    {label:"Low", value:"Low"},
+    {label:"Medium", value:"Medium"},
+    {label:"High", value:"High"},
+]
 
 class ExerciseCard extends Component { 
 
@@ -169,7 +202,8 @@ class ExerciseCard extends Component {
                                     {" (min)"}
                                 </Text>
                             </Text>
-                            <View style = {{height: 40, backgroundColor: colors.brandgrey, borderRadius: 7, alignItems: 'center', justifyContent: 'center'}}>
+                            <View style = {{height: 40, width: 130, backgroundColor: colors.brandgrey, borderRadius: 7, alignItems: 'center', justifyContent: 'center'}}>
+                            {/*
                                 <Picker
                                     style={{height: 40, width: 130, marginRight: 0}}
                                     itemStyle =  {{fontSize: 25, fontFamily: fonts.primary, color: colors.brandblue, textAlign:'right', alignSelf: "flex-end", justifyContent: 'flex-end', padding: 0, width: 60}}
@@ -199,14 +233,25 @@ class ExerciseCard extends Component {
                                     <Picker.Item label="220" value="220" />
                                     <Picker.Item label="230" value="230" />
                                     <Picker.Item label="240" value="240" />
-                                </Picker>     
+                                </Picker>
+                            */}
+                            <RNPickerSelect
+                                items={items1}
+                                onValueChange={(value) => {
+                                    this.setState({
+                                        duration: value,
+                                    });
+                                }}
+                                value={this.state.duration}
+                            />
                             </View>
                         </View>
                         <View style={styles.userInputs}>
                             <Text style={styles.userInputText}>
                                 Intensity
                             </Text>
-                            <View style = {{height: 40, backgroundColor: colors.brandgrey, borderRadius: 7, alignItems: 'center', justifyContent: 'center'}}>
+                            <View style = {{height: 40, width: 130, backgroundColor: colors.brandgrey, borderRadius: 7, alignItems: 'center', justifyContent: 'center'}}>
+                            {/*
                                 <Picker
                                     style={{height: 40, width: 130, marginRight: 0}}
                                     itemStyle =  {{fontSize: 25, fontFamily: fonts.primary, color: colors.brandblue, textAlign:'right', alignSelf: "flex-end", justifyContent: 'flex-end', padding: 0, width: 60}}
@@ -215,7 +260,17 @@ class ExerciseCard extends Component {
                                     <Picker.Item label="Low" value="Low" />
                                     <Picker.Item label="Medium" value="Medium" />
                                     <Picker.Item label="High" value="High" />
-                                </Picker>              
+                                </Picker>
+                            */}
+                                <RNPickerSelect
+                                    items={items2}
+                                    onValueChange={(value) => {
+                                        this.setState({
+                                            intensity: value,
+                                        });
+                                    }}
+                                    value={this.state.intensity}
+                                />      
                             </View>
                         </View>                            
                     </View>                    
