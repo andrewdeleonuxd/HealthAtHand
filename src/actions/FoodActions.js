@@ -148,7 +148,7 @@ export const initializefood = (userId,date) => {
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
-            Actions.push("addfood", {item:finalObj, call: call});
+            Actions.push("addfood", {item:finalObj, call: call, viewOnly:false});
 
 
         } else{
@@ -166,7 +166,7 @@ export const initializefood = (userId,date) => {
                 type: FOOD_ADDED,
                 mealObj:finalObj
             });
-            Actions.push("addfood", {item:finalObj, call: call});
+            Actions.push("addfood", {item:finalObj, call: call, viewOnly:false});
 
         }
     }
@@ -188,7 +188,7 @@ export const initializefood = (userId,date) => {
             type: FOOD_ADDED,
             mealObj:finalObj
         });
-        Actions.push("addfood", {item:finalObj, call:call});
+        Actions.push("addfood", {item:finalObj, call:call, viewOnly:false});
 
     }
     }

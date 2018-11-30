@@ -43,10 +43,10 @@ class MealLog extends Component {
     //when a perticular meal is selected
     onPress = (item) => {
         if(this.state.date == this.props.date) {
-            Actions.push("addfood",{item:item, call:"put"});
+            Actions.push("addfood",{item:item, call:"put", viewOnly:false});
         }
         else {
-            console.log("deactivate food cards in add food, view only")
+            Actions.push("addfood",{item:item, viewOnly:true});
         }
     } 
 
@@ -129,7 +129,7 @@ class MealLog extends Component {
         let cartId = uuid();
         cartId = cartId.split("-").join("");
         let newObj={'mealName':"Meal " + (ogFoodObj.length + 1),'cartId':cartId,'food':[]};   
-        Actions.push("addfood",{type:"addfood",item:newObj, call:"post"});
+        Actions.push("addfood",{type:"addfood",item:newObj, call:"post", viewOnly:false});
                   
     }
 

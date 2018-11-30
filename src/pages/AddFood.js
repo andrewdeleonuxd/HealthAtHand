@@ -43,7 +43,10 @@ class AddFood extends Component {
 
     //happens on edit food
     onPress = (item) => {
-        Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.mealObj.mealName,meal:this.props.mealObj,onBack:this.props.mealObj,call:this.props.call});
+        if(this.props.viewOnly == false)
+        {
+            Actions.push("foodcard",{item:item,firstTime:false,mealNo:this.props.mealObj.mealName,meal:this.props.mealObj,onBack:this.props.mealObj,call:this.props.call});
+        }
     }
 
     
@@ -97,8 +100,12 @@ class AddFood extends Component {
     
 
     //onadd meal post request 
-    goBack = () => {
+    addToMealLog = () => {
         this.props.addMealToMealLog(this.props.userId,this.props.date,this.props.mealObj,this.props.call,this.state.totalCals);
+    }
+
+    goBack = () => {
+        Actions.push("meallog",{type:"addfood"});
     }
    
     // when search button is pressed
@@ -158,11 +165,19 @@ class AddFood extends Component {
 
         return (
             <View style={{flex:1}}>
-                <HaH_Header
-                    //text = {'Meal ' + this.props.mealObj.mealName}
-                    text = {this.props.mealObj.mealName}
-                    right = {search}
-                />
+                {
+                    this.props.viewOnly == true ?
+                    <HaH_Header
+                        left = {backButton}
+                        text = {this.props.mealObj.mealName}
+                    />
+                    :
+                    <HaH_Header
+                        left = {backButton}
+                        text = {this.props.mealObj.mealName}
+                        right = {search}
+                    />
+                }
                 <View style={{flex: 1, paddingTop: '2%', paddingBottom: '2%'}}>
                 {
                     (this.state.showLoader == true) ? <View style={{flex: 1}}></View>: 
@@ -210,28 +225,35 @@ class AddFood extends Component {
                             </Text>
                         </View>
                     </View>
-                    }   
-                    <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
-                        <TouchableOpacity
-                            style = {styles.deleteButton}
-                            onPress={this.deleteMeal}>
-                            
-                            <Text style = {styles.deleteText}>
-                                Delete Meal
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                    }
                     {
-                        (this.props.mealObj.length == 0) ? <View/>:
-                        <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
-                            <TouchableOpacity
-                                style = {styles.confirmButton}
-                                onPress = {this.goBack}>
-                                <Text style = {styles.confirmText}>
-                                    Add Meal To Log
-                                </Text>
-                            </TouchableOpacity>
+                        this.props.viewOnly == false ?
+                        <View>
+                            <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                                <TouchableOpacity
+                                    style = {styles.deleteButton}
+                                    onPress={this.deleteMeal}>
+                                    
+                                    <Text style = {styles.deleteText}>
+                                        Delete Meal
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            {
+                                (this.props.mealObj.length == 0) ? <View/>:
+                                <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
+                                    <TouchableOpacity
+                                        style = {styles.confirmButton}
+                                        onPress = {this.addToMealLog}>
+                                        <Text style = {styles.confirmText}>
+                                            Add Meal To Log
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            }
                         </View>
+                        :
+                        <View/>
                     }
                 </View>
                 <HaH_NavBar

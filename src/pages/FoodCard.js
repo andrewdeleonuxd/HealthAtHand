@@ -47,7 +47,7 @@ class FoodCard extends Component {
     }
 
     goBack = () => {
-        Actions.push("addfood", {item:this.props.mealObj});
+        Actions.push("addfood", {item:this.props.mealObj, call:this.props.call, viewOnly:false});
     } 
 
     Add = () => {
