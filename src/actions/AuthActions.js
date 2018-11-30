@@ -31,7 +31,7 @@ export const loginUser = ({email, password}) => {
     return (dispatch) => {  
         axios({
             method: "get", 
-            url: "http://10.0.0.4:5000/login",
+            url: "http://150.212.204.82:5000/login",
             headers: {},
             params:{
                 'emailId': email,
@@ -45,7 +45,7 @@ export const loginUser = ({email, password}) => {
         
             } else {
                 let date = moment().format('YYYY-MM-DD');
-                dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data.data.userId , date:date, healthCoach:response.data.data.healthCoach})
+                dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data.data.login.userId , date:date, healthCoach:response.data.data.login.healthCoach, healthCoachEmail:response.data.data.coachEmail.coachEmail})
             }
         }).catch((e) => {
             console.log("inside catch");

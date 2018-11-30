@@ -10,6 +10,8 @@ import Communications from 'react-native-communications';
 
 import { Text, Image, View, FlatList, TouchableHighlight, ActivityIndicator, ToastAndroid, Picker, StatusBar, Platform, Dimensions, Linking, StyleSheet } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle'
+import ProgressBarAnimated from 'react-native-progress-bar-animated';
+
 
 import {colors, margin, padding, fonts} from '../styles/base.js'
 import {HaH_Header, HaH_NavBar} from '../components/common'
@@ -32,7 +34,9 @@ class Home extends Component {
         isMoving: false, 
         pointsDelta: 0, 
         dailyCal: 0,
-        maxCal: 0
+        maxCal: 0,
+        dailyExecise:0,
+        maxExercise:0
     }
 
     componentWillMount = () => {
@@ -43,12 +47,12 @@ class Home extends Component {
 
     componentWillReceiveProps = (nextProps) => {
         
-        this.setState({maxCal:nextProps.totalCal,dailyCal:nextProps.remainingCal});
+        this.setState({maxCal:nextProps.totalCal,dailyCal:nextProps.remainingCal,dailyExercise:nextProps.remainingDuration,maxExercise:nextProps.totalDuration});
 
     }
 
     componentDidMount = () => {
-        this.setState({maxCal:this.props.totalCal,dailyCal:this.props.remainingCal});
+        this.setState({maxCal:this.props.totalCal,dailyCal:this.props.remainingCal,dailyExercise:this.props.remainingDuration,maxExercise:this.props.totalDuration});
     }
 
 
@@ -206,7 +210,7 @@ class Home extends Component {
                                 Today's Available Calories
                             </Text>
                         </Card>
-                        <View style = {styles.progressView}>
+                        <View style = {[styles.progressView, {flex: 3}]}>
                             <ProgressCircle
                                 percent={this.state.dailyCal/this.state.maxCal * 100}
                                 radius={Dimensions.get('window').width * 0.35}
@@ -231,6 +235,18 @@ class Home extends Component {
                                 Today's Active Exercise
                             </Text>
                         </Card>
+                        <View style = {[styles.progressView, {flex: 1}]}>
+                            <ProgressBarAnimated
+                                width={Dimensions.get('window').width - 20}
+                                height = {30}
+                                value={(this.state.dailyExercise/this.state.maxExercise) * 100}
+                                backgroundColor={colors.brandblue}
+                                backgroundColorOnComplete={colors.brandgold}
+                            />
+                            <Text style = {styles.exerciseLabel}>
+                                {this.state.dailyExercise}/{this.state.maxExercise}{" minutes"}
+                            </Text>
+                        </View>
                     </View>
 
                     <HaH_NavBar selected = {1}/>
@@ -279,6 +295,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: "center",
         padding: padding.md
+    },
+    exerciseLabel:{
+        textAlign: 'center',
+        color: colors.brandblue,
+        opacity: 0.8,
+        fontSize: 25,
+        fontWeight: "100",
+        justifyContent: 'center',
+        alignItems: 'center' 
     }
 });
 
@@ -288,6 +313,8 @@ const mapStateToProps = (state) => {
     return {
         totalCal: state.getCalories.totalCal,
         remainingCal: state.getCalories.remainingCal,
+        totalDuration: state.getCalories.totalDuration,
+        remainingDuration: state.getCalories.remainingDuration,
         userId: state.auth.userId,
         date: state.auth.date
     };

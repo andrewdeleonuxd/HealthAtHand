@@ -5,7 +5,7 @@ const INITIAL_STATE = { totalCal:null, remainingCal:null};
 export default (state = INITIAL_STATE, action) => { 
     switch(action.type) {
         case GET_CALORIES:
-          return { ...state, totalCal:action.totalCal, remainingCal:action.remainingCal};  
+          return { ...state, totalCal:action.totalCal, remainingCal:action.remainingCal, totalDuration: action.totalDuration, remainingDuration: action.remainingDuration};  
          
         default:
             return state;
