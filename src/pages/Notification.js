@@ -6,7 +6,7 @@ import { Constants, Calendar, Permissions } from 'expo';
 import { HaH_Header, HaH_NavBar } from '../components/common';
 import Moment from 'moment';
 
-import {colors, margin, padding, button} from '../styles/base.js'
+import {colors, margin, padding, button, fonts} from '../styles/base.js'
 
 const emails = [
     {
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     subject: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary
     },
     container: {
