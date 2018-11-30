@@ -51,7 +51,7 @@ class Email extends Component {
     showAddFoodNotes = () => {
         Communications.email([this.props.healthCoachEmail],null,null,this.state.subject,this.state.body);
      this.props.submitMessage(this.props.userId,this.props.date,this.state.subject,this.state.body);
-   //  Actions.home();
+    // Actions.home();
     }
     
     title() {

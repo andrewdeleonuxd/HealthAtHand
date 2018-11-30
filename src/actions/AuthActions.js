@@ -45,7 +45,9 @@ export const loginUser = ({email, password}) => {
         
             } else {
                 let date = moment().format('YYYY-MM-DD');
+                
                 dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data.data.login.userId , date:date, healthCoach:response.data.data.login.healthCoach, healthCoachEmail:response.data.data.coachEmail.coachEmail})
+                Actions.home();
             }
         }).catch((e) => {
             console.log("inside catch");

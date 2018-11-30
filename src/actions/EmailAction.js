@@ -21,7 +21,7 @@ export const submitMessage = (userId,date,subject,messagebody) => {
                 console.log("Server responds with code 400 for email post");
 
             } else {        
-                Actions.home();
+               // Actions.home();
             }
             
         }).catch((e) => {
