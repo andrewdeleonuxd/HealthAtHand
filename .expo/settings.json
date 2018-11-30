@@ -1,7 +1,7 @@
 {
-  "hostType": "lan",
+  "hostType": "tunnel",
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "yg-dhb"
+  "urlRandomness": "72-ah7"
 }

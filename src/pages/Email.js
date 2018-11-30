@@ -44,12 +44,12 @@ class Email extends Component {
     } 
 
     done = () => {
-     Communications.email([this.props.healthCoachId],null,null,this.state.subject,this.state.body);
+     Communications.email([this.props.healthCoachEmail],null,null,this.state.subject,this.state.body);
      this.props.submitMessage(this.props.userId,this.props.date,this.state.subject,this.state.body);
     }
 
     showAddFoodNotes = () => {
-        Communications.email([this.props.healthCoachId],null,null,this.state.subject,this.state.body);
+        Communications.email([this.props.healthCoachEmail],null,null,this.state.subject,this.state.body);
      this.props.submitMessage(this.props.userId,this.props.date,this.state.subject,this.state.body);
    //  Actions.home();
     }
@@ -191,7 +191,8 @@ const mapStateToProps = state => {
     return {
         userId: state.auth.userId,
         date: state.auth.date,
-        healthCoachId: state.auth.healthCoach
+        healthCoachId: state.auth.healthCoach,
+        healthCoachEmail: state.auth.healthCoachEmail
         };
 };
 
