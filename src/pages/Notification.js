@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     subject: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed', 
+        fontFamily: fonts.primary, 
         color: colors.primary
     },
     container: {
