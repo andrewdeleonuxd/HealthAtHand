@@ -42,7 +42,7 @@ class FoodCard extends Component {
             numCal:props.item.numCal,
             servingSize:props.item.servingSize, 
             servingSizeUnit:props.item.servingSizeUnit,
-            servings:props.item.servingSize
+            servings:1
         })  
     }
 

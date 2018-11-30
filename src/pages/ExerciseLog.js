@@ -102,7 +102,7 @@ class ExerciseLog extends Component {
         {
             total += exercise[i].duration
         }
-        this.setState({totalDuration: "" + total.toFixed(2)});
+        this.setState({totalDuration: "" + total});
     }
 
     changingDate = () => {
@@ -206,6 +206,9 @@ class ExerciseLog extends Component {
                                 </Text>
                                 <Text style={[styles.totalCal, {fontSize: 25}]}>
                                     {this.state.totalDuration}
+                                    <Text style={styles.servingSizeUnit}>
+                                        {' min'}
+                                    </Text>
                                 </Text>
                             </View>
                             {

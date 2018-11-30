@@ -12,7 +12,8 @@ export const colors  = {
 	brandwhite: '#fff',
 	brandblue: '#121350',
 	brandgold: '#EBB11C',
-	brandgrey: '#86939e'
+	brandgrey: '#86939e',
+	brandred: '#FF0000'
 }
 
 export const padding = {

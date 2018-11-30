@@ -18,8 +18,7 @@ class AddFood extends Component {
         showLoader:true,  
         showSearch:false, 
         searchText:"", 
-        totalCals: 0,
-        call: "put"
+        totalCals: 0
     }
 
     componentWillMount = () => {
@@ -142,6 +141,11 @@ class AddFood extends Component {
         return title;
     }
 
+    confirmLabel() {
+        this.props.call == "post" ? label = "Add Meal to Log" : label = "Confirm Changes"
+        return label
+    }
+
     render = () => {
         let search = (
             <Icon
@@ -194,21 +198,27 @@ class AddFood extends Component {
                                         flexDirection = 'row' 
                                         containerStyle = {styles.cardContainer}
                                         wrapperStyle = {styles.cardWrapper}>
-                                        <Text style={styles.cardHeader}>
-                                            {this.capitalize(item.foodname)}
-                                        </Text>
-                                        <Text style={styles.cardHeader}>
-                                            {item.totalCalories / item.numCal}
-                                            <Text style={styles.servingSizeUnit}>
-                                                {' ' + item.servingSizeUnit + '(s)'}
+                                        <View style={{flex:1}}>
+                                            <Text style={[styles.cardHeader,{textAlign: 'left'}]}>
+                                                {this.capitalize(item.foodname)}
                                             </Text>
-                                        </Text> 
-                                        <Text style={styles.cardHeader}>
-                                            {item.totalCalories}
-                                            <Text style={styles.servingSizeUnit}>
-                                                {' cals'}
-                                            </Text>
-                                        </Text> 
+                                        </View>
+                                        <View style={{flex:1}}>
+                                            <Text style={[styles.cardHeader,{textAlign: 'right'}]}>
+                                                {item.totalCalories / item.numCal}
+                                                <Text style={styles.servingSizeUnit}>
+                                                    {' ' + item.servingSizeUnit}
+                                                </Text>
+                                            </Text> 
+                                            <Text style={[styles.cardHeader,{textAlign: 'right'}]}>
+                                                {item.totalCalories}
+                                                <Text style={styles.servingSizeUnit}>
+                                                    {' cals'}
+                                                </Text>
+                                            </Text> 
+
+                                        </View>
+                                        
                                     </Card>
                                 </TouchableOpacity>
                             )}
@@ -231,23 +241,26 @@ class AddFood extends Component {
                         <View>
                             <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                                 <TouchableOpacity
-                                    style = {styles.deleteButton}
+                                    style = {[button.touchable, {backgroundColor: colors.brandred}]}
                                     onPress={this.deleteMeal}>
-                                    
-                                    <Text style = {styles.deleteText}>
-                                        Delete Meal
-                                    </Text>
+                                    <View style={button.view}>
+                                        <Text style = {styles.deleteText}>
+                                            Delete Meal
+                                        </Text>
+                                    </View>
                                 </TouchableOpacity>
                             </View>
                             {
                                 (this.props.mealObj.length == 0) ? <View/>:
                                 <View style={{paddingLeft: '4%', paddingRight: '4%', paddingTop: '2%', paddingBottom: '2%'}}>
                                     <TouchableOpacity
-                                        style = {styles.confirmButton}
-                                        onPress = {this.addToMealLog}>
-                                        <Text style = {styles.confirmText}>
-                                            Add Meal To Log
-                                        </Text>
+                                        style = {[button.touchable, {backgroundColor: colors.brandgold}]}
+                                        onPress={this.addToMealLog}>
+                                        <View style={button.view}>
+                                            <Text style = {styles.deleteText}>
+                                                {this.confirmLabel()}
+                                            </Text>
+                                        </View>
                                     </TouchableOpacity>
                                 </View>
                             }
@@ -274,7 +287,6 @@ const styles = StyleSheet.create({
         color: colors.primary
     },
     cardContainer: {
-        
         elevation: 7,
         borderRadius: 10
     },

@@ -31,8 +31,8 @@ class Home extends Component {
     state = {
         isMoving: false, 
         pointsDelta: 0, 
-        dailyCal: 325,
-        maxCal: 2000 
+        dailyCal: 0,
+        maxCal: 0
     }
 
     componentWillMount = () => {
@@ -106,6 +106,16 @@ class Home extends Component {
 
     showNotification = () => {
         Actions.push("notification");
+    }
+
+    determineColor() {
+        if (this.state.dailyCal > 1)
+        {
+            return colors.brandgrey
+        }
+        else{
+            return colors.brandred
+        }
     }
 
     render(){
@@ -199,11 +209,11 @@ class Home extends Component {
                         <View style = {styles.progressView}>
                             <ProgressCircle
                                 percent={this.state.dailyCal/this.state.maxCal * 100}
-                                radius={125}
+                                radius={Dimensions.get('window').width * 0.35}
                                 borderWidth={30}
                                 color={colors.brandgold}
-                                shadowColor={colors.brandgrey}
-                                bgColor='#e9e9ef' >
+                                shadowColor={this.determineColor()}
+                                bgColor={'#e9e9ef'} >
                                 <Text style={styles.points}>
                                     { this.state.dailyCal }
                                 </Text>
@@ -218,7 +228,7 @@ class Home extends Component {
                             wrapperStyle = {styles.cardWrapper}>
                             <Text
                                 style = {styles.cardHeader}>
-                                Today's Report
+                                Today's Active Exercise
                             </Text>
                         </Card>
                     </View>
