@@ -97,7 +97,8 @@ class Home extends Component {
     }
 
     logout = () => {
-        Actions.login();
+        Actions.login({type: 'replace'})
+     //  Actions.login();
     }
 
     email = () => {
