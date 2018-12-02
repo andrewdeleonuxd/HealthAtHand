@@ -74,7 +74,7 @@ class LoginForm extends Component {
         return(
             <View style = {{flex: 1}}>
                 <HaH_Header
-                    text = "Health On Hand">
+                    text = "Health At Hand">
                 </HaH_Header>
                 <View style = {styles.loginInput}>
                     <View

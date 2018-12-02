@@ -133,9 +133,16 @@ class SearchFood extends Component{
                                                 style={{width: 30, height: 30}}
                                                 source={this.findThumbnail(item.photo.thumb)}
                                             />
-                                            <Text style = {styles.cardHeader}>
-                                                {this.capitalize(item.food_name)}
-                                            </Text>
+                                            {
+                                                this.state.category == 0 ?
+                                                <Text style = {styles.cardHeader}>
+                                                    {this.capitalize(item.food_name)}
+                                                </Text>
+                                                :
+                                                <Text style = {styles.cardHeader}>
+                                                    {this.capitalize(item.brand_name_item_name)}
+                                                </Text>
+                                            }
                                         </Card>
                                     </TouchableOpacity>
                                 )}

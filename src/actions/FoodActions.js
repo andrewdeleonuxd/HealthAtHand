@@ -28,8 +28,8 @@ export const getCalories = (userId,date) => {
                     dispatch({ type: GET_CALORIES,
                         totalCal: response.data.data.calorieGoals.totalCal, 
                         remainingCal:response.data.data.calorieGoals.remainingCal,
-                        totalDuration: response.data.data.exerciseGoals.totalDuration,
-                        remainingDuration:response.data.data.exerciseGoals.remainingDuration })
+                        totalDuration: response.data.data.exerciseGoals.remainingDuration[1],
+                        remainingDuration:response.data.data.exerciseGoals.remainingDuration[0]})
                 }
                 
             }).catch((e) => {
@@ -44,7 +44,7 @@ export const initializefood = (userId,date) => {
         return (dispatch) => {  
             axios({
                 method: "get", 
-                url: "http://150.212.204.82:5000/meallog",
+                url: "http://10.0.0.4:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,
@@ -70,7 +70,7 @@ export const initializefood = (userId,date) => {
         return (dispatch) => { 
             axios({
                 method: call, 
-                url: "http://150.212.204.82:5000/meallog",
+                url: "http://10.0.0.4:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 data : {
                     'userId': userId,
@@ -100,7 +100,7 @@ export const initializefood = (userId,date) => {
         return(dispatch) => {
             axios({
                 method: "delete", 
-                url: "http://150.212.204.82:5000/meallog",
+                url: "http://10.0.0.4:5000/meallog",
                 headers : {'Content-type': 'application/json'}, 
                 params : {
                     'userId': userId,

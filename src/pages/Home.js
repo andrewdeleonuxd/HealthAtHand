@@ -234,7 +234,7 @@ class Home extends Component {
                             wrapperStyle = {styles.cardWrapper}>
                             <Text
                                 style = {styles.cardHeader}>
-                                Today's Active Exercise
+                                Weekly Exercise Goal
                             </Text>
                         </Card>
                         <View style = {[styles.progressView, {flex: 1}]}>
@@ -246,7 +246,7 @@ class Home extends Component {
                                 backgroundColorOnComplete={colors.brandgold}
                             />
                             <Text style = {styles.exerciseLabel}>
-                                {this.state.dailyExercise}/{this.state.maxExercise}{" minutes"}
+                                {this.state.dailyExercise}/{this.state.maxExercise} minutes
                             </Text>
                         </View>
                     </View>

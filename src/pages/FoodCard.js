@@ -34,7 +34,10 @@ class FoodCard extends Component {
     }
 
     formData = (props)  => {
-
+        if(props.item.servingSizeUnit.indexOf('"') >= 0)
+        {
+            props.item.servingSizeUnit = "serving"
+        }
         this.setState({
             showLoader:false,
             id:props.item.id,
