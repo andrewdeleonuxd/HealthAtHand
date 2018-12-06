@@ -39,8 +39,8 @@ const HaH_NavBar = (props) => {
 		Actions.push("report");
     }
     
-    showNotification = () => {
-        Actions.push("notification");
+    showMessenger = () => {
+        Actions.push("messenger");
     }
 
     email = () => {
@@ -89,7 +89,7 @@ const HaH_NavBar = (props) => {
                 name='mail'
                 type='Entypo'
                 color={props.selected == 5 ? colors.brandgold: colors.brandwhite}
-                onPress={this.showNotification}
+                onPress={this.showMessenger}
                 size={30}
                 underlayColor='transparent'> 
             </Icon>

@@ -31,7 +31,7 @@ const emails = [
     },
 ]
 
-class Notification extends Component {
+class Messenger extends Component {
     state = {
         emailList: emails
     }
@@ -187,4 +187,4 @@ const styles = StyleSheet.create({
   });
 
 
-export default Notification;
+export default Messenger;

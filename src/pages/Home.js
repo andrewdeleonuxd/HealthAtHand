@@ -64,10 +64,6 @@ class Home extends Component {
         this._drawer.open()
     };
 
-    onPress = (item) => {
-        Actions.push("articleinfo", {item:item});
-    }
-
     showHome = () => {
         Actions.home();
     }
@@ -110,8 +106,8 @@ class Home extends Component {
        
     }
 
-    showNotification = () => {
-        Actions.push("notification");
+    showMessenger = () => {
+        Actions.push("messenger");
     }
 
     determineColor() {
@@ -128,11 +124,11 @@ class Home extends Component {
        
         let search = (
             <Icon
-                name='notifications'
+                name='messenger'
                 type='MaterialIcons'
                 underlayColor={"transparent"}
                 color={colors.secondary}
-                onPress = {this.showNotification}
+                onPress = {this.showMessenger}
             />
         )
 

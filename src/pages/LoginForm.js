@@ -1,12 +1,11 @@
 import React , {Component } from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {HaH_Header} from './common';
+import {HaH_Header} from '../components/common';
 import {Card, CardSection, Input, Spinner} from 'react-native-elements'
 import {emailChanged, passwordChanged, loginUser } from '../actions'; 
 
 import {colors, fonts, padding, dimensions, margin} from '../styles/base.js'
-import { } from 'react-native'
 import { Actions } from 'react-native-router-flux';
 
 class LoginForm extends Component {

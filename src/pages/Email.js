@@ -40,7 +40,7 @@ class Email extends Component {
 }
 
     goBack = () => {
-        Actions.push("notification")
+        Actions.push("messenger")
     } 
 
     done = () => {
