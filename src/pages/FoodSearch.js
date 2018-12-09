@@ -9,7 +9,7 @@ import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts} from '../styles/base.js'
 
 
-class SearchFood extends Component{
+class FoodSearch extends Component{
     state = {
         choices:[],
         showLoader:false,
@@ -229,4 +229,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, {searchResult,SearchNut}) (SearchFood);
+export default connect(mapStateToProps, {searchResult,SearchNut}) (FoodSearch);

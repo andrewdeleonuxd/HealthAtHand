@@ -5,11 +5,10 @@ import LoginForm from './pages/LoginForm';
 import MealLog from './pages/MealLog';
 import ExerciseLog from './pages/ExerciseLog';
 
-import AddFood from './pages/AddFood';
-import AddExercise from './pages/AddExercise'; 
+import MealCard from './pages/MealCard';
 
-import SearchFood from './pages/SearchFood';
-import SearchExercise from './pages/SearchExercise';
+import FoodSearch from './pages/FoodSearch';
+import ExerciseSearch from './pages/ExerciseSearch';
   
 import FoodCard from './pages/FoodCard';
 import ExerciseCard from './pages/ExerciseCard'; 
@@ -30,10 +29,9 @@ const RouterComponent = () => {
                 <Scene key="home" component={Home} hideNavBar={true}  />
                 <Scene key="meallog" component = {MealLog} hideNavBar={true} />
                 <Scene key="exerciselog" component = {ExerciseLog} hideNavBar={true} />
-                <Scene key="addfood" component = {AddFood} hideNavBar={true} />
-                <Scene key="addexercise" component = {AddExercise} hideNavBar={true} />
-                <Scene key="searchfood" component = {SearchFood} hideNavBar={true} />
-                <Scene key="searchexercise" component = {SearchExercise} hideNavBar={true} />
+                <Scene key="addfood" component = {MealCard} hideNavBar={true} />
+                <Scene key="searchfood" component = {FoodSearch} hideNavBar={true} />
+                <Scene key="searchexercise" component = {ExerciseSearch} hideNavBar={true} />
                 <Scene key="foodcard" component = {FoodCard} hideNavBar={true} />
                 <Scene key="exercisecard" component = {ExerciseCard} hideNavBar={true} />
                 <Scene key="messenger" component = {Messenger} hideNavBar={true} />

@@ -12,7 +12,7 @@ import {colors, margin, padding, fonts, button} from '../styles/base.js'
 var data=[];
 var total = 0;
 
-class AddFood extends Component {
+class MealCard extends Component {
 
     state = {
         showLoader:true,  
@@ -37,10 +37,7 @@ class AddFood extends Component {
         this.loadData(array);
     }
 
-    componentDidUpdate(prevProps) {
-    }
-
-    //happens on edit food
+    //When food item to edit is pressed...
     onPress = (item) => {
         if(this.props.viewOnly == false)
         {
@@ -48,7 +45,7 @@ class AddFood extends Component {
         }
     }
 
-    
+    //Loads meal data
     loadData = (array) => {
         data=array;
         if(data != undefined && data.length != 0) {
@@ -57,48 +54,10 @@ class AddFood extends Component {
         else{
             this.setState({totalCals: 0})
         }
-        /*
-       data=[]; 
-       if(array.length>0){
-            array.map((item, i) => {
-
-                data.push(
-                    <TouchableHighlight
-                        key={i}
-                        onPress = {() => this.onPress(item)}
-                        underLayColor="transparent"
-                    >
-                    <View>   
-                        <Card 
-                            flexDirection='row'
-                            containerStyle = {styles.cardContainer}
-                            wrapperStyle = {styles.cardWrapper}>
-                            <Text style={styles.cardHeader}>
-                                {this.capitalize(item.foodname)}
-                            </Text>
-                            <Text style={styles.cardHeader}>
-                                {item.totalCalories / item.Calories}
-                                <Text style={styles.servingSizeUnit}>
-                                    {' ' + item.servingSize + '(s)'}
-                                </Text>
-                            </Text> 
-                            <Text style={styles.cardHeader}>
-                                {item.totalCalories}
-                                <Text style={styles.servingSizeUnit}>
-                                    {' cals'}
-                                </Text>
-                            </Text> 
-                        </Card>
-                    </View> 
-                    </TouchableHighlight>
-                )
-            })
-        }
-        */ 
     } 
     
 
-    //onadd meal post request 
+    //Confirms changes to meal through axios POST/PUT call
     addToMealLog = () => {
         this.props.addMealToMealLog(this.props.userId,this.props.date,this.props.mealObj,this.props.call,this.state.totalCals);
     }
@@ -107,7 +66,7 @@ class AddFood extends Component {
         Actions.push("meallog",{type:"addfood"});
     }
    
-    // when search button is pressed
+    //When search button is presseed...
     showFoodSearch = () => {
         Actions.push("searchfood", {
             mealObj:this.props.mealObj,
@@ -116,11 +75,12 @@ class AddFood extends Component {
         }); 
     }
 
-    // when entire meal is deleted
+    //When delete button is pressed...
     deleteMeal = () => {
         this.props.removeMeal(this.props.userId,this.props.date,this.props.mealObj);
     }
 
+    //Calculates total calories of current selected meal
     calculateMealCal(food) {
         total = 0;
         for(i = 0; i < food.length; i++)
@@ -130,17 +90,20 @@ class AddFood extends Component {
         this.setState({totalCals: "" + total.toFixed(2)});
     }
  
+    //Auxilary function (capitalizes first letter)
     capitalize(str) {
         return str.replace(/\w\S*/g, function(txt){
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
     }
 
+    //Displays different title depending on whether data has loaded for meal
     title() {
         this.state.showLoader == true ? title = "Meal" : title = "Meal: " + this.props.mealObj.mealName;
         return title;
     }
 
+    //Displays different title depending on whether call is POST or PUT
     confirmLabel() {
         this.props.call == "post" ? label = "Add Meal to Log" : label = "Confirm Changes"
         return label
@@ -383,4 +346,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, {initializefood, removeMeal, addMealToMealLog, initializemeal}) (AddFood);
+export default connect(mapStateToProps, {initializefood, removeMeal, addMealToMealLog, initializemeal}) (MealCard);

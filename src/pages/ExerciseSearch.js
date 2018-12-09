@@ -9,7 +9,7 @@ const uuid = require('uuid/v1');
 import { HaH_Header, HaH_NavBar } from '../components/common';
 import {colors, margin, padding, fonts} from '../styles/base.js'
 
-class SearchExercise extends Component {
+class ExerciseSearch extends Component {
     state = {
         showLoader:true,
         searchText:""
@@ -191,4 +191,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, {searchExercise}) (SearchExercise);
+export default connect(mapStateToProps, {searchExercise}) (ExerciseSearch);
