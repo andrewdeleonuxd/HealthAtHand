@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "hah",
-    "description": "This project is really great.",
+    "name": "HealthAtHand",
+    "description": "A smartphone app that tracks diet and exercise to determine optimal caloric intake and nutrients for the user’s goals.",
     "slug": "hah",
     "privacy": "public",
     "sdkVersion": "30.0.0",
@@ -21,10 +21,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.joshkoshy.healthathand"
     },
     "android": {
-      "package": "expo.android.hah"
+      "package": "com.joshkoshy.healthathand"
     }
   }
 }

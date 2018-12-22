@@ -31,7 +31,7 @@ export const loginUser = ({email, password}) => {
     return (dispatch) => {  
         axios({
             method: "get", 
-            url: "http://10.0.0.4:5000/login",
+            url: "http://joshkoshy.com:5000/login",
             headers: {},
             params:{
                 'emailId': email,

@@ -15,7 +15,7 @@ export const initializeexerciseNotes = (userId,date) => {
 
         axios({
             method: "get",
-            url: "http://10.0.0.4:5000/exernotes",
+            url: "http://joshkoshy.com:5000/exernotes",
             headers : {'Content-type': 'application/json'}, 
             params : {
                 'userId':userId,
@@ -42,7 +42,7 @@ export const submitexerciseNotes = (userId,date,text) => {
 
         axios({
             method: "post",
-            url: "http://10.0.0.4:5000/exernotes",
+            url: "http://joshkoshy.com:5000/exernotes",
             headers : {'Content-type': 'application/json'}, 
             data : {
                 'userId':userId,
@@ -72,7 +72,7 @@ export const updateexerciseNotes = (userId,date,text) => {
         console.log(userId + " " + date + " " + text)
         axios({
             method: "put",
-            url: "http://10.0.0.4:5000/exernotes",
+            url: "http://joshkoshy.com:5000/exernotes",
             headers : {'Content-type': 'application/json'}, 
             data : {
                 'userId':userId,
