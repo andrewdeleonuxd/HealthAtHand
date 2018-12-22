@@ -1,13 +1,13 @@
 # Expo
-.expo/
+.ReactNativeApplcation/expo/
 
 # OSX
 #
-.DS_Store
+.ReactNativeApplcation/DS_Store
 
 # Xcode
 #
-build/
+ReactNativeApplcation/build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -27,20 +27,20 @@ project.xcworkspace
 
 # Android/IntelliJ
 #
-build/
+ReactNativeApplcation/build/
 .idea
 .gradle
-local.properties
+ReactNativeApplcation/local.properties
 *.iml
 
 # node.js
 #
-node_modules/
+ReactNativeApplcation/node_modules/
 npm-debug.log
 yarn-error.log
 
 # BUCK
-buck-out/
+ReactNativeApplcation/buck-out/
 \.buckd/
 *.keystore
 
