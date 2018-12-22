@@ -228,7 +228,7 @@ class MealLog extends Component {
                                     )}
                                     onEndReachedThreshold={0.5}
                                     onEndReached={this.endReached}
-                                    keyExtractor={item => (item.cartId)}
+                                    keyExtractor={item => (item.cartId.toString())}
                                 />
                             <View style ={styles.totalCalView}>
                                 <Text style={[styles.totalCal, {fontSize: 25}]}>

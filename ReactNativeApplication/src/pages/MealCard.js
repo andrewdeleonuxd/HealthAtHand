@@ -155,8 +155,7 @@ class MealCard extends Component {
                                 <TouchableOpacity
                                     onPress = {() => this.onPress(item)} 
                                     underLayColor="transparent"
-                                    style = {{padding: 7}}
-                                > 
+                                    style = {{padding: 7}}> 
                                     <Card
                                         flexDirection = 'row' 
                                         containerStyle = {styles.cardContainer}
@@ -179,15 +178,13 @@ class MealCard extends Component {
                                                     {' cals'}
                                                 </Text>
                                             </Text> 
-
                                         </View>
-                                        
                                     </Card>
                                 </TouchableOpacity>
                             )}
                             onEndReachedThreshold={0.5}
                             onEndReached={this.endReached}
-                            keyExtractor={item => (item.itemName)}
+                            keyExtractor={item => (item.foodname)}
                         />
                         <View style ={styles.totalCalView}>
                             <Text style={[styles.totalCal, {fontSize: 25}]}>
